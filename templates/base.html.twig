@@ -2,17 +2,39 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}TechInsiders{% endblock %}</title>
+        <meta name="description" content="Bienvenue, parcourez le blog pour y découvrir l'actu tech.">
+        <link rel="icon" href="">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
     </head>
     <body>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                <strong>Succès ! </strong><p>{{ message }}</p>
+            </div>
+        {% endfor %}
+
+		{% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                <strong>Erreur ! </strong><p>{{ message }}</p>
+            </div>
+        {% endfor %}
+
+        {% block menu %}
+			{% include "components/navbar.html.twig" %}
+		{% endblock %}
+
         {% block body %}{% endblock %}
+
+        {% block footer %}
+			{% include "components/footer.html.twig" %}
+		{% endblock %}
     </body>
+    {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 </html>
