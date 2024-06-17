@@ -40,6 +40,13 @@ class Post
     #[ORM\Column(length: 50)]
     private ?string $status = null;
 
+    #[ORM\PrePersist]
+    public function prePersistCreatedAt(): void
+    {
+        if ($this->created_at === null) {
+            $this->created_at = new \DateTimeImmutable();
+        }
+    }
 
     public function getId(): ?int
     {

@@ -43,7 +43,7 @@ class PostCrudController extends AbstractCrudController
             ->setUploadDir('public/uploads/images')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setHelp('Upload an image with a maximum size of 2MB.');
-        yield DateTimeField::new('created_at')->hideWhenCreating()->setDisabled();
+        yield DateTimeField::new('created_at', 'Date de création')->hideWhenCreating()->setDisabled();
         yield ChoiceField::new('status', 'Statut')
             ->setChoices([
                 'Valider' => 'VALIDATED',
