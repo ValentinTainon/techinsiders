@@ -8,10 +8,12 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 class AuthorCrudController extends AbstractCrudController
 {
@@ -23,6 +25,13 @@ class AuthorCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('nickname', 'Pseudo');
+        yield ChoiceField::new('roles')
+            ->setChoices([
+                'Admin' => 'ROLE_ADMIN',
+                'Editor' => 'ROLE_EDITOR',
+            ])
+            ->allowMultipleChoices(true)
+            ->setRequired(true);
         yield TextField::new('email', 'Email');
         yield TextField::new('password')
             ->setFormType(RepeatedType::class)
@@ -41,12 +50,25 @@ class AuthorCrudController extends AbstractCrudController
                 ],
             ])
             ->setRequired($pageName === Crud::PAGE_NEW)
-            ->onlyWhenCreating();
+            ->onlyOnForms();
         yield ImageField::new('avatar', 'Avatar')
             ->setBasePath('uploads/images')
             ->setUploadDir('public/uploads/images')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setHelp('Upload an image with a maximum size of 2MB.');
-        yield TextareaField::new('about', 'À propos');
+        yield TextareaField::new('about', 'À propos de vous');
+        yield TextField::new('checkPassword')
+            ->setFormType(PasswordType::class)
+            ->setFormTypeOptions([
+                'label' => 'Afin de valider les modifications, veuillez saisir votre mot de passe actuel',
+                'mapped' => false,
+                'constraints' => [
+                    new UserPassword([
+                        'message' => 'Votre mot de passe actuel ne correspond pas',
+                    ])
+                ],
+            ])
+            ->onlyWhenUpdating()
+            ->setRequired(true);
     }
 }

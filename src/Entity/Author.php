@@ -59,6 +59,11 @@ class Author implements UserInterface, PasswordAuthenticatedUserInterface
         $this->posts = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->nickname;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -110,6 +115,18 @@ class Author implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -132,18 +149,6 @@ class Author implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     public function getAvatar(): ?string

@@ -4,11 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -28,10 +27,12 @@ class PostCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield AssociationField::new('author', 'Auteur');
+        yield AssociationField::new('author', 'Auteur')
+            ->setDisabled();
         yield AssociationField::new('category', 'Categorie');
         yield TextField::new('title', 'Titre');
-        yield SlugField::new('slug', 'Slug')->setTargetFieldName('title');
+        yield SlugField::new('slug', 'Slug')
+            ->setTargetFieldName(['category', 'title']);
         yield TextareaField::new('content', 'Contenu')
             ->setFormTypeOptions([
                 'block_name' => 'custom_content',
@@ -43,6 +44,10 @@ class PostCrudController extends AbstractCrudController
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setHelp('Upload an image with a maximum size of 2MB.');
         yield DateTimeField::new('created_at')->hideWhenCreating()->setDisabled();
-        yield TextField::new('status', 'Statut');
+        yield ChoiceField::new('status', 'Statut')
+            ->setChoices([
+                'Valider' => 'VALIDATED',
+                'Rejeter' => 'REJECTED',
+            ]);
     }
 }
