@@ -1,9 +1,14 @@
+###> vscode ###
+/.vscode/
+###< vscode ###
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/public/ckeditor/node_modules/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

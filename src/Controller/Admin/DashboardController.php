@@ -2,19 +2,21 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Post;
 use App\Entity\Author;
 use App\Entity\Category;
-use App\Entity\Post;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Symfony\Component\Security\Core\User\UserInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
@@ -40,15 +42,38 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Techinsiders');
+            // ->setFaviconPath('favicon.svg')
+            ->setTitle('Techinsiders')
+            ->setLocales(['fr', 'en', 'es'])
+            ->renderContentMaximized();
+    }
+
+    public function configureUserMenu(UserInterface $user): UserMenu
+    {
+        // Usually it's better to call the parent method because that gives you a
+        // user menu with some menu items already created ("sign out", "exit impersonation", etc.)
+        // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
+        return parent::configureUserMenu($user)
+            ->setAvatarUrl('/uploads/authors/avatars/'.$user->getAvatar())
+            ->addMenuItems([
+                MenuItem::linkToCrud('My Profile', 'fa fa-id-card', Author::class)
+                    ->setAction('detail')
+                    ->setEntityId($user->getId()),
+                MenuItem::linkToCrud('Settings', 'fa fa-user-cog', Author::class)
+                    ->setAction('edit')
+                    ->setEntityId($user->getId()),
+            ]);
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Auteurs', 'fas fa-user', Author::class);
+        yield MenuItem::linktoRoute('Retour sur le site', 'fas fa-home', 'app_home');
+        
+        yield MenuItem::section('Utilisateurs');
+        yield MenuItem::linkToCrud('user', 'fas fa-user', Author::class);
+        
+        yield MenuItem::section('Blog');
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Articles', 'fas fa-newspaper', Post::class);
-        yield MenuItem::linktoRoute('Retour sur le site', 'fas fa-home', 'app_home');
     }
 }

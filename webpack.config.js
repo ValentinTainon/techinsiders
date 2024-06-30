@@ -21,7 +21,8 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('ckeditor_init', './assets/js/ckeditor/ckeditor_init.js')
+    .addEntry('custom-slug-field', './assets/styles/easyadmin/custom-slug-field.css')
+    .addEntry('ckeditor-init', './assets/js/ckeditor/ckeditor-init.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

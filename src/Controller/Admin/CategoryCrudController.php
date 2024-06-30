@@ -18,6 +18,7 @@ class CategoryCrudController extends AbstractCrudController
     {
         yield TextField::new('name', 'Nom');
         yield SlugField::new('slug', 'Slug')
-            ->setTargetFieldName('name');
+            ->setTargetFieldName('name')
+            ->addWebpackEncoreEntries('custom-slug-field');
     }
 }

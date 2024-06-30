@@ -4,9 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\Author;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Component\Validator\Constraints\Regex;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use Symfony\Component\Validator\Constraints\Length;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -22,6 +25,12 @@ class AuthorCrudController extends AbstractCrudController
         return Author::class;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->remove(Crud::PAGE_DETAIL, Action::INDEX);
+    }
+
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('nickname', 'Pseudo');
@@ -32,7 +41,7 @@ class AuthorCrudController extends AbstractCrudController
             ])
             ->allowMultipleChoices(true)
             ->setRequired(true);
-        yield TextField::new('email', 'Email');
+        yield EmailField::new('email', 'Email');
         yield TextField::new('password')
             ->setFormType(RepeatedType::class)
             ->setFormTypeOptions([
@@ -52,8 +61,8 @@ class AuthorCrudController extends AbstractCrudController
             ->setRequired($pageName === Crud::PAGE_NEW)
             ->onlyOnForms();
         yield ImageField::new('avatar', 'Avatar')
-            ->setBasePath('uploads/images')
-            ->setUploadDir('public/uploads/images')
+            ->setBasePath('uploads/authors/avatars')
+            ->setUploadDir('public/uploads/authors/avatars')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setHelp('Upload an image with a maximum size of 2MB.');
         yield TextareaField::new('about', 'À propos de vous');

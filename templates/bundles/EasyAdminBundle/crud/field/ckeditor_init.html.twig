@@ -1,0 +1,12 @@
+{# templates/bundles/EasyAdminBundle/crud/field/ckeditor.html.twig #}
+{% block _Post_custom_content_widget %}
+    <textarea id="editor" name="Post[content]">
+        {% if attr['data-content'] is defined and attr['data-content'] is not null %}
+            {{ attr['data-content'] }}
+        {% endif %}
+    </textarea>
+    {% block javascripts %}
+        <script src="{{ asset('ckeditor/build/ckeditor.js') }}"></script>
+        {{ encore_entry_script_tags('ckeditor-init') }}
+    {% endblock %}
+{% endblock %}
