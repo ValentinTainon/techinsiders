@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -15,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class PostCrudController extends AbstractCrudController
 {
@@ -32,14 +34,20 @@ class PostCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        return $filters
-            ->add(EntityFilter::new('author'))
-            ->add(EntityFilter::new('category'));
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $filters->add(EntityFilter::new('user'));
+        }
+        $filters->add(EntityFilter::new('category'));
+        
+        return $filters;
     }
 
     public function configureFields(string $pageName): iterable
     {
-        yield AssociationField::new('author', 'Auteur');
+        yield AssociationField::new('user', 'Auteur')
+            ->hideWhenCreating()
+            ->setDisabled()
+            ->setRequired(false);
         yield AssociationField::new('category', 'Categorie');
         yield DateTimeField::new('created_at', 'Date de création')
             ->hideWhenCreating()
@@ -47,8 +55,8 @@ class PostCrudController extends AbstractCrudController
             ->setRequired(false);
         yield TextField::new('title', new TranslatableMessage('title', [], 'admin'));
         yield SlugField::new('slug', 'Slug')
-            ->setTargetFieldName('title')
-            ->addWebpackEncoreEntries('custom-slug-field');
+            ->setTargetFieldName(['title'])
+            ->setHelp('Doit correspondre au champ Titre');
         $postThumbnailField = ImageField::new('thumbnail', 'Vignette')
             ->setBasePath('uploads/posts/thumbnails')
             ->setUploadDir('public/uploads/posts/thumbnails')
@@ -71,23 +79,29 @@ class PostCrudController extends AbstractCrudController
             $postContentField->setFormTypeOption('attr.data-content', $this->getPostContent());
         }
         yield $postContentField;
-        yield ChoiceField::new('status', 'Statut')
-            ->setChoices([
-                'En attente de l\'approbation de l\'administrateur' => 'PENDING',
-                'Validé' => 'VALIDATED',
-                'Rejeté' => 'REJECTED',
-            ]);
-    }
-
-    public function getPostContent(): ?string
-    {
-        $post = $this->getContext()->getEntity()->getInstance();
-
-        if (!$post || !$post->getContent()) {
-            return null;
+        $isVisible = BooleanField::new('is_visible', 'Visible');
+        if ($pageName === Crud::PAGE_INDEX) {
+            $isVisible->renderAsSwitch(false);
         }
-
-        return $post->getContent();
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $isVisible->hideOnForm();
+        }
+        yield $isVisible;
+    }
+        
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if ($entityInstance instanceof Post) {
+            $entityInstance
+                ->setUser($this->getUser())
+                ->setCreatedAt(new \DateTimeImmutable('now'));
+            
+            if (!$this->isGranted('ROLE_ADMIN')) {
+                $entityInstance->setIsVisible(false);
+            }
+        }
+        
+        parent::persistEntity($entityManager, $entityInstance);
     }
 
     public function isThumbnailExist(): bool
@@ -99,5 +113,16 @@ class PostCrudController extends AbstractCrudController
         }
 
         return true;
+    }
+
+    public function getPostContent(): ?string
+    {
+        $post = $this->getContext()->getEntity()->getInstance();
+
+        if (!$post || !$post->getContent()) {
+            return null;
+        }
+
+        return $post->getContent();
     }
 }

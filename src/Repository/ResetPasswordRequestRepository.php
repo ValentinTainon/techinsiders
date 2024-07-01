@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Author;
+use App\Entity\User;
 use App\Entity\ResetPasswordRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,7 +23,7 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository implements 
     }
 
     /**
-     * @param Author $user
+     * @param User $user
      */
     public function createResetPasswordRequest(object $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken): ResetPasswordRequestInterface
     {

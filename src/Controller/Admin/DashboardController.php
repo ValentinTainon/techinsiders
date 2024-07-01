@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
-use App\Entity\Author;
+use App\Entity\User;
 use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,12 +54,12 @@ class DashboardController extends AbstractDashboardController
         // user menu with some menu items already created ("sign out", "exit impersonation", etc.)
         // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
         return parent::configureUserMenu($user)
-            ->setAvatarUrl('/uploads/authors/avatars/'.$user->getAvatar())
+            ->setAvatarUrl('/uploads/users/avatars/'.$user->getAvatar())
             ->addMenuItems([
-                MenuItem::linkToCrud('My Profile', 'fa fa-id-card', Author::class)
+                MenuItem::linkToCrud('My Profile', 'fa fa-id-card', User::class)
                     ->setAction('detail')
                     ->setEntityId($user->getId()),
-                MenuItem::linkToCrud('Settings', 'fa fa-user-cog', Author::class)
+                MenuItem::linkToCrud('Settings', 'fa fa-user-cog', User::class)
                     ->setAction('edit')
                     ->setEntityId($user->getId()),
             ]);
@@ -70,7 +70,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoRoute('Retour sur le site', 'fas fa-home', 'app_home');
         
         yield MenuItem::section('Utilisateurs');
-        yield MenuItem::linkToCrud('user', 'fas fa-user', Author::class);
+        yield MenuItem::linkToCrud('user', 'fas fa-user', User::class);
         
         yield MenuItem::section('Blog');
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);

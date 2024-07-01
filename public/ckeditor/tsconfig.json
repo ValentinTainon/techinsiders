@@ -2,8 +2,8 @@
   "compilerOptions": {
     "types": [],
     "lib": [
-      "ES2019",
-      "ES2020.String",
+      "ES2022",
+      "ES2022.String",
       "DOM",
       "DOM.Iterable"
     ],
@@ -11,7 +11,7 @@
     "noImplicitOverride": true,
     "strict": true,
     "module": "es6",
-    "target": "es2019",
+    "target": "es2022",
     "sourceMap": true,
     "allowJs": true,
     "moduleResolution": "node",

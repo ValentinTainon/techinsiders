@@ -7,7 +7,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
@@ -18,7 +17,7 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Author $author = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
@@ -43,30 +42,22 @@ class Post
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
-
-    #[ORM\PrePersist]
-    public function prePersistCreatedAt(): void
-    {
-        if ($this->created_at === null) {
-            $this->created_at = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
-        }
-    }
+    #[ORM\Column]
+    private ?bool $isVisible = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAuthor(): ?Author
+    public function getUser(): ?User
     {
-        return $this->author;
+        return $this->user;
     }
 
-    public function setAuthor(?Author $author): static
+    public function setUser(?User $user): static
     {
-        $this->author = $author;
+        $this->user = $user;
 
         return $this;
     }
@@ -143,14 +134,14 @@ class Post
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function isVisible(): ?bool
     {
-        return $this->status;
+        return $this->isVisible;
     }
 
-    public function setStatus(string $status): static
+    public function setIsVisible(bool $isVisible): static
     {
-        $this->status = $status;
+        $this->isVisible = $isVisible;
 
         return $this;
     }
