@@ -9,7 +9,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use Symfony\Component\Translation\TranslatableMessage;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -57,7 +56,7 @@ class PostCrudController extends AbstractCrudController
         yield SlugField::new('slug', 'Slug')
             ->setTargetFieldName(['title'])
             ->setHelp('Doit correspondre au champ Titre');
-        $postThumbnailField = ImageField::new('thumbnail', 'Vignette')
+        $postThumbnailField = ImageField::new('thumbnail', 'Miniature')
             ->setBasePath('uploads/posts/thumbnails')
             ->setUploadDir('public/uploads/posts/thumbnails')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
@@ -68,11 +67,9 @@ class PostCrudController extends AbstractCrudController
         }
         yield $postThumbnailField;
         $postContentField = TextareaField::new('content', 'Contenu')
+            ->addHtmlContentsToHead('<link rel="stylesheet" type="text/css" href="/ckeditor/build/ckeditor.css">')
             ->setFormTypeOptions([
-                'block_name' => 'custom_content',
-                'attr' => [
-                    'data-locale' => $this->getContext()->getRequest()->getLocale(),
-                ]
+                'block_name' => 'custom_content'
             ])
             ->onlyOnForms();
         if ($pageName === Crud::PAGE_EDIT) {

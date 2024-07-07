@@ -1,18 +1,14 @@
-/**
- * @license Copyright (c) 2014-2024, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
- */
-
 import { 
 	ClassicEditor,
+	AccessibilityHelp,
 	Alignment,
-	Autoformat,
+	AutoImage,
+	AutoLink,
+	Autosave,
+	BalloonToolbar,
+	BlockQuote,
 	Bold,
 	Code,
-	Italic,
-	Strikethrough,
-	Underline,
-	BlockQuote,
 	CodeBlock,
 	EditorConfig,
 	Essentials,
@@ -21,39 +17,39 @@ import {
 	FontColor,
 	FontFamily,
 	FontSize,
+	FullPage,
+	GeneralHtmlSupport,
 	Heading,
 	Highlight,
 	HorizontalLine,
-	HtmlEmbed,
-	DataFilter,
-	DataSchema,
-	FullPage,
-	GeneralHtmlSupport,
 	HtmlComment,
-	AutoImage,
-	Image,
+	HtmlEmbed,
+	ImageBlock,
 	ImageCaption,
+	ImageInline,
 	ImageInsert,
+	ImageInsertViaUrl,
 	ImageResize,
 	ImageStyle,
+	ImageTextAlternative,
 	ImageToolbar,
 	ImageUpload,
 	Indent,
 	IndentBlock,
-	TextPartLanguage,
-	AutoLink,
+	Italic,
 	Link,
 	LinkImage,
 	List,
 	ListProperties,
-	TodoList,
 	MediaEmbed,
 	MediaEmbedToolbar,
 	Mention,
 	Paragraph,
 	PasteFromOffice,
 	RemoveFormat,
+	SelectAll,
 	ShowBlocks,
+	SimpleUploadAdapter,
 	SourceEditing,
 	SpecialCharacters,
 	SpecialCharactersArrows,
@@ -62,6 +58,7 @@ import {
 	SpecialCharactersLatin,
 	SpecialCharactersMathematical,
 	SpecialCharactersText,
+	Strikethrough,
 	Style,
 	Table,
 	TableCaption,
@@ -69,30 +66,29 @@ import {
 	TableColumnResize,
 	TableProperties,
 	TableToolbar,
+	TextPartLanguage,
 	TextTransformation,
+	TodoList,
+	Underline,
 	Undo,
-	SimpleUploadAdapter,
-	EditorWatchdog,
 	WordCount
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
-import '../build/ckeditor5-custom.css';
-
-// You can read more about extending the build with additional plugins in the "Installing plugins" guide.
-// See https://ckeditor.com/docs/ckeditor5/latest/installation/plugins/installing-plugins.html for details.
+import '../build/ckeditor-custom.css';
+import '../build/ckeditor-wordcount.css';
 
 class Editor extends ClassicEditor {
 	public static override builtinPlugins = [
+		AccessibilityHelp,
 		Alignment,
 		AutoImage,
 		AutoLink,
-		Autoformat,
+		Autosave,
+		BalloonToolbar,
 		BlockQuote,
 		Bold,
 		Code,
 		CodeBlock,
-		DataFilter,
-		DataSchema,
 		Essentials,
 		FindAndReplace,
 		FontBackgroundColor,
@@ -106,11 +102,14 @@ class Editor extends ClassicEditor {
 		HorizontalLine,
 		HtmlComment,
 		HtmlEmbed,
-		Image,
+		ImageBlock,
 		ImageCaption,
+		ImageInline,
 		ImageInsert,
+		ImageInsertViaUrl,
 		ImageResize,
 		ImageStyle,
+		ImageTextAlternative,
 		ImageToolbar,
 		ImageUpload,
 		Indent,
@@ -126,6 +125,7 @@ class Editor extends ClassicEditor {
 		Paragraph,
 		PasteFromOffice,
 		RemoveFormat,
+		SelectAll,
 		ShowBlocks,
 		SimpleUploadAdapter,
 		SourceEditing,
@@ -156,6 +156,7 @@ class Editor extends ClassicEditor {
 		toolbar: {
 			items: [
 				'findAndReplace',
+				'selectAll',
 				'|',
 				'undo',
 				'redo',
@@ -189,7 +190,7 @@ class Editor extends ClassicEditor {
 				'insertTable',
 				'|',
 				'link',
-				'imageInsert',
+				'insertImage',
 				'mediaEmbed',
 				'htmlEmbed',
 				'|',
@@ -204,28 +205,195 @@ class Editor extends ClassicEditor {
 			],
 			shouldNotGroupWhenFull: true
 		},
-		language: 'fr',
-		image: {
-			toolbar: [
-				'imageTextAlternative',
-				'toggleImageCaption',
-				'imageStyle:inline',
-				'imageStyle:block',
-				'imageStyle:side',
-				'linkImage'
+		balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'bulletedList', 'numberedList'],
+		codeBlock: {
+            languages: [
+                { language: 'plaintext', label: 'Plain text' },
+				{ language: 'bash', label: 'Bash' },
+				{ language: 'python', label: 'Python' },
+				{ language: 'html', label: 'HTML' },
+				{ language: 'css', label: 'CSS' },
+				{ language: 'javascript', label: 'JavaScript' },
+				{ language: 'typescript', label: 'TypeScript' },
+				{ language: 'php', label: 'PHP' },
+				{ language: 'java', label: 'Java' },
+				{ language: 'c', label: 'C' },
+				{ language: 'cs', label: 'C#' },
+				{ language: 'cpp', label: 'C++' }
+            ]
+        },
+		fontFamily: {
+			supportAllValues: true
+		},
+		fontSize: {
+			options: [10, 12, 14, 'default', 18, 20, 22],
+			supportAllValues: true
+		},
+		heading: {
+			options: [
+				{
+					model: 'paragraph',
+					title: 'Paragraph',
+					class: 'ck-heading_paragraph'
+				},
+				{
+					model: 'heading1',
+					view: 'h1',
+					title: 'Heading 1',
+					class: 'ck-heading_heading1'
+				},
+				{
+					model: 'heading2',
+					view: 'h2',
+					title: 'Heading 2',
+					class: 'ck-heading_heading2'
+				},
+				{
+					model: 'heading3',
+					view: 'h3',
+					title: 'Heading 3',
+					class: 'ck-heading_heading3'
+				},
+				{
+					model: 'heading4',
+					view: 'h4',
+					title: 'Heading 4',
+					class: 'ck-heading_heading4'
+				},
+				{
+					model: 'heading5',
+					view: 'h5',
+					title: 'Heading 5',
+					class: 'ck-heading_heading5'
+				},
+				{
+					model: 'heading6',
+					view: 'h6',
+					title: 'Heading 6',
+					class: 'ck-heading_heading6'
+				}
 			]
 		},
+		htmlSupport: {
+			allow: [
+				{
+					name: /^.*$/,
+					styles: true,
+					attributes: true,
+					classes: true
+				}
+			]
+		},
+		image: {
+			toolbar: [
+				'toggleImageCaption',
+				'imageTextAlternative',
+				'|',
+				'imageStyle:wrapText',
+				'imageStyle:breakText',
+				'|',
+				'linkImage',
+				'|',
+				'resizeImage'
+			]
+		},
+		language: {
+            textPartLanguage: [
+                { title: 'French', languageCode: 'fr' },
+                { title: 'English', languageCode: 'en' }
+            ]
+        },
 		simpleUpload: {
-            // The URL that the images are uploaded to.
             uploadUrl: '/upload',
-            // Enable the XMLHttpRequest.withCredentials property.
             withCredentials: true,
-            // Headers sent along with the XMLHttpRequest to the upload server.
             headers: {
                 'X-CSRF-TOKEN': 'CSRF-Token',
                 Authorization: 'Bearer <JSON Web Token>'
             }
         },
+		link: {
+			addTargetToExternalLinks: true,
+			defaultProtocol: 'https://',
+			decorators: {
+				toggleDownloadable: {
+					mode: 'manual',
+					label: 'Downloadable',
+					attributes: {
+						download: 'file'
+					}
+				}
+			}
+		},
+		list: {
+			properties: {
+				styles: true,
+				startIndex: true,
+				reversed: true
+			}
+		},
+		mention: {
+			feeds: [
+				{
+					marker: '@',
+					feed: [
+						/* See: https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html */
+					]
+				}
+			]
+		},
+		menuBar: {
+			isVisible: true
+		},
+		placeholder: 'Type or paste your content here!',
+		style: {
+			definitions: [
+				{
+					name: 'Article category',
+					element: 'h3',
+					classes: ['category']
+				},
+				{
+					name: 'Title',
+					element: 'h2',
+					classes: ['document-title']
+				},
+				{
+					name: 'Subtitle',
+					element: 'h3',
+					classes: ['document-subtitle']
+				},
+				{
+					name: 'Info box',
+					element: 'p',
+					classes: ['info-box']
+				},
+				{
+					name: 'Side quote',
+					element: 'blockquote',
+					classes: ['side-quote']
+				},
+				{
+					name: 'Marker',
+					element: 'span',
+					classes: ['marker']
+				},
+				{
+					name: 'Spoiler',
+					element: 'span',
+					classes: ['spoiler']
+				},
+				{
+					name: 'Code (dark)',
+					element: 'pre',
+					classes: ['fancy-code', 'fancy-code-dark']
+				},
+				{
+					name: 'Code (bright)',
+					element: 'pre',
+					classes: ['fancy-code', 'fancy-code-bright']
+				}
+			]
+		},
 		table: {
 			contentToolbar: [
 				'tableColumn',
@@ -238,4 +406,4 @@ class Editor extends ClassicEditor {
 	};
 }
 
-export default { Editor, EditorWatchdog };
+export default { Editor };

@@ -22,7 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('custom-slug-field', './assets/styles/easyadmin/custom-slug-field.css')
-    .addEntry('ckeditor-init', './assets/js/ckeditor/ckeditor-init.js')
+    .addEntry('ckeditor-init', './assets/js/ckeditor5/ckeditor-init.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -62,7 +62,7 @@ Encore
     .enableSassLoader()
 
     // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+    .enableTypeScriptLoader()
 
     // uncomment if you use React
     //.enableReactPreset()

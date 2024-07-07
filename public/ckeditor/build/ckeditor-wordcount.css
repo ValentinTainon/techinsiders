@@ -1,0 +1,59 @@
+.ck-update {
+    border: 1px solid var(--ck-color-base-border);
+    border-radius: var(--ck-border-radius);
+    box-shadow: 2px 2px 0px hsla( 0, 0%, 0%, 0.1 );
+    margin: 1.5em 0;
+    padding: 1em;
+}
+
+.ck-update .ck.ck-editor__editable_inline {
+    border: 1px solid hsla( 0, 0%, 0%, 0.15 );
+    transition: background .5s ease-out;
+    min-height: 6em;
+    margin-bottom: 1em;
+}
+
+.ck-update__controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ck-update__chart {
+    margin-right: 1em;
+}
+
+.ck-update__chart__circle {
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+.ck-update__chart__characters {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.ck-update__words {
+    flex-grow: 1;
+    opacity: .5;
+}
+
+.ck-update__limit-not-reached .ck.ck-editor__editable_inline {
+    background: hsl( 0, 100%, 97% );
+}
+
+.ck-update__limit-not-reached .ck-update__chart__circle {
+    stroke: hsl( 0, 100%, 52% );
+}
+
+.ck-update__limit-not-reached .ck-update__chart__characters {
+    fill: hsl( 0, 100%, 52% );
+}
+
+.ck-update__limit-close .ck-update__chart__circle {
+    stroke: hsl( 30, 100%, 52% ) !important;
+}
+
+.ck-update__limit-close .ck-update__chart__characters {
+    fill: hsl( 30, 100%, 52% ) !important;
+}
