@@ -44,17 +44,17 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             // ->setFaviconPath('favicon.svg')
             ->setTitle('Techinsiders')
-            ->setLocales(['fr', 'en', 'es'])
+            ->setLocales([
+                'fr' => '🇫🇷 Français', 
+                'en' => '🇬🇧 English'
+            ])
             ->renderContentMaximized();
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
     {
-        // Usually it's better to call the parent method because that gives you a
-        // user menu with some menu items already created ("sign out", "exit impersonation", etc.)
-        // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
-        return parent::configureUserMenu($user)
-            ->setAvatarUrl('/uploads/users/avatars/'.$user->getAvatar())
+        /** @var User $user */
+        $userMenu = parent::configureUserMenu($user)
             ->addMenuItems([
                 MenuItem::linkToCrud('My Profile', 'fa fa-id-card', User::class)
                     ->setAction('detail')
@@ -63,17 +63,27 @@ class DashboardController extends AbstractDashboardController
                     ->setAction('edit')
                     ->setEntityId($user->getId()),
             ]);
+        
+        if ($user->getAvatar()) {
+            $userMenu->setAvatarUrl('/uploads/users/avatars/'.$user->getAvatar());
+        }
+        
+        return $userMenu;
     }
 
     public function configureMenuItems(): iterable
     {
+        yield MenuItem::section('Site Web');
         yield MenuItem::linktoRoute('Retour sur le site', 'fas fa-home', 'app_home');
         
-        yield MenuItem::section('Utilisateurs');
-        yield MenuItem::linkToCrud('user', 'fas fa-user', User::class);
-        
+        yield MenuItem::section('Communauté')
+            ->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class)
+            ->setPermission('ROLE_SUPER_ADMIN');
+            
         yield MenuItem::section('Blog');
-        yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class)
+            ->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Articles', 'fas fa-newspaper', Post::class);
     }
 }

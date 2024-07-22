@@ -1,5 +1,0 @@
-/* Slug field */
-#Post_slug + .btn,
-#Category_slug + .btn {
-    pointer-events: none;
-}

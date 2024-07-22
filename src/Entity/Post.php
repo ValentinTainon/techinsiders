@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -29,10 +28,6 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[Assert\Length(
-        min: 500,
-        minMessage: 'Le contenu de l\'article est trop court, il doit contenir au moins {{ limit }} caractères.',
-    )]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
