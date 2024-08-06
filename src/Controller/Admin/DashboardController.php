@@ -5,14 +5,16 @@ namespace App\Controller\Admin;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Category;
+use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Locale;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Symfony\Component\Security\Core\User\UserInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -45,8 +47,8 @@ class DashboardController extends AbstractDashboardController
             // ->setFaviconPath('favicon.svg')
             ->setTitle('Techinsiders')
             ->setLocales([
-                'fr' => '🇫🇷 Français', 
-                'en' => '🇬🇧 English'
+                'fr' => 'Français', 
+                'en' => 'English'
             ])
             ->renderContentMaximized();
     }
@@ -56,10 +58,10 @@ class DashboardController extends AbstractDashboardController
         /** @var User $user */
         $userMenu = parent::configureUserMenu($user)
             ->addMenuItems([
-                MenuItem::linkToCrud('My Profile', 'fa fa-id-card', User::class)
+                MenuItem::linkToCrud(t('admin.user-menu.profile.detail', [], 'admin'), 'fa fa-id-card', User::class)
                     ->setAction('detail')
                     ->setEntityId($user->getId()),
-                MenuItem::linkToCrud('Settings', 'fa fa-user-cog', User::class)
+                MenuItem::linkToCrud(t('admin.user-menu.profile.edit', [], 'admin'), 'fa fa-user-cog', User::class)
                     ->setAction('edit')
                     ->setEntityId($user->getId()),
             ]);
@@ -73,17 +75,17 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::section('Site Web');
-        yield MenuItem::linktoRoute('Retour sur le site', 'fas fa-home', 'app_home');
-        
-        yield MenuItem::section('Communauté')
-            ->setPermission('ROLE_SUPER_ADMIN');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class)
-            ->setPermission('ROLE_SUPER_ADMIN');
-            
-        yield MenuItem::section('Blog');
-        yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class)
+        yield MenuItem::section(t('admin.menu-items.section.blog', [], 'admin'));
+        yield MenuItem::linkToCrud(t('admin.menu-items.crud.categories', [], 'admin'), 'fas fa-list', Category::class)
             ->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Articles', 'fas fa-newspaper', Post::class);
+        yield MenuItem::linkToCrud(t('admin.menu-items.crud.posts', [], 'admin'), 'fas fa-newspaper', Post::class);
+        
+        yield MenuItem::section(t('admin.menu-items.section.community', [], 'admin'))
+            ->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud(t('admin.menu-items.crud.users', [], 'admin'), 'fas fa-user', User::class)
+            ->setPermission('ROLE_SUPER_ADMIN');
+        
+        yield MenuItem::section(t('admin.menu-items.section.website', [], 'admin'));
+        yield MenuItem::linktoRoute(t('admin.menu-items.route.home', [], 'admin'), 'fas fa-home', 'app_home');
     }
 }

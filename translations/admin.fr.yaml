@@ -1,1 +1,65 @@
-title: 'Titre'
+# User menu
+admin.user-menu.profile.detail: 'Mon profil'
+admin.user-menu.profile.edit: 'Modifier le profil'
+
+# Menu items sections
+admin.menu-items.section.website: 'Site web'
+admin.menu-items.section.community: 'Communauté'
+admin.menu-items.section.blog: 'Blog'
+
+# Menu items links
+admin.menu-items.route.home: 'Retour au site web'
+admin.menu-items.crud.users: 'Utilisateurs'
+admin.menu-items.crud.categories: 'Catégories'
+admin.menu-items.crud.posts: 'Articles'
+
+# Entity labels
+admin.entity.label.singular.category: 'Catégorie'
+admin.entity.label.plural.category: 'Catégories'
+admin.entity.label.singular.post: 'Article'
+admin.entity.label.plural.post: 'Articles'
+admin.entity.label.singular.user: 'Utilisateur'
+admin.entity.label.plural.user: 'Utilisateurs'
+
+# Pages titles
+admin.page.new.title.category: 'Créer une catégorie'
+admin.page.new.title.post: 'Créer un article'
+admin.page.new.title.user: 'Créer un utilisateur'
+admin.page.edit.title.category: 'Modifier une catégorie'
+admin.page.edit.title.post: 'Modifier un article'
+admin.page.edit.title.user: 'Modifier un utilisateur'
+
+# Action buttons
+admin.action.new.category: 'Créer une catégorie'
+admin.action.new.post: 'Créer un article'
+admin.action.new.user: 'Créer un utilisateur'
+admin.action.save_and_add_another.category: 'Créer et ajouter une autre catégorie'
+admin.action.save_and_add_another.post: 'Créer et ajouter un autre article'
+admin.action.save_and_add_another.user: 'Créer et ajouter un autre utilisateur'
+admin.action.save_and_continue: 'Enregistrer et continuer les modifications'
+admin.action.save: 'Enregistrer les modifications'
+
+# Form
+admin.form.label.nickname: 'Pseudo'
+admin.form.label.roles: 'Rôles'
+admin.form.label.email: 'Email'
+admin.form.label.avatar: 'Avatar'
+admin.form.help.imageField: "Téléchargez une image d'une taille maximale de 2 Mo."
+admin.form.label.about: 'À propos de vous'
+admin.form.label.password: 'Mot de passe'
+admin.form.label.password.repeat: 'Répéter le mot de passe'
+admin.form.message.password: 'Votre mot de passe doit contenir au moins 8 caractères avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.'
+admin.form.label.password.new: 'Nouveau mot de passe'
+admin.form.label.password.new.repeat: 'Répéter le nouveau mot de passe'
+admin.form.message.checkPassword: 'Votre mot de passe actuel ne correspond pas.'
+admin.form.help.checkPassword: 'Pour valider vos modifications, veuillez saisir votre mot de passe actuel.'
+admin.form.label.name: 'Nom'
+admin.form.label.slug: 'Slug'
+admin.form.label.author: 'Auteur'
+admin.form.label.category: 'Categorie'
+admin.form.label.createdAt: 'Date de création'
+admin.form.label.title: 'Titre'
+admin.form.label.thumbnail: 'Miniature'
+admin.form.label.content: 'Contenu'
+admin.form.label.content.wordcount: 'Nombre de mots : '
+admin.form.label.isVisible: 'Visible'

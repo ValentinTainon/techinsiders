@@ -1,9 +1,9 @@
 const minCharacters = 500;
-const container = document.querySelector( '.ck-update' );
-const progressCircle = document.querySelector( '.ck-update__chart__circle' );
-const charactersBox = document.querySelector( '.ck-update__chart__characters' );
-const wordsBox = document.querySelector( '.ck-update__words' );
-const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
+const container = document.querySelector('.ck-update');
+const progressCircle = document.querySelector('.ck-update__chart__circle');
+const charactersBox = document.querySelector('.ck-update__chart__characters');
+const wordsCountBox = document.querySelector('.ck-update__words .count');
+const circleCircumference = Math.floor(2 * Math.PI * progressCircle.getAttribute('r') );
 const submitButtons = document.querySelectorAll('button[type="submit"]');
 
 ClassicEditor.Editor
@@ -24,7 +24,7 @@ ClassicEditor.Editor
                     charactersBox.textContent = stats.characters;
                 }
 
-                wordsBox.textContent = `Nombre de mots: ${stats.words}`;
+                wordsCountBox.textContent = stats.words;
 
                 container.classList.toggle('ck-update__limit-close', isCloseToLimit);
 

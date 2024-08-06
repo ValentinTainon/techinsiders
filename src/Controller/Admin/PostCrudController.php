@@ -6,6 +6,7 @@ use App\Entity\Post;
 use Doctrine\ORM\QueryBuilder;
 use App\Admin\Field\CkeditorField;
 use Doctrine\ORM\EntityManagerInterface;
+use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -16,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use Symfony\Component\Translation\TranslatableMessage;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
@@ -37,8 +37,12 @@ class PostCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setEntityLabelInSingular(t('admin.entity.label.singular.post', [], 'admin'))
+            ->setEntityLabelInPlural(t('admin.entity.label.plural.post', [], 'admin'))
+            ->setPageTitle('new', t('admin.page.new.title.post', [], 'admin'))
+            ->setPageTitle('edit', t('admin.page.edit.title.post', [], 'admin'))
             ->addFormTheme('bundles/EasyAdminBundle/crud/field/ckeditor_init.html.twig')
-            ->setDefaultSort(['created_at' => 'DESC']);
+            ->setDefaultSort(['createdAt' => 'DESC']);
     }
 
     public function configureActions(Actions $actions): Actions
@@ -49,35 +53,40 @@ class PostCrudController extends AbstractCrudController
                 Action::EDIT => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getUser() === user and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'),
                 Action::DETAIL => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getUser() === user and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'),
                 Action::DELETE => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getUser() === user and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))')
-            ]);
+            ])
+            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('admin.action.new.post', [], 'admin')))
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('admin.action.save_and_add_another.post', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn (Action $action) => $action->setLabel(t('admin.action.save_and_continue', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('admin.action.save', [], 'admin')));
     }
 
     public function configureFields(string $pageName): iterable
     {
-        yield AssociationField::new('user', 'Auteur')
+        yield AssociationField::new('user', t('admin.form.label.author', [], 'admin'))
             ->onlyOnIndex();
-        yield AssociationField::new('category', 'Categorie');
-        yield DateTimeField::new('created_at', 'Date de création')
+        yield AssociationField::new('category', t('admin.form.label.category', [], 'admin'));
+        yield DateTimeField::new('createdAt', t('admin.form.label.createdAt', [], 'admin'))
             ->hideWhenCreating()
             ->setDisabled()
             ->setRequired(false);
-        yield TextField::new('title', new TranslatableMessage('title', [], 'admin'));
-        yield SlugField::new('slug', 'Slug')
+        yield TextField::new('title', t('admin.form.label.title', [], 'admin'));
+        yield SlugField::new('slug', t('admin.form.label.slug', [], 'admin'))
             ->setTargetFieldName('title')
             ->hideOnIndex()
             ->setFormTypeOption('row_attr', ['style' => 'display: none;']);
-        $postThumbnailField = ImageField::new('thumbnail', 'Miniature')
+        $postThumbnailField = ImageField::new('thumbnail', t('admin.form.label.thumbnail', [], 'admin'))
             ->setBasePath('uploads/posts/thumbnails')
             ->setUploadDir('public/uploads/posts/thumbnails')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setFormTypeOption('allow_delete', false)
-            ->setHelp('Upload an image with a maximum size of 2MB.');
+            ->setHelp(t('admin.form.help.imageField', [], 'admin'));
         if ($pageName === Crud::PAGE_EDIT && $this->isThumbnailExist()) {
             $postThumbnailField->setRequired(false);
         }
         yield $postThumbnailField;
-        yield CkeditorField::new('content', 'Contenu');
-        $isVisible = BooleanField::new('is_visible', 'Visible')->setPermission('ROLE_ADMIN');
+        yield CkeditorField::new('content', t('admin.form.label.content', [], 'admin'));
+        $isVisible = BooleanField::new('isVisible', t('admin.form.label.isVisible', [], 'admin'))
+            ->setPermission('ROLE_ADMIN');
         if ($pageName === Crud::PAGE_INDEX) {
             $isVisible->renderAsSwitch(false);
         };
@@ -90,8 +99,8 @@ class PostCrudController extends AbstractCrudController
             $filters->add(EntityFilter::new('user'));
         }
         $filters->add(EntityFilter::new('category'))
-                ->add(DateTimeFilter::new('created_at'))
-                ->add(BooleanFilter::new('is_visible'));
+                ->add(DateTimeFilter::new('createdAt'))
+                ->add(BooleanFilter::new('isVisible'));
         
         return $filters;
     }

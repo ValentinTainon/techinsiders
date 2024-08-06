@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -26,6 +27,16 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular(t('admin.entity.label.singular.user', [], 'admin'))
+            ->setEntityLabelInPlural(t('admin.entity.label.plural.user', [], 'admin'))
+            ->setPageTitle('new', t('admin.page.new.title.user', [], 'admin'))
+            ->setPageTitle('edit', t('admin.page.edit.title.user', [], 'admin'))
+            ->setDefaultSort(['nickname' => 'ASC']);
+    }
+
     public function configureActions(Actions $actions): Actions
     {
         return $actions
@@ -36,13 +47,17 @@ class UserCrudController extends AbstractCrudController
                 Action::EDIT => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'),
                 Action::DETAIL => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'),
                 Action::DELETE => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))')
-            ]);
+            ])
+            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('admin.action.new.user', [], 'admin')))
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('admin.action.save_and_add_another.user', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn (Action $action) => $action->setLabel(t('admin.action.save_and_continue', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('admin.action.save', [], 'admin')));
     }
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('nickname', 'Pseudo');
-        yield ChoiceField::new('roles')
+        yield TextField::new('nickname', t('admin.form.label.nickname', [], 'admin'));
+        yield ChoiceField::new('roles', t('admin.form.label.roles', [], 'admin'))
             ->setChoices([
                 'Super Admin' => 'ROLE_SUPER_ADMIN',
                 'Admin' => 'ROLE_ADMIN',
@@ -51,42 +66,44 @@ class UserCrudController extends AbstractCrudController
             ->allowMultipleChoices(true)
             ->setRequired(true)
             ->setPermission('ROLE_SUPER_ADMIN');
-        yield EmailField::new('email', 'Email');
+        yield EmailField::new('email', t('admin.form.label.email', [], 'admin'));
         yield TextField::new('password')
             ->setFormType(RepeatedType::class)
             ->setFormTypeOptions([
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Nouveau mot de passe', 'hash_property_path' => 'password'],
-                'second_options' => ['label' => 'Répéter le nouveau mot de passe'],
+                'first_options' => [
+                    'label' => $pageName === Crud::PAGE_EDIT ? t('admin.form.label.password.new', [], 'admin') : t('admin.form.label.password', [], 'admin'), 
+                    'hash_property_path' => 'password'
+                ],
+                'second_options' => ['label' => $pageName === Crud::PAGE_EDIT ? t('admin.form.label.password.new.repeat', [], 'admin') : t('admin.form.label.password.repeat', [], 'admin')], 
                 'mapped' => false,
                 'constraints' => [
                     new Length(['max' => 4096]), // max length allowed by Symfony for security reasons
                     new Regex([
-                        'pattern' => '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/',
-                        'message' => 'Votre mot de passe doit contenir au minimum 8 caractères avec au moins une lettre majuscule,
-                        une lettre minuscule, un chiffre et un caractère spécial.'
+                        'pattern' => '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.,;*-+=_:§]).{8,}$/',
+                        'message' => t('admin.form.message.password', [], 'admin')
                     ]),
                 ],
             ])
             ->setRequired($pageName === Crud::PAGE_NEW)
             ->onlyOnForms();
-        yield ImageField::new('avatar', 'Avatar')
+        yield ImageField::new('avatar', t('admin.form.label.avatar', [], 'admin'))
             ->setBasePath('uploads/users/avatars')
             ->setUploadDir('public/uploads/users/avatars')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setHelp('Upload an image with a maximum size of 2MB.');
-        yield TextareaField::new('about', 'À propos de vous');
-        yield TextField::new('checkPassword', 'Mot de passe')
+            ->setHelp(t('admin.form.help.imageField', [], 'admin'));
+        yield TextareaField::new('about', t('admin.form.label.about', [], 'admin'));
+        yield TextField::new('checkPassword', t('admin.form.label.password', [], 'admin'))
             ->setFormType(PasswordType::class)
             ->setFormTypeOptions([
                 'mapped' => false,
                 'constraints' => [
                     new UserPassword([
-                        'message' => 'Votre mot de passe actuel ne correspond pas',
+                        'message' => t('admin.form.message.checkPassword', [], 'admin'),
                     ])
                 ],
             ])
-            ->setHelp('Afin de valider les modifications, veuillez saisir votre mot de passe actuel')
+            ->setHelp(t('admin.form.help.checkPassword', [], 'admin'))
             ->onlyWhenUpdating()
             ->setRequired(true);
     }
