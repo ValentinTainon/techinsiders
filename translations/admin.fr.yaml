@@ -37,7 +37,7 @@ admin.action.save_and_add_another.category: 'Créer et ajouter une autre catégo
 admin.action.save_and_add_another.post: 'Créer et ajouter un autre article'
 admin.action.save_and_add_another.user: 'Créer et ajouter un autre utilisateur'
 admin.action.save_and_continue: 'Enregistrer et continuer les modifications'
-admin.action.save: 'Enregistrer les modifications'
+admin.action.save: 'Enregistrer'
 
 # Form
 admin.form.label.nickname: 'Pseudo'

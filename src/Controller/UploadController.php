@@ -26,7 +26,7 @@ class UploadController extends AbstractController
             try {
                 $file->move($uploadPostsImagesDir, $newFilename);
                 return new JsonResponse([
-                    'url' => '/uploads/posts/images/'.$newFilename
+                    'url' => '/uploads/posts/images/'.(string)$newFilename
                 ]);
             } catch (FileException $e) {
                 return new JsonResponse(['error' => 'Unable to upload file'], 500);

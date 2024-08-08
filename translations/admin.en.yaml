@@ -37,7 +37,7 @@ admin.action.save_and_add_another.category: 'Create and add another category'
 admin.action.save_and_add_another.post: 'Create and add another post'
 admin.action.save_and_add_another.user: 'Create and add another user'
 admin.action.save_and_continue: 'Save and continue editing'
-admin.action.save: 'Save changes'
+admin.action.save: 'Save'
 
 # Form
 admin.form.label.nickname: 'Nickname'

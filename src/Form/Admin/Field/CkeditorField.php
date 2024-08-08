@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin\Field;
+namespace App\Form\Admin\Field;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;

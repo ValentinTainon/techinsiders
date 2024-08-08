@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use Doctrine\ORM\QueryBuilder;
-use App\Admin\Field\CkeditorField;
+use App\Form\Admin\Field\CkeditorField;
 use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

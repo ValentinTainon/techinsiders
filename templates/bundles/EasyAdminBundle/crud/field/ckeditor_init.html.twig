@@ -1,8 +1,8 @@
 {# templates/bundles/EasyAdminBundle/crud/field/ckeditor.html.twig #}
 {% block _Post_custom_content_widget %}
-    <textarea id="editor" name="Post[{{ name }}]">
-        {% if data is defined and data is not null %}
-            {{ data }}
+    <textarea id="editor" name="{{ full_name }}">
+        {% if value is defined and value is not null %}
+            {{ value }}
         {% endif %}
     </textarea>
 
