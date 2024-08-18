@@ -1,3 +1,8 @@
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
+        envelope:
+            sender: 'contact@techinsiders.xyz'
+        headers:
+            From: 'TechInsiders <contact@techinsiders.xyz>'
+            X-Auto-Response-Suppress: 'OOF, DR, RN, NRN, AutoReply'
