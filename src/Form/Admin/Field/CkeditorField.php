@@ -22,7 +22,7 @@ final class CkeditorField implements FieldInterface
             ->setLabel($label)
             ->setFormType(TextareaType::class)
             ->setFormTypeOptions([
-                'block_name' => 'custom_content',
+                'block_name' => 'custom_content'
             ])
             ->addCssFiles(Asset::new('/ckeditor/build/ckeditor.css')->htmlAttr('type', 'text/css')->onlyOnForms())
             ->addJsFiles(Asset::new('/ckeditor/build/ckeditor.js')->onlyOnForms())

@@ -58,10 +58,10 @@ class DashboardController extends AbstractDashboardController
         /** @var User $user */
         $userMenu = parent::configureUserMenu($user)
             ->addMenuItems([
-                MenuItem::linkToCrud(t('admin.user-menu.profile.detail', [], 'admin'), 'fa fa-id-card', User::class)
+                MenuItem::linkToCrud(t('my.profile', [], 'admin'), 'fa fa-id-card', User::class)
                     ->setAction('detail')
                     ->setEntityId($user->getId()),
-                MenuItem::linkToCrud(t('admin.user-menu.profile.edit', [], 'admin'), 'fa fa-user-cog', User::class)
+                MenuItem::linkToCrud(t('edit.profile', [], 'admin'), 'fa fa-user-cog', User::class)
                     ->setAction('edit')
                     ->setEntityId($user->getId()),
             ]);
@@ -75,17 +75,17 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::section(t('admin.menu-items.section.blog', [], 'admin'));
-        yield MenuItem::linkToCrud(t('admin.menu-items.crud.categories', [], 'admin'), 'fas fa-list', Category::class)
+        yield MenuItem::section(t('blog.label', [], 'admin'));
+        yield MenuItem::linkToCrud(t('category.label.plural', [], 'admin'), 'fas fa-list', Category::class)
             ->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud(t('admin.menu-items.crud.posts', [], 'admin'), 'fas fa-newspaper', Post::class);
+        yield MenuItem::linkToCrud(t('post.label.plural', [], 'admin'), 'fas fa-newspaper', Post::class);
         
-        yield MenuItem::section(t('admin.menu-items.section.community', [], 'admin'))
+        yield MenuItem::section(t('community.label', [], 'admin'))
             ->setPermission('ROLE_SUPER_ADMIN');
-        yield MenuItem::linkToCrud(t('admin.menu-items.crud.users', [], 'admin'), 'fas fa-user', User::class)
+        yield MenuItem::linkToCrud(t('user.label.plural', [], 'admin'), 'fas fa-user', User::class)
             ->setPermission('ROLE_SUPER_ADMIN');
         
-        yield MenuItem::section(t('admin.menu-items.section.website', [], 'admin'));
-        yield MenuItem::linktoRoute(t('admin.menu-items.route.home', [], 'admin'), 'fas fa-home', 'app_home');
+        yield MenuItem::section(t('website.label', [], 'admin'));
+        yield MenuItem::linktoRoute(t('back.website.label', [], 'admin'), 'fas fa-home', 'app_home');
     }
 }

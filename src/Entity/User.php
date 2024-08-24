@@ -2,20 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NICKNAME', fields: ['nickname'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 #[ORM\UniqueConstraint(name: 'UNIQ_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['nickname'], message: 'There is already an account with this nickname')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['username'], message: 'user.unique.entity.constraint.username.message')]
+#[UniqueEntity(fields: ['email'], message: 'user.unique.entity.constraint.email.message')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -24,7 +26,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $nickname = null;
+    #[Assert\NotBlank]
+    private ?string $username = null;
 
     /**
      * @var list<string> The user roles
@@ -33,12 +36,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
+     * @var string The plain password
+     */
+    #[Assert\Length(
+        min: 12, 
+        max: 4096, 
+        minMessage: 'password.constraint.length.min_message',
+        maxMessage: 'password.constraint.length.max_message',
+        groups: ['reset_password']
+    )]
+    #[Assert\Regex(
+        pattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$£%^&.,;*-+=_:§µù¨ø])/',
+        message: 'password.constraint.regex.message',
+        groups: ['reset_password']
+    )]
+    #[Assert\PasswordStrength(
+        minScore: PasswordStrength::STRENGTH_STRONG,
+        groups: ['reset_password']
+    )]
+    #[Assert\NotCompromisedPassword(groups: ['reset_password'])]
+    private ?string $plainPassword = null;
+
+    /**
      * @var string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -63,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        return $this->nickname;
+        return $this->username;
     }
 
     public function getId(): ?int
@@ -71,14 +98,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getNickname(): ?string
+    public function getUsername(): ?string
     {
-        return $this->nickname;
+        return $this->username;
     }
 
-    public function setNickname(string $nickname): static
+    public function setUsername(string $username): static
     {
-        $this->nickname = $nickname;
+        $this->username = $username;
 
         return $this;
     }
@@ -90,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->nickname;
+        return (string) $this->username;
     }
 
     /**
@@ -129,6 +156,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -150,7 +189,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getAvatar(): ?string

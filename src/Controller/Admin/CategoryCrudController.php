@@ -22,26 +22,26 @@ class CategoryCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityPermission('ROLE_ADMIN')
-            ->setEntityLabelInSingular(t('admin.entity.label.singular.category', [], 'admin'))
-            ->setEntityLabelInPlural(t('admin.entity.label.plural.category', [], 'admin'))
-            ->setPageTitle('new', t('admin.page.new.title.category', [], 'admin'))
-            ->setPageTitle('edit', t('admin.page.edit.title.category', [], 'admin'))
+            ->setEntityLabelInSingular(t('category.label.singular', [], 'admin'))
+            ->setEntityLabelInPlural(t('category.label.plural', [], 'admin'))
+            ->setPageTitle('new', t('create.category', [], 'admin'))
+            ->setPageTitle('edit', t('edit.category', [], 'admin'))
             ->setDefaultSort(['name' => 'ASC']);
     }
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('admin.action.new.category', [], 'admin')))
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('admin.action.save_and_add_another.category', [], 'admin')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn (Action $action) => $action->setLabel(t('admin.action.save_and_continue', [], 'admin')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('admin.action.save', [], 'admin')));
+            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('create.category', [], 'admin')))
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('create_and_add.category.label', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn (Action $action) => $action->setLabel(t('save_and_continue.editing.label', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('save.label', [], 'admin')));
     }
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name', t('admin.form.label.name', [], 'admin'));
-        yield SlugField::new('slug', t('admin.form.label.slug', [], 'admin'))
+        yield TextField::new('name', t('name.label', [], 'admin'));
+        yield SlugField::new('slug', t('slug.label', [], 'admin'))
             ->setTargetFieldName('name')
             ->setFormTypeOption('row_attr', ['style' => 'display: none;']);
     }

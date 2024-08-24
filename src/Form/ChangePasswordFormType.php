@@ -2,15 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use function Symfony\Component\Translation\t;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
-use Symfony\Component\Validator\Constraints\PasswordStrength;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class ChangePasswordFormType extends AbstractType
 {
@@ -21,38 +20,28 @@ class ChangePasswordFormType extends AbstractType
                 'type' => PasswordType::class,
                 'options' => [
                     'attr' => [
-                        'autocomplete' => 'new-password',
+                        'autocomplete' => 'new-password'
                     ],
                 ],
                 'first_options' => [
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'Please enter a password',
-                        ]),
-                        new Length([
-                            'min' => 8,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 4096,
-                        ]),
-                        new PasswordStrength(),
-                        new NotCompromisedPassword(),
-                    ],
-                    'label' => 'New password',
+                    'label' => t('new.password.label', [], 'admin')
                 ],
                 'second_options' => [
-                    'label' => 'Repeat Password',
+                    'label' => t('repeat.new.password.label', [], 'admin')
                 ],
-                'invalid_message' => 'The password fields must match.',
-                // Instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
+                'invalid_message' => t('password.constraint.repeat.invalid_message')
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => t('reset.password.label'),
             ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'validation_groups' => ['reset_password']
+        ]);
     }
 }

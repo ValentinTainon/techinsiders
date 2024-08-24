@@ -1,0 +1,59 @@
+# User menu
+my.profile: 'My profile'
+edit.profile: 'Edit profile'
+
+# Menu items sections
+website.label: 'Website'
+community.label: 'Community'
+blog.label: 'Blog'
+
+# Menu items links
+back.website.label: 'Back to the website'
+
+# Entity labels
+category.label.singular: 'Category'
+categories.label.plural: 'Categories'
+post.label.singular: 'Post'
+posts.label.plural: 'Posts'
+user.label.singular: 'User'
+users.label.plural: 'Users'
+
+# Pages titles
+create.category: 'Create a category'
+create.post: 'Create a post'
+create.user: 'Create a user'
+edit.category: 'Edit a category'
+edit.post: 'Edit a post'
+edit.user: 'Edit a user'
+
+# Action buttons
+create_and_add.category.label: 'Create and add another category'
+create_and_add.post.label: 'Create and add another post'
+create_and_add.user.label: 'Create and add another user'
+save_and_continue.editing.label: 'Save and continue editing'
+save.label: 'Save'
+
+# Form
+username.label: 'Username'
+roles.label: 'Roles'
+email.label: 'Email'
+avatar.label: 'Avatar'
+image.field.help.message: 'Upload an image with a maximum size of 2MB.'
+about.label: 'About you'
+password.label: 'Password'
+repeat.password.label: 'Repeat password'
+new.password.label: 'New password'
+repeat.new.password.label: 'Repeat new password'
+forgot.password.label: 'Forgot password?'
+check.user.password.help.message: 'To validate your changes, please enter your current password.'
+name.label: 'Name'
+slug.label: 'Slug'
+author.label: 'Author'
+created_at.label: 'Creation date'
+title.label: 'Title'
+thumbnail.label: 'Thumbnail'
+content.label: 'Content'
+ckeditor.wordcount.label: 'Number of words: '
+is_visible.label: 'Visible'
+remember_me.label: 'Remember me'
+agree_terms.label: 'Agree terms'

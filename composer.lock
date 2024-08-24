@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca43c8fbf7ab8268370857ce102897ee",
+    "content-hash": "4c8fe8f81658a4018d12ef9d32c530f0",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -187,16 +187,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.8.7",
+            "version": "3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2093d670ca17f634f3c095ec10a20687eccebd99"
+                "reference": "d8f68ea6cc00912e5313237130b8c8decf4d28c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2093d670ca17f634f3c095ec10a20687eccebd99",
-                "reference": "2093d670ca17f634f3c095ec10a20687eccebd99",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/d8f68ea6cc00912e5313237130b8c8decf4d28c6",
+                "reference": "d8f68ea6cc00912e5313237130b8c8decf4d28c6",
                 "shasum": ""
             },
             "require": {
@@ -280,7 +280,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.8.7"
+                "source": "https://github.com/doctrine/dbal/tree/3.9.0"
             },
             "funding": [
                 {
@@ -296,7 +296,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-07T11:57:25+00:00"
+            "time": "2024-08-15T07:34:42+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1971,16 +1971,16 @@
         },
         {
             "name": "psr/log",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001"
+                "reference": "79dff0b268932c640297f5208d6298f71855c03e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe5ea303b0887d5caefd3d431c3e61ad47037001",
-                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/79dff0b268932c640297f5208d6298f71855c03e",
+                "reference": "79dff0b268932c640297f5208d6298f71855c03e",
                 "shasum": ""
             },
             "require": {
@@ -2015,9 +2015,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/3.0.0"
+                "source": "https://github.com/php-fig/log/tree/3.0.1"
             },
-            "time": "2021-07-14T16:46:02+00:00"
+            "time": "2024-08-21T13:31:24+00:00"
         },
         {
             "name": "symfony/asset",
@@ -6251,16 +6251,16 @@
         },
         {
             "name": "symfony/stimulus-bundle",
-            "version": "v2.18.1",
+            "version": "v2.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stimulus-bundle.git",
-                "reference": "017b60e036c366c8ce0e77864d5aabab436ad73d"
+                "reference": "5e2e1aff3e7cff2875e2f901437543fda9ca9910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/017b60e036c366c8ce0e77864d5aabab436ad73d",
-                "reference": "017b60e036c366c8ce0e77864d5aabab436ad73d",
+                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/5e2e1aff3e7cff2875e2f901437543fda9ca9910",
+                "reference": "5e2e1aff3e7cff2875e2f901437543fda9ca9910",
                 "shasum": ""
             },
             "require": {
@@ -6300,7 +6300,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.18.1"
+                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.19.0"
             },
             "funding": [
                 {
@@ -6316,7 +6316,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-11T13:21:54+00:00"
+            "time": "2024-07-30T19:26:23+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -6990,16 +6990,16 @@
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.18.0",
+            "version": "v2.19.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "e447231ddcc09ab68d29047f47d31a524837dc7a"
+                "reference": "4a38f267193017958d487171c0a86e64f36164a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/e447231ddcc09ab68d29047f47d31a524837dc7a",
-                "reference": "e447231ddcc09ab68d29047f47d31a524837dc7a",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/4a38f267193017958d487171c0a86e64f36164a3",
+                "reference": "4a38f267193017958d487171c0a86e64f36164a3",
                 "shasum": ""
             },
             "require": {
@@ -7067,7 +7067,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.18.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.19.3"
             },
             "funding": [
                 {
@@ -7083,7 +7083,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-01T17:56:14+00:00"
+            "time": "2024-08-14T04:55:38+00:00"
         },
         {
             "name": "symfony/validator",
@@ -10204,7 +10204,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },

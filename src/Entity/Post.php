@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PostRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\UniqueConstraint(name: 'UNIQ_TITLE', fields: ['title'])]
+#[UniqueEntity(fields: ['title'], message: 'post.unique.entity.constraint.title.message')]
 class Post
 {
     #[ORM\Id]

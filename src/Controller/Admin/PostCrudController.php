@@ -37,10 +37,10 @@ class PostCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular(t('admin.entity.label.singular.post', [], 'admin'))
-            ->setEntityLabelInPlural(t('admin.entity.label.plural.post', [], 'admin'))
-            ->setPageTitle('new', t('admin.page.new.title.post', [], 'admin'))
-            ->setPageTitle('edit', t('admin.page.edit.title.post', [], 'admin'))
+            ->setEntityLabelInSingular(t('post.label.singular', [], 'admin'))
+            ->setEntityLabelInPlural(t('post.label.plural', [], 'admin'))
+            ->setPageTitle('new', t('create.post', [], 'admin'))
+            ->setPageTitle('edit', t('edit.post', [], 'admin'))
             ->addFormTheme('bundles/EasyAdminBundle/crud/field/ckeditor_init.html.twig')
             ->setDefaultSort(['createdAt' => 'DESC']);
     }
@@ -54,38 +54,38 @@ class PostCrudController extends AbstractCrudController
                 Action::DETAIL => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getUser() === user and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'),
                 Action::DELETE => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getUser() === user and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))')
             ])
-            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('admin.action.new.post', [], 'admin')))
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('admin.action.save_and_add_another.post', [], 'admin')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn (Action $action) => $action->setLabel(t('admin.action.save_and_continue', [], 'admin')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('admin.action.save', [], 'admin')));
+            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('create.post', [], 'admin')))
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('create_and_add.post.label', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn (Action $action) => $action->setLabel(t('save_and_continue.editing.label', [], 'admin')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('save.label', [], 'admin')));
     }
 
     public function configureFields(string $pageName): iterable
     {
-        yield AssociationField::new('user', t('admin.form.label.author', [], 'admin'))
+        yield AssociationField::new('user', t('author.label', [], 'admin'))
             ->onlyOnIndex();
-        yield AssociationField::new('category', t('admin.form.label.category', [], 'admin'));
-        yield DateTimeField::new('createdAt', t('admin.form.label.createdAt', [], 'admin'))
+        yield AssociationField::new('category', t('category.label.singular', [], 'admin'));
+        yield DateTimeField::new('createdAt', t('created_at.label', [], 'admin'))
             ->hideWhenCreating()
             ->setDisabled()
             ->setRequired(false);
-        yield TextField::new('title', t('admin.form.label.title', [], 'admin'));
-        yield SlugField::new('slug', t('admin.form.label.slug', [], 'admin'))
+        yield TextField::new('title', t('title.label', [], 'admin'));
+        yield SlugField::new('slug', t('slug.label', [], 'admin'))
             ->setTargetFieldName('title')
             ->hideOnIndex()
             ->setFormTypeOption('row_attr', ['style' => 'display: none;']);
-        $postThumbnailField = ImageField::new('thumbnail', t('admin.form.label.thumbnail', [], 'admin'))
+        $postThumbnailField = ImageField::new('thumbnail', t('thumbnail.label', [], 'admin'))
             ->setBasePath('uploads/posts/thumbnails')
             ->setUploadDir('public/uploads/posts/thumbnails')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setFormTypeOption('allow_delete', false)
-            ->setHelp(t('admin.form.help.imageField', [], 'admin'));
+            ->setHelp(t('image.field.help.message', [], 'admin'));
         if ($pageName === Crud::PAGE_EDIT && $this->isThumbnailExist()) {
             $postThumbnailField->setRequired(false);
         }
         yield $postThumbnailField;
-        yield CkeditorField::new('content', t('admin.form.label.content', [], 'admin'));
-        $isVisible = BooleanField::new('isVisible', t('admin.form.label.isVisible', [], 'admin'))
+        yield CkeditorField::new('content', t('content.label', [], 'admin'));
+        $isVisible = BooleanField::new('isVisible', t('is_visible.label', [], 'admin'))
             ->setPermission('ROLE_ADMIN');
         if ($pageName === Crud::PAGE_INDEX) {
             $isVisible->renderAsSwitch(false);

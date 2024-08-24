@@ -1,0 +1,12 @@
+sign_in.label: 'Se connecter'
+sign_up.label: "S'inscrire"
+registration.title: 'Inscription'
+next.label: 'Suivant'
+reset.password.label: 'Réinitialiser le mot de passe'
+reset.password.title: 'Réinitialiser votre mot de passe'
+reset.password.email.send.title: 'E-mail de réinitialisation du mot de passe envoyé'
+reset.password.request.help.message: 'Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.'
+link.expire.in: 'Ce lien expirera dans'
+reset.password.request.send.text: "Si un compte correspondant à votre e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe."
+reset.password.request.mail.reception.fail.text: "Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou"
+try.again.label: 'Essayer à nouveau'
