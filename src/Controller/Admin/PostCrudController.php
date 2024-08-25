@@ -68,32 +68,50 @@ class PostCrudController extends AbstractCrudController
     {
         yield AssociationField::new('user', t('author.label', [], 'forms'))
             ->onlyOnIndex();
+
         yield AssociationField::new('category', t('category.label.singular', [], 'EasyAdminBundle'));
+        
         yield DateTimeField::new('createdAt', t('created_at.label', [], 'forms'))
             ->hideWhenCreating()
             ->setDisabled()
             ->setRequired(false);
+
+        if ($this->isUpdatedAtDefine()) {
+            yield DateTimeField::new('updatedAt', t('updated_at.label', [], 'forms'))
+                ->hideWhenCreating()
+                ->setDisabled()
+                ->setRequired(false);
+        }
+
         yield TextField::new('title', t('title.label', [], 'forms'));
+        
         yield SlugField::new('slug', t('slug.label', [], 'forms'))
             ->setTargetFieldName('title')
             ->hideOnIndex()
             ->setFormTypeOption('row_attr', ['style' => 'display: none;']);
+
         $postThumbnailField = ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
             ->setBasePath('uploads/posts/thumbnails')
             ->setUploadDir('public/uploads/posts/thumbnails')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setFormTypeOption('allow_delete', false)
             ->setHelp(t('image.field.help.message', [], 'forms'));
-        if ($pageName === Crud::PAGE_EDIT && $this->isThumbnailExist()) {
+
+        if ($pageName === Crud::PAGE_EDIT && $this->isThumbnailDefine()) {
             $postThumbnailField->setRequired(false);
         }
+
         yield $postThumbnailField;
+
         yield CkeditorField::new('content', t('content.label', [], 'forms'));
+
         $isVisible = BooleanField::new('isVisible', t('is_visible.label', [], 'forms'))
             ->setPermission('ROLE_ADMIN');
+
         if ($pageName === Crud::PAGE_INDEX) {
             $isVisible->renderAsSwitch(false);
         };
+
         yield $isVisible;
     }
 
@@ -121,11 +139,22 @@ class PostCrudController extends AbstractCrudController
         return $queryBuilder;
     }
 
-    public function isThumbnailExist(): bool
+    public function isThumbnailDefine(): bool
     {
         $post = $this->getContext()->getEntity()->getInstance();
         
         if (!$post || !$post->getThumbnail()) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    public function isUpdatedAtDefine(): bool
+    {
+        $post = $this->getContext()->getEntity()->getInstance();
+        
+        if (!$post || !$post->getUpdatedAt()) {
             return false;
         }
         
@@ -145,5 +174,14 @@ class PostCrudController extends AbstractCrudController
         }
         
         parent::persistEntity($entityManager, $entityInstance);
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if ($entityInstance instanceof Post) {
+            $entityInstance->setUpdatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+        }
+
+        parent::updateEntity($entityManager, $entityInstance);
     }
 }

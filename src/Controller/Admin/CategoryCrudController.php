@@ -41,6 +41,7 @@ class CategoryCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('name', t('name.label', [], 'forms'));
+        
         yield SlugField::new('slug', t('slug.label', [], 'forms'))
             ->setTargetFieldName('name')
             ->setFormTypeOption('row_attr', ['style' => 'display: none;']);

@@ -37,14 +37,18 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $expression = new Expression(
+            'is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'
+        );
+
         return $actions
             ->remove(Crud::PAGE_DETAIL, Action::INDEX)
             ->setPermissions([
                 Action::INDEX => 'ROLE_SUPER_ADMIN',
                 Action::NEW => 'ROLE_SUPER_ADMIN',
-                Action::EDIT => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'),
-                Action::DETAIL => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'),
-                Action::DELETE => new Expression('is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))')
+                Action::EDIT => $expression,
+                Action::DETAIL => $expression,
+                Action::DELETE => $expression
             ])
             ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('create.user', [], 'EasyAdminBundle')))
             ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('create_and_add.user.label', [], 'EasyAdminBundle')))
@@ -55,6 +59,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('username', t('username.label', [], 'forms'));
+
         yield ChoiceField::new('roles', t('roles.label', [], 'forms'))
             ->setChoices([
                 'Super Admin' => 'ROLE_SUPER_ADMIN',
@@ -64,9 +69,12 @@ class UserCrudController extends AbstractCrudController
             ->allowMultipleChoices(true)
             ->setRequired(true)
             ->setPermission('ROLE_SUPER_ADMIN');
+
         yield EmailField::new('email', t('email.label', [], 'forms'));
+
         $passwordField = PasswordField::new('plainPassword')
             ->setRequired($pageName === Crud::PAGE_NEW);
+
         if($pageName === Crud::PAGE_EDIT) {
             $passwordField->setFormTypeOptions([
                 'first_options' => [
@@ -77,13 +85,17 @@ class UserCrudController extends AbstractCrudController
                 ]
             ]);
         }
+
         yield $passwordField;
+
         yield ImageField::new('avatar', t('avatar.label', [], 'forms'))
             ->setBasePath('uploads/users/avatars')
             ->setUploadDir('public/uploads/users/avatars')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setHelp(t('image.field.help.message', [], 'forms'));
+
         yield TextareaField::new('about', t('about.label', [], 'forms'));
+
         yield TextField::new('userPassword', t('password.label', [], 'forms'))
             ->setFormType(PasswordType::class)
             ->setFormTypeOptions([
