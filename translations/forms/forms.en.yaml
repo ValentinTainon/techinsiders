@@ -1,0 +1,32 @@
+# Fields label
+username.label: 'Username'
+roles.label: 'Roles'
+email.label: 'Email'
+avatar.label: 'Avatar'
+about.label: 'About you'
+password.label: 'Password'
+repeat.password.label: 'Repeat password'
+new.password.label: 'New password'
+repeat.new.password.label: 'Repeat new password'
+forgot.password.label: 'Forgot password?'
+name.label: 'Name'
+slug.label: 'Slug'
+author.label: 'Author'
+created_at.label: 'Creation date'
+title.label: 'Title'
+thumbnail.label: 'Thumbnail'
+content.label: 'Content'
+is_visible.label: 'Visible'
+remember_me.label: 'Remember me'
+agree_terms.label: 'Agree terms'
+
+# Buttons label
+sign_in.label: 'Sign in'
+sign_up.label: 'Sign up'
+next.label: 'Next'
+reset.password.label: 'Reset password'
+
+# Helps message
+image.field.help.message: 'Upload an image with a maximum size of 2MB.'
+check.user.password.help.message: 'To validate your changes, please enter your current password.'
+reset.password.request.help.message: 'Enter your email address and we will send you a link to reset your password.'

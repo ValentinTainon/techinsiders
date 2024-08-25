@@ -1,0 +1,32 @@
+# Fields label
+username.label: "Nom d’utilisateur"
+roles.label: 'Rôles'
+email.label: 'Email'
+avatar.label: 'Avatar'
+about.label: 'À propos de vous'
+password.label: 'Mot de passe'
+repeat.password.label: 'Répéter le mot de passe'
+new.password.label: 'Nouveau mot de passe'
+repeat.new.password.label: 'Répéter le nouveau mot de passe'
+forgot.password.label: 'Mot de passe oublié ?'
+name.label: 'Nom'
+slug.label: 'Slug'
+author.label: 'Auteur'
+created_at.label: 'Date de création'
+title.label: 'Titre'
+thumbnail.label: 'Miniature'
+content.label: 'Contenu'
+is_visible.label: 'Visible'
+remember_me.label: 'Se souvenir de moi'
+agree_terms.label: 'Accepter les conditions'
+
+# Buttons label
+sign_in.label: 'Se connecter'
+sign_up.label: "S'inscrire"
+next.label: 'Suivant'
+reset.password.label: 'Réinitialiser le mot de passe'
+
+# Helps message
+image.field.help.message: "Téléchargez une image d'une taille maximale de 2 Mo."
+check.user.password.help.message: 'Pour valider vos modifications, veuillez saisir votre mot de passe actuel.'
+reset.password.request.help.message: 'Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.'

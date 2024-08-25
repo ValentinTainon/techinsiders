@@ -1,12 +1,17 @@
-sign_in.label: 'Sign in'
-sign_up.label: 'Sign up'
+# Titles
 registration.title: 'Registration'
-next.label: 'Next'
-reset.password.label: 'Reset password'
 reset.password.title: 'Reset your password'
 reset.password.email.send.title: 'Password Reset Email Sent'
-reset.password.request.help.message: 'Enter your email address and we will send you a link to reset your password.'
+
+# Links
+try.again.label: 'Try again'
+
+# Words
+
+# Short texts
 link.expire.in: 'This link will expire in'
+ckeditor.wordcount.label: 'Number of words: '
+
+# Long texts
 reset.password.request.send.text: 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.'
 reset.password.request.mail.reception.fail.text: "If you don't receive an email please check your spam folder or"
-try.again.label: 'Try again'

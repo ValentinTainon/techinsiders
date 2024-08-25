@@ -21,10 +21,10 @@ class RegistrationFormType extends AbstractType
     {
         $builder
         ->add('username', TextType::class, [
-            'label' => t('username.label', [], 'admin')
+            'label' => t('username.label', [], 'forms')
         ])
         ->add('email', EmailType::class, [
-            'label' => t('email.label', [], 'admin')
+            'label' => t('email.label', [], 'forms')
         ])
         ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
@@ -34,15 +34,15 @@ class RegistrationFormType extends AbstractType
                 ],
             ],
             'first_options' => [
-                'label' => t('password.label', [], 'admin')
+                'label' => t('password.label', [], 'forms')
             ],
             'second_options' => [
-                'label' => t('repeat.password.label', [], 'admin')
+                'label' => t('repeat.password.label', [], 'forms')
             ],
             'invalid_message' => t('password.constraint.repeat.invalid_message')
         ])
         ->add('agreeTerms', CheckboxType::class, [
-            'label' => t('agree_terms.label', [], 'admin'),
+            'label' => t('agree_terms.label', [], 'forms'),
             'mapped' => false,
             'constraints' => [
                 new IsTrue([
@@ -51,7 +51,7 @@ class RegistrationFormType extends AbstractType
             ]
         ])
         ->add('submit', SubmitType::class, [
-            'label' => t('sign_up.label'),
+            'label' => t('sign_up.label', [], 'forms'),
         ])
         ;
     }

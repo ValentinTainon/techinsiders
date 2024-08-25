@@ -41,7 +41,7 @@ class LoginController extends AbstractController
             // the title visible above the login form (define this option only if you are
             // rendering the login template in a regular Symfony controller; when rendering
             // it from an EasyAdmin Dashboard this is automatically set as the Dashboard title)
-            'page_title' => 'TechInsiders',
+            'page_title' => $this->getParameter('app.name'),
 
             // the string used to generate the CSRF token. If you don't define
             // this parameter, the login form won't include a CSRF token
@@ -51,13 +51,13 @@ class LoginController extends AbstractController
             'target_path' => $this->generateUrl('admin'),
 
             // the label displayed for the username form field (the |trans filter is applied to it)
-            'username_label' => t('username.label', [], 'admin'),
+            'username_label' => t('username.label', [], 'forms'),
 
             // the label displayed for the password form field (the |trans filter is applied to it)
-            'password_label' => t('password.label', [], 'admin'),
+            'password_label' => t('password.label', [], 'forms'),
 
             // the label displayed for the Sign In form button (the |trans filter is applied to it)
-            'sign_in_label' => t('sign_in.label', [], 'messages'),
+            'sign_in_label' => t('sign_in.label', [], 'forms'),
 
             // the 'name' HTML attribute of the <input> used for the username field (default: '_username')
             'username_parameter' => '_username',
@@ -72,7 +72,7 @@ class LoginController extends AbstractController
             'forgot_password_path' => $this->generateUrl('app_forgot_password_request'),
 
             // the label displayed for the "forgot password?" link (the |trans filter is applied to it)
-            'forgot_password_label' => t('forgot.password.label', [], 'admin'),
+            'forgot_password_label' => t('forgot.password.label', [], 'forms'),
 
             // whether to enable or not the "remember me" checkbox (default: false)
             'remember_me_enabled' => true,
@@ -84,7 +84,7 @@ class LoginController extends AbstractController
             'remember_me_checked' => false,
 
             // the label displayed for the remember me checkbox (the |trans filter is applied to it)
-            'remember_me_label' => t('remember_me.label', [], 'admin'),
+            'remember_me_label' => t('remember_me.label', [], 'forms'),
         ]);
     }
 

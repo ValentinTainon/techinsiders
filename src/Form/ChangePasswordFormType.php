@@ -24,10 +24,10 @@ class ChangePasswordFormType extends AbstractType
                     ],
                 ],
                 'first_options' => [
-                    'label' => t('new.password.label', [], 'admin')
+                    'label' => t('new.password.label', [], 'forms')
                 ],
                 'second_options' => [
-                    'label' => t('repeat.new.password.label', [], 'admin')
+                    'label' => t('repeat.new.password.label', [], 'forms')
                 ],
                 'invalid_message' => t('password.constraint.repeat.invalid_message')
             ])

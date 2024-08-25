@@ -68,7 +68,7 @@
 							<tbody>
 								<tr>
 									<td style="padding:48px 0 30px 0; text-align: center; font-size: 14px; color: #4C83EE;">
-										Tech Insiders
+										{{ app_name }}
 									</td>
 								</tr>
 								<tr>
@@ -77,33 +77,34 @@
 											<tbody>
 												<tr>
 													<td style="text-align: center; padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
-														Welcome, {{ username }}!
+														{{ 'welcome.user'|trans({'%username%': username}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														Thanks for choosing Tech Insiders! We are happy to see you on board.
+														{{ 'thanks_choosing.app_name'|trans({'%app_name%': app_name}, 'emails') }} {{ 'happy_to_see_you'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														To get started, please confirm your email address by clicking the following link:
+														{{ 'please_confirm_your_email'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 24px 0;">
 														<a class="button" 
                                                             href="{{ signedUrl|raw }}" 
-                                                            title="Confirm my Email" 
+                                                            title="{{ 'confirm_email'|trans([], 'emails') }}" 
                                                             style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;"
                                                         >
-                                                            Confirm my Email
+                                                            {{ 'confirm_email'|trans([], 'emails') }}
                                                         </a>
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                        This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+                                                        {% set expire_message = expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') %}
+														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
@@ -113,9 +114,9 @@
 												</tr>
 												<tr>
 													<td style="font-size: 14px; line-height: 170%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														Best regards,
+														{{ 'best_regards'|trans([], 'emails') }}
 														<br>
-                                                        <strong>Tech Insiders</strong>
+                                                        <strong>{{ app_name }}</strong>
 													</td>
 												</tr>
 											</tbody>
@@ -126,7 +127,7 @@
 									<td style="padding: 24px 0 48px; font-size: 0px;">
 										<div class="outlook-group-fix" style="padding: 0 0 20px 0; vertical-align: top; display: inline-block; text-align: center; width:100%;">
 											<span style="padding: 0; font-size: 11px; line-height: 15px; font-weight: normal; color: #8B949F;">
-                                                Tech Insiders
+                                                {{ app_name }}
                                             </span>
 										</div>
 									</td>

@@ -68,7 +68,7 @@
 							<tbody>
 								<tr>
 									<td style="padding:48px 0 30px 0; text-align: center; font-size: 14px; color: #4C83EE;">
-										Tech Insiders
+										{{ app_name }}
 									</td>
 								</tr>
 								<tr>
@@ -77,36 +77,37 @@
 											<tbody>
 												<tr>
 													<td style="text-align: center; padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
-														Hello {{ username }}! Forgot your password?
+														{{ 'hello.user'|trans({'%username%': username}, 'emails') }} {{ 'forgot_password'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														We received a password reset request for your account:
+														{{ 'received_password_request_for_your_account'|trans([], 'emails') }}
 														<span style="color: #4C83EE;">{{ user_email }}</span>.
 													</td>
 												</tr>
 												<tr>
 													<td style="text-align: center; padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 700; color: #000000; letter-spacing: 0.01em;">
-														Click the button below to proceed.
+														{{ 'click_button_below'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 24px 0;">
-														<a class="button" title="Reset Password" href="{{ url('app_reset_password', {token: resetToken.token}) }}" style="width: 100%; background: #22D172; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">
-															Reset Password
+														<a class="button" title="{{ 'reset_password'|trans([], 'emails') }}" href="{{ url('app_reset_password', {token: resetToken.token}) }}" style="width: 100%; background: #22D172; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">
+															{{ 'reset_password'|trans([], 'emails') }}
 														</a>
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+														{% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
+														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 60px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														If you didn’t request the password reset, please ignore this message or contact our support at
-														<a href="mailto:support_email">support_email</a>.
+														{{ 'if_not_send_request_ignore_or_contact'|trans([], 'emails') }}
+														<a href="mailto:{{ app_contact_email }}">{{ app_contact_email }}</a>.
 													</td>
 												</tr>
 												<tr>
@@ -116,9 +117,9 @@
 												</tr>
 												<tr>
 													<td style="font-size: 14px; line-height: 170%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														Best regards,
+														{{ 'best_regards'|trans([], 'emails') }}
 														<br>
-                                                        <strong>Tech Insiders</strong>
+                                                        <strong>{{ app_name }}</strong>
 													</td>
 												</tr>
 											</tbody>
@@ -129,7 +130,7 @@
 									<td style="padding: 24px 0 48px; font-size: 0px;">
 										<div class="outlook-group-fix" style="padding: 0 0 20px 0; vertical-align: top; display: inline-block; text-align: center; width:100%;">
 											<span style="padding: 0; font-size: 11px; line-height: 15px; font-weight: normal; color: #8B949F;">
-                                                Tech Insiders
+                                                {{ app_name }}
                                             </span>
 										</div>
 									</td>

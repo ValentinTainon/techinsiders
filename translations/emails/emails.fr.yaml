@@ -1,0 +1,18 @@
+# Registration
+welcome.user: 'Bienvenue, %username% !'
+thanks_choosing.app_name: "Merci d’avoir choisi %app_name% !"
+happy_to_see_you: 'Heureux de vous voir à bord.'
+please_confirm_your_email: 'Pour commencer, veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant :'
+confirm_email: 'Confirmer mon Email'
+
+# Reset password
+hello.user: 'Bonjour %username%.'
+forgot_password: 'Mot de passe oublié ?'
+received_password_request_for_your_account: 'Nous avons reçu une demande de réinitialisation de mot de passe pour votre compte :'
+click_button_below: 'Cliquez sur le bouton ci-dessous pour continuer.'
+reset_password: 'Réinitialiser le mot de passe'
+if_not_send_request_ignore_or_contact: "Si vous n'avez pas demandé la réinitialisation du mot de passe, veuillez ignorer ce message ou nous contacter à"
+
+# Common
+link_expire_in.message: 'Ce lien expire dans %expire_message%.'
+best_regards: 'Cordialement,'

@@ -30,10 +30,10 @@ final class PasswordField implements FieldInterface
                     ],
                 ],
                 'first_options' => [
-                    'label' => t('password.label', [], 'admin')
+                    'label' => t('password.label', [], 'forms')
                 ],
                 'second_options' => [
-                    'label' => t('repeat.password.label', [], 'admin')
+                    'label' => t('repeat.password.label', [], 'forms')
                 ]
             ])
             ->onlyOnForms();

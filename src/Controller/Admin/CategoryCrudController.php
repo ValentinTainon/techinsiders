@@ -22,26 +22,26 @@ class CategoryCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityPermission('ROLE_ADMIN')
-            ->setEntityLabelInSingular(t('category.label.singular', [], 'admin'))
-            ->setEntityLabelInPlural(t('category.label.plural', [], 'admin'))
-            ->setPageTitle('new', t('create.category', [], 'admin'))
-            ->setPageTitle('edit', t('edit.category', [], 'admin'))
+            ->setEntityLabelInSingular(t('category.label.singular', [], 'EasyAdminBundle'))
+            ->setEntityLabelInPlural(t('category.label.plural', [], 'EasyAdminBundle'))
+            ->setPageTitle('new', t('create.category', [], 'EasyAdminBundle'))
+            ->setPageTitle('edit', t('edit.category', [], 'EasyAdminBundle'))
             ->setDefaultSort(['name' => 'ASC']);
     }
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('create.category', [], 'admin')))
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('create_and_add.category.label', [], 'admin')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn (Action $action) => $action->setLabel(t('save_and_continue.editing.label', [], 'admin')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('save.label', [], 'admin')));
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('create.category', [], 'EasyAdminBundle')))
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('create_and_add.category.label', [], 'EasyAdminBundle')))
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn (Action $action) => $action->setLabel(t('save.label', [], 'EasyAdminBundle')));
     }
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name', t('name.label', [], 'admin'));
-        yield SlugField::new('slug', t('slug.label', [], 'admin'))
+        yield TextField::new('name', t('name.label', [], 'forms'));
+        yield SlugField::new('slug', t('slug.label', [], 'forms'))
             ->setTargetFieldName('name')
             ->setFormTypeOption('row_attr', ['style' => 'display: none;']);
     }
