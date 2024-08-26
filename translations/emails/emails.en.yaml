@@ -1,14 +1,20 @@
 # Registration
+registration_request.title: 'Registration request'
+confirm_email.title: 'Please Confirm your email'
 welcome.user: 'Welcome, %username%!'
 thanks_choosing.app_name: 'Thanks for choosing %app_name%!'
 happy_to_see_you: 'Happy to see you on board.'
 please_confirm_your_email: 'To get started, please confirm your email address by clicking the following link:'
-confirm_email: 'Confirm my Email'
+confirm_email: 'Confirm my email'
+hello.admin: 'Hello %admin%!'
+username.send_registration_request: '%username% has sent a registration request.'
+go_to.website: 'Go to %app_name%'
 
 # Reset password
+password_reset_request.title: 'Your password reset request'
 hello.user: 'Hello %username%.'
 forgot_password: 'Forgot password?'
-received_password_request_for_your_account: 'We received a password reset request for your account:'
+received_password_request_for_your_account: 'We received a password reset request for your account.'
 click_button_below: 'Click the button below to proceed.'
 reset_password: 'Reset Password'
 if_not_send_request_ignore_or_contact: "If you didn’t request the password reset, please ignore this message or contact us at"

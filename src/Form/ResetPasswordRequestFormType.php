@@ -17,10 +17,10 @@ class ResetPasswordRequestFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => t('email.label', [], 'forms'),
                 'attr' => ['autocomplete' => 'email'],
-                'help' => t('reset.password.request.help.message')
+                'help' => t('reset.password.request.help.message', [], 'forms')
             ])
             ->add('submit', SubmitType::class, [
-                'label' => t('next.label'),
+                'label' => t('next.label', [], 'forms')
             ])
         ;
     }

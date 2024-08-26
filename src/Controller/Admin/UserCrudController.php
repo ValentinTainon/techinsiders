@@ -102,7 +102,7 @@ class UserCrudController extends AbstractCrudController
                 'mapped' => false,
                 'constraints' => [
                     new UserPassword([
-                        'message' => t('check.user.password.constraint.message', [], 'validators'),
+                        'message' => t('check_user_password.constraint.message', [], 'validators'),
                     ])
                 ],
             ])

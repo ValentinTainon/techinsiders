@@ -9,7 +9,6 @@ try.again.label: 'Try again'
 # Words
 
 # Short texts
-link.expire.in: 'This link will expire in'
 ckeditor.wordcount.label: 'Number of words: '
 
 # Long texts

@@ -27,6 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank]
+    #[Assert\NoSuspiciousCharacters]
     private ?string $username = null;
 
     /**
@@ -39,22 +40,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The plain password
      */
     #[Assert\Length(
-        min: 12, 
-        max: 4096, 
-        minMessage: 'password.constraint.length.min_message',
-        maxMessage: 'password.constraint.length.max_message',
-        groups: ['reset_password']
+        min: 12,
+        max: 4096,
+        minMessage: 'field.constraint.length.min_message',
+        maxMessage: 'field.constraint.length.max_message',
+        groups: ['Default', 'reset_password']
     )]
     #[Assert\Regex(
         pattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$£%^&.,;*-+=_:§µù¨ø])/',
         message: 'password.constraint.regex.message',
-        groups: ['reset_password']
+        groups: ['Default', 'reset_password']
     )]
     #[Assert\PasswordStrength(
         minScore: PasswordStrength::STRENGTH_STRONG,
-        groups: ['reset_password']
+        groups: ['Default', 'reset_password']
     )]
-    #[Assert\NotCompromisedPassword(groups: ['reset_password'])]
+    #[Assert\NotCompromisedPassword(groups: ['Default', 'reset_password'])]
+    #[Assert\NoSuspiciousCharacters(groups: ['Default', 'reset_password'])]
     private ?string $plainPassword = null;
 
     /**
@@ -66,12 +68,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
     #[Assert\Email]
+    #[Assert\NoSuspiciousCharacters]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NoSuspiciousCharacters]
     private ?string $avatar = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        max: 500,
+        maxMessage: 'field.constraint.length.max_message',
+    )]
+    #[Assert\NoSuspiciousCharacters]
     private ?string $about = null;
 
     /**

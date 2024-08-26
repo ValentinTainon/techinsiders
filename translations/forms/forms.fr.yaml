@@ -18,6 +18,7 @@ title.label: 'Titre'
 thumbnail.label: 'Miniature'
 content.label: 'Contenu'
 is_visible.label: 'Visible'
+user_motivation.label: 'Vos motivations'
 remember_me.label: 'Se souvenir de moi'
 agree_terms.label: 'Accepter les conditions'
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Validator\Constraints\Length;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -14,6 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\NoSuspiciousCharacters;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
 {
@@ -40,6 +44,22 @@ class RegistrationFormType extends AbstractType
                 'label' => t('repeat.password.label', [], 'forms')
             ],
             'invalid_message' => t('password.constraint.repeat.invalid_message')
+        ])
+        ->add('userMotivation', TextareaType::class, [
+            'label' => t('user_motivation.label', [], 'forms'),
+            'mapped' => false,
+            'constraints' => [
+                new NotBlank([
+                    'message' => t('field.constraint.not_blank.message')
+                ]),
+                new Length([
+                    'min' => 100,
+                    'minMessage' => t('field.constraint.length.min_message'),
+                    'max' => 1000,
+                    'maxMessage' => t('field.constraint.length.max_message')
+                ]),
+                new NoSuspiciousCharacters()
+            ]
         ])
         ->add('agreeTerms', CheckboxType::class, [
             'label' => t('agree_terms.label', [], 'forms'),

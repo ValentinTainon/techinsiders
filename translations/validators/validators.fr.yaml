@@ -1,13 +1,11 @@
-# Entity fields validators
 category.unique.entity.constraint.name.message: 'Il existe déjà une catégorie avec ce nom'
 post.unique.entity.constraint.title.message: 'Il existe déjà un article avec ce titre'
 user.unique.entity.constraint.username.message: "Il existe déjà un compte avec ce nom d'utilisateur"
 user.unique.entity.constraint.email.message: 'Il existe déjà un compte avec cet email'
-password.constraint.length.min_message: 'Le mot de passe doit contenir au moins {{ limit }} caractères.'
-password.constraint.length.max_message: 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.'
+field.constraint.length.min_message: 'Le champ doit contenir au moins {{ limit }} caractères.'
+field.constraint.length.max_message: 'Le champ ne peut pas dépasser {{ limit }} caractères.'
 password.constraint.regex.message: 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.'
-
-# Form fields validators
 password.constraint.repeat.invalid_message: 'Les champs du mot de passe doivent correspondre.'
+check_user_password.constraint.message: 'Votre mot de passe actuel ne correspond pas.'
 agree_terms.constraint.is_true.message: 'Vous devez accepter nos conditions avant de poursuivre.'
-check.user.password.constraint.message: 'Votre mot de passe actuel ne correspond pas.'
+field.constraint.not_blank.message: 'Veuillez ne pas laisser ce champ vide.'

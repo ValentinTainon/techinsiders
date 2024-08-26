@@ -5,7 +5,8 @@
 {% block body %}
     <p>
         {{ 'reset.password.request.send.text'|trans }}
-        {{ 'link.expire.in'|trans }} {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+        {% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
+        {{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
     </p>
     <p>{{ 'reset.password.request.mail.reception.fail.text'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'try.again.label'|trans }}</a>.</p>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
@@ -26,15 +27,18 @@ class Post
     private ?Category $category = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NoSuspiciousCharacters]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NoSuspiciousCharacters]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NoSuspiciousCharacters]
     private ?string $thumbnail = null;
 
     #[ORM\Column]

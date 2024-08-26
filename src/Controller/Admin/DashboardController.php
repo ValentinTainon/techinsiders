@@ -44,7 +44,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             // ->setFaviconPath('favicon.svg')
-            ->setTitle($this->getParameter('app.name'))
+            ->setTitle($this->getParameter('app_name'))
             ->setLocales([
                 'fr' => 'Français', 
                 'en' => 'English'

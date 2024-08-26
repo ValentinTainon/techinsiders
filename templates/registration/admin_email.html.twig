@@ -77,48 +77,28 @@
 											<tbody>
 												<tr>
 													<td style="text-align: center; padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
-														{{ 'hello.user'|trans({'%username%': username}, 'emails') }} {{ 'forgot_password'|trans([], 'emails') }}
+														{{ 'hello.admin'|trans({'%admin%': admin}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														{{ 'received_password_request_for_your_account'|trans([], 'emails') }}
+														{{ 'username.send_registration_request'|trans({'%username%': username}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td style="text-align: center; padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 700; color: #000000; letter-spacing: 0.01em;">
-														{{ 'click_button_below'|trans([], 'emails') }}
+													<td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+														{{ user_motivation }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 24px 0;">
-														<a class="button" title="{{ 'reset_password'|trans([], 'emails') }}" href="{{ url('app_reset_password', {token: resetToken.token}) }}" style="width: 100%; background: #22D172; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">
-															{{ 'reset_password'|trans([], 'emails') }}
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														{% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
-														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 0 0 60px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														{{ 'if_not_send_request_ignore_or_contact'|trans([], 'emails') }}
-														<a href="mailto:{{ app_contact_email }}">{{ app_contact_email }}</a>.
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 0 0 16px;">
-														<span style="display: block; width: 117px; border-bottom: 1px solid #8B949F;"></span>
-													</td>
-												</tr>
-												<tr>
-													<td style="font-size: 14px; line-height: 170%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														{{ 'best_regards'|trans([], 'emails') }}
-														<br>
-                                                        <strong>{{ app_name }}</strong>
+														<a class="button" 
+                                                            href="{{ app_url }}" 
+                                                            title="{{ 'go_to.website'|trans([{'%app_name%': app_name}], 'emails') }}" 
+                                                            style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;"
+                                                        >
+                                                            {{ 'go_to.website'|trans([{'%app_name': app_name}], 'emails') }}
+                                                        </a>
 													</td>
 												</tr>
 											</tbody>

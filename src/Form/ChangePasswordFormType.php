@@ -32,7 +32,7 @@ class ChangePasswordFormType extends AbstractType
                 'invalid_message' => t('password.constraint.repeat.invalid_message')
             ])
             ->add('submit', SubmitType::class, [
-                'label' => t('reset.password.label'),
+                'label' => t('reset.password.label', [], 'forms'),
             ])
         ;
     }

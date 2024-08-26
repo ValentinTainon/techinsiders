@@ -18,6 +18,7 @@ title.label: 'Title'
 thumbnail.label: 'Thumbnail'
 content.label: 'Content'
 is_visible.label: 'Visible'
+user_motivation.label: 'Your motivation'
 remember_me.label: 'Remember me'
 agree_terms.label: 'Agree terms'
 
