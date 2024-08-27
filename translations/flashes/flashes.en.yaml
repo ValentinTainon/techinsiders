@@ -1,0 +1,4 @@
+access_denied.user_has_not_permission_and_email_not_verified: 'You do not have permission and you must validate your email to access this page.'
+access_denied.user_has_not_permission: 'You do not have permission to access this page.'
+access_denied.user_has_email_not_verified: 'You must validate your email to access this page.'
+access_denied.user_have_to_login: 'You have to login in order to access this page.'

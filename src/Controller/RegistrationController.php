@@ -3,16 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use App\Form\RegistrationFormType;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -38,7 +39,7 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address($user->getEmail(), $user->getUsername()))
                     ->to(new Address($this->getParameter('app_contact_email'), $this->getParameter('app_name')))
-                    ->subject('registration_request.title')
+                    ->subject(t('registration_request.title'))
                     ->htmlTemplate('registration/admin_email.html.twig')
                     ->context([
                         'username' => $user->getUsername(),
@@ -50,7 +51,7 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->to(new Address($user->getEmail(), $user->getUsername()))
-                    ->subject('confirm_email.title')
+                    ->subject(t('confirm_email.title'))
                     ->htmlTemplate('registration/confirmation_email.html.twig')
                     ->context([
                         'username' => $user->getUsername()

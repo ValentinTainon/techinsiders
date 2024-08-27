@@ -8,6 +8,7 @@ use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -160,7 +161,7 @@ class ResetPasswordController extends AbstractController
 
         $email = (new TemplatedEmail())
             ->to(new Address($user->getEmail(), $user->getUsername()))
-            ->subject('passsword_reset_request.title')
+            ->subject(t('passsword_reset_request.title'))
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'username' => $user->getUsername(),
