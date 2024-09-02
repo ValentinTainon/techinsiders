@@ -9,7 +9,6 @@ try.again.label: 'Try again'
 # Words
 
 # Short texts
-ckeditor.wordcount.label: 'Number of words: '
 
 # Long texts
 reset.password.request.send.text: 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.'

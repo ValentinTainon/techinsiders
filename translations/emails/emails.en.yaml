@@ -7,7 +7,7 @@ happy_to_see_you: 'Happy to see you on board.'
 please_confirm_your_email: 'To get started, please confirm your email address by clicking the following link:'
 confirm_email: 'Confirm my email'
 hello.admin: 'Hello %admin%!'
-username.send_registration_request: '%username% has sent a registration request.'
+username.send_registration_request: '%username% has sent a registration request:'
 go_to.website: 'Go to %app_name%'
 
 # Reset password

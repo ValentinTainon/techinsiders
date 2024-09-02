@@ -9,7 +9,7 @@ try.again.label: 'Essayer à nouveau'
 # Words
 
 # Short texts
-ckeditor.wordcount.label: 'Nombre de mots : '
+
 
 # Long texts
 reset.password.request.send.text: "Si un compte correspondant à votre e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe."

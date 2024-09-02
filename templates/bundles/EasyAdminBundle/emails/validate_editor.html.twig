@@ -77,17 +77,12 @@
 											<tbody>
 												<tr>
 													<td style="text-align: center; padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
-														{# {{ 'hello.admin'|trans({'%admin%': admin}, 'emails') }} #}
+														{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														{{ 'username.send_registration_request'|trans({'%username%': username}, 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-														{{ user_motivation }}
+														{{ ''|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
@@ -99,6 +94,13 @@
                                                         >
                                                             {{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
                                                         </a>
+													</td>
+												</tr>
+												<tr>
+													<td style="font-size: 14px; line-height: 170%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+														{{ 'best_regards'|trans([], 'emails') }}
+														<br>
+                                                        <strong>{{ app_name }}</strong>
 													</td>
 												</tr>
 											</tbody>

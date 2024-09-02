@@ -3,8 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use Symfony\Component\Mime\Address;
 use App\Form\Admin\Field\PasswordField;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use function Symfony\Component\Translation\t;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -14,7 +19,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
@@ -37,12 +45,19 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $validateUser = Action::new('validateUser', 'Valider un rédacteur')
+                ->linkToCrudAction('validateEditor')
+                ->setCssClass('btn btn-success');
+        }
+
         $expression = new Expression(
-            'is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'
+            'is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and is_granted("ROLE_EDITOR"))'
         );
 
         return $actions
             ->remove(Crud::PAGE_DETAIL, Action::INDEX)
+            ->add(Crud::PAGE_EDIT, $validateUser)
             ->setPermissions([
                 Action::INDEX => 'ROLE_SUPER_ADMIN',
                 Action::NEW => 'ROLE_SUPER_ADMIN',
@@ -67,7 +82,7 @@ class UserCrudController extends AbstractCrudController
                 'Editor' => 'ROLE_EDITOR',
             ])
             ->allowMultipleChoices(true)
-            ->setRequired(true)
+            ->setDisabled()
             ->setPermission('ROLE_SUPER_ADMIN');
 
         yield EmailField::new('email', t('email.label', [], 'forms'));
@@ -109,5 +124,44 @@ class UserCrudController extends AbstractCrudController
             ->setHelp(t('check.user.password.help.message', [], 'forms'))
             ->onlyWhenUpdating()
             ->setRequired(true);
+    }
+
+    public function validateEditor(AdminContext $context, RoleHierarchyInterface $roleHierarchy, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    {
+        $user = $context->getEntity()->getInstance();
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        $crudUrl = $adminUrlGenerator->setController(self::class)->setAction('edit')->generateUrl();
+
+        if (!$user) {
+            $this->addFlash('danger', 'Utilisateur introuvable.');
+
+            return $this->redirect($crudUrl);
+        }
+
+        $userRoles = $roleHierarchy->getReachableRoleNames($user->getRoles());
+
+        if (!in_array('ROLE_EDITOR', $userRoles)) {
+
+            $user->setRoles(['ROLE_EDITOR']);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $mailer->send(
+                (new TemplatedEmail())
+                    ->to(new Address($user->getEmail(), $user->getUsername()))
+                    ->subject(t('registration_request.title', [], 'emails'))
+                    ->htmlTemplate('registration/admin_email.html.twig')
+                    ->context([
+                        'username' => $user->getUsername()
+                    ])
+            );
+            
+            $this->addFlash('success', 'L\'utilisateur a été validé et l\'email a été envoyé.');
+        } else {
+            $this->addFlash('info', 'Cet utilisateur est déjà un éditeur.');
+        }
+        
+        return $this->redirect($crudUrl);
     }
 }

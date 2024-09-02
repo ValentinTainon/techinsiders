@@ -7,7 +7,7 @@ happy_to_see_you: 'Heureux de vous voir à bord.'
 please_confirm_your_email: 'Pour commencer, veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant :'
 confirm_email: 'Confirmer mon email'
 hello.admin: 'Bonjour %admin% !'
-username.send_registration_request: '%username% a envoyé une demande d’inscription.'
+username.send_registration_request: '%username% a envoyé une demande d’inscription :'
 go_to.website: 'Aller sur %app_name%'
 
 # Reset password

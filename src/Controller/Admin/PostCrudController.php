@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -41,14 +42,14 @@ class PostCrudController extends AbstractCrudController
             ->setEntityLabelInPlural(t('post.label.plural', [], 'EasyAdminBundle'))
             ->setPageTitle('new', t('create.post', [], 'EasyAdminBundle'))
             ->setPageTitle('edit', t('edit.post', [], 'EasyAdminBundle'))
-            ->addFormTheme('bundles/EasyAdminBundle/crud/field/ckeditor_init.html.twig')
+            ->addFormTheme('bundles/EasyAdminBundle/crud/field/ckeditor.html.twig')
             ->setDefaultSort(['createdAt' => 'DESC']);
     }
 
     public function configureActions(Actions $actions): Actions
     {
         $expression = new Expression(
-            'is_granted("ROLE_SUPER_ADMIN") or (subject.getUser() === user and (is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")))'
+            'is_granted("ROLE_SUPER_ADMIN") or (subject.getUser() === user and is_granted("ROLE_EDITOR"))'
         );
         
         return $actions
@@ -76,7 +77,7 @@ class PostCrudController extends AbstractCrudController
             ->setDisabled()
             ->setRequired(false);
 
-        if ($this->isUpdatedAtDefine()) {
+        if ($this->isUpdatedAtDefine($this->getContext())) {
             yield DateTimeField::new('updatedAt', t('updated_at.label', [], 'forms'))
                 ->hideWhenCreating()
                 ->setDisabled()
@@ -97,7 +98,7 @@ class PostCrudController extends AbstractCrudController
             ->setFormTypeOption('allow_delete', false)
             ->setHelp(t('image.field.help.message', [], 'forms'));
 
-        if ($pageName === Crud::PAGE_EDIT && $this->isThumbnailDefine()) {
+        if ($pageName === Crud::PAGE_EDIT && $this->isThumbnailDefine($this->getContext())) {
             $postThumbnailField->setRequired(false);
         }
 
@@ -139,9 +140,9 @@ class PostCrudController extends AbstractCrudController
         return $queryBuilder;
     }
 
-    public function isThumbnailDefine(): bool
+    public function isThumbnailDefine(AdminContext $context): bool
     {
-        $post = $this->getContext()->getEntity()->getInstance();
+        $post = $context->getEntity()->getInstance();
         
         if (!$post || !$post->getThumbnail()) {
             return false;
@@ -150,9 +151,9 @@ class PostCrudController extends AbstractCrudController
         return true;
     }
 
-    public function isUpdatedAtDefine(): bool
+    public function isUpdatedAtDefine(AdminContext $context): bool
     {
-        $post = $this->getContext()->getEntity()->getInstance();
+        $post = $context->getEntity()->getInstance();
         
         if (!$post || !$post->getUpdatedAt()) {
             return false;
