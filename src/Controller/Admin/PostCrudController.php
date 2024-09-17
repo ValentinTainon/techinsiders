@@ -3,9 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Mime\Address;
 use App\Form\Admin\Field\CkeditorField;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -30,6 +34,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class PostCrudController extends AbstractCrudController
 {
+    public function __construct(private MailerInterface $mailer)
+    {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Post::class;
@@ -106,14 +114,9 @@ class PostCrudController extends AbstractCrudController
 
         yield CkeditorField::new('content', t('content.label', [], 'forms'));
 
-        $isVisible = BooleanField::new('isVisible', t('is_visible.label', [], 'forms'))
+        yield BooleanField::new('isVisible', t('is_visible.label', [], 'forms'))
+            ->renderAsSwitch(false)
             ->setPermission('ROLE_ADMIN');
-
-        if ($pageName === Crud::PAGE_INDEX) {
-            $isVisible->renderAsSwitch(false);
-        };
-
-        yield $isVisible;
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -121,6 +124,7 @@ class PostCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_ADMIN')) {
             $filters->add(EntityFilter::new('user'));
         }
+
         $filters->add(EntityFilter::new('category'))
                 ->add(DateTimeFilter::new('createdAt'))
                 ->add(BooleanFilter::new('isVisible'));
@@ -165,12 +169,25 @@ class PostCrudController extends AbstractCrudController
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if ($entityInstance instanceof Post) {
+            /** @var User $user */
+            $user = $this->getUser();
+
             $entityInstance
-                ->setUser($this->getUser())
+                ->setUser($user)
                 ->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
             
             if (!$this->isGranted('ROLE_ADMIN')) {
                 $entityInstance->setIsVisible(false);
+
+                $this->mailer->send(
+                    (new TemplatedEmail())
+                        ->to(new Address($user->getEmail(), $user->getUsername()))
+                        ->subject(t('new_post_validation_request.subject', [], 'emails'))
+                        ->htmlTemplate('bundles/EasyAdminBundle/emails/new_post_validation_request.html.twig')
+                        ->context([
+                            'username' => $user->getUsername()
+                        ])
+                );
             }
         }
         

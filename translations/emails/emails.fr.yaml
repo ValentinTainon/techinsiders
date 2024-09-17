@@ -1,6 +1,6 @@
 # Registration
-registration_request.title: "Demande d’inscription"
-confirm_email.title: 'Veuillez confirmer votre email'
+registration_request.subject: "Demande d’inscription"
+confirm_email.subject: 'Veuillez confirmer votre email'
 welcome.user: 'Bienvenue, %username% !'
 thanks_choosing.app_name: "Merci d’avoir choisi %app_name% !"
 happy_to_see_you: 'Heureux de vous voir à bord.'
@@ -12,7 +12,6 @@ go_to.website: 'Aller sur %app_name%'
 
 # Reset password
 password_reset_request.title: 'Votre demande de réinitialisation de mot de passe'
-hello.user: 'Bonjour %username%.'
 forgot_password: 'Mot de passe oublié ?'
 received_password_request_for_your_account: 'Nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.'
 click_button_below: 'Cliquez sur le bouton ci-dessous pour continuer.'
@@ -20,5 +19,19 @@ reset_password: 'Réinitialiser le mot de passe'
 if_not_send_request_ignore_or_contact: "Si vous n'avez pas demandé la réinitialisation du mot de passe, veuillez ignorer ce message ou nous contacter à"
 
 # Common
+hello.user: 'Bonjour %username%.'
 link_expire_in.message: 'Ce lien expire dans %expire_message%.'
 best_regards: 'Cordialement,'
+team: "L’équipe %app_name%"
+
+# New Editor accepted
+editor_accepted_announcement: 'Nous avons le plaisir de vous annoncer que votre demande pour devenir rédacteur sur %app_name% a été acceptée ! 🥳'
+access_your_space_and_share_your_passion: 'Vous pouvez désormais accéder à votre espace rédacteur et commencer à partager votre passion avec notre communauté. Nous sommes ravis de vous compter parmi nous et avons hâte de découvrir vos articles.'
+next_steps: 'Voici les prochaines étapes :'
+step_1: '1. Connectez-vous à votre compte via le lien suivant :'
+step_2: '2. Accédez à votre espace rédacteur pour commencer à écrire.'
+step_3: '3. Lorsque vous aurez rédigé un article, soumettez-le pour validation. Une fois approuvé, il sera publié sur le site.'
+consult_our_editor_guide: "N'hésitez pas à consulter notre %app_editor_guide_link% pour vous familiariser avec nos attentes et le processus de publication."
+editor_guide: 'guide du rédacteur'
+if_need_help: 'Nous restons à votre disposition si vous avez des questions ou besoin d’aide.'
+welcome_on_board: 'Bienvenue dans l’équipe et bonne rédaction !'

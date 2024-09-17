@@ -21,7 +21,7 @@ class CategoryCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityPermission('ROLE_ADMIN')
+            ->setEntityPermission('ROLE_SUPER_ADMIN')
             ->setEntityLabelInSingular(t('category.label.singular', [], 'EasyAdminBundle'))
             ->setEntityLabelInPlural(t('category.label.plural', [], 'EasyAdminBundle'))
             ->setPageTitle('new', t('create.category', [], 'EasyAdminBundle'))

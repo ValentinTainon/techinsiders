@@ -76,7 +76,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::section(t('blog.label', [], 'EasyAdminBundle'));
         yield MenuItem::linkToCrud(t('category.label.plural', [], 'EasyAdminBundle'), 'fas fa-list', Category::class)
-            ->setPermission('ROLE_ADMIN');
+            ->setPermission('ROLE_SUPER_ADMIN');
         yield MenuItem::linkToCrud(t('post.label.plural', [], 'EasyAdminBundle'), 'fas fa-newspaper', Post::class);
         
         yield MenuItem::section(t('community.label', [], 'EasyAdminBundle'))

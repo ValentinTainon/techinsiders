@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address($user->getEmail(), $user->getUsername()))
                     ->to(new Address($this->getParameter('app_contact_email'), $this->getParameter('app_name')))
-                    ->subject(t('registration_request.title', [], 'emails'))
+                    ->subject(t('registration_request.subject', [], 'emails'))
                     ->htmlTemplate('registration/admin_email.html.twig')
                     ->context([
                         'username' => $user->getUsername(),
@@ -53,11 +53,16 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->to(new Address($user->getEmail(), $user->getUsername()))
-                    ->subject(t('confirm_email.title', [], 'emails'))
+                    ->subject(t('confirm_email.subject', [], 'emails'))
                     ->htmlTemplate('registration/confirmation_email.html.twig')
                     ->context([
                         'username' => $user->getUsername()
                     ])
+            );
+
+            $this->addFlash(
+                'success', 
+                'Afin de completer votre demande inscription, merci de valider votre adresse email en cliquant sur le lien qui vous a été envoyé.'
             );
 
             return $this->redirectToRoute('app_home');
@@ -92,7 +97,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'Your email address has been verified. Votre demande d\'inscription est en cours de traitement.');
 
         return $this->redirectToRoute('app_home');
     }

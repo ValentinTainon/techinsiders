@@ -1,6 +1,6 @@
 # Registration
-registration_request.title: 'Registration request'
-confirm_email.title: 'Please Confirm your email'
+registration_request.subject: 'Registration request'
+confirm_email.subject: 'Please Confirm your email'
 welcome.user: 'Welcome, %username%!'
 thanks_choosing.app_name: 'Thanks for choosing %app_name%!'
 happy_to_see_you: 'Happy to see you on board.'
@@ -12,7 +12,6 @@ go_to.website: 'Go to %app_name%'
 
 # Reset password
 password_reset_request.title: 'Your password reset request'
-hello.user: 'Hello %username%.'
 forgot_password: 'Forgot password?'
 received_password_request_for_your_account: 'We received a password reset request for your account.'
 click_button_below: 'Click the button below to proceed.'
@@ -20,5 +19,19 @@ reset_password: 'Reset Password'
 if_not_send_request_ignore_or_contact: "If you didn’t request the password reset, please ignore this message or contact us at"
 
 # Common
+hello.user: 'Hello %username%.'
 link_expire_in.message: 'This link will expire in %expire_message%.'
 best_regards: 'Best regards,'
+team: "The %app_name% team"
+
+# New Editor accepted
+editor_accepted_announcement: 'We are pleased to announce that your application to become an editor on %app_name% has been accepted! 🥳'
+access_your_space_and_share_your_passion: 'You can now access your editor space and start sharing your passion with our community. We are delighted to have you among us and look forward to discovering your posts.'
+next_steps: 'Here are the next steps:'
+step_1: '1. Log in to your account via the following link:'
+step_2: "2. Go to your editor's area to start writing."
+step_3: '3. Once you have written a post, submit it for validation. Once approved, it will be published on the site.'
+consult_our_editor_guide: 'Please feel free to check out our %app_editor_guide_link% to familiarize yourself with our expectations and the publishing process.'
+editor_guide: "editor's guide"
+if_need_help: 'We remain at your disposal if you have any questions or need assistance.'
+welcome_on_board: 'Welcome to the team and happy writing!'

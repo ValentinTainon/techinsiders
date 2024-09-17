@@ -18,6 +18,7 @@ use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -47,7 +48,7 @@ class UserCrudController extends AbstractCrudController
     {
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
             $validateUser = Action::new('validateUser', 'Valider un rédacteur')
-                ->linkToCrudAction('validateEditor')
+                ->linkToCrudAction('assignEditorRole')
                 ->setCssClass('btn btn-success');
         }
 
@@ -82,6 +83,7 @@ class UserCrudController extends AbstractCrudController
                 'Editor' => 'ROLE_EDITOR',
             ])
             ->allowMultipleChoices(true)
+            ->hideWhenCreating()
             ->setDisabled()
             ->setPermission('ROLE_SUPER_ADMIN');
 
@@ -111,6 +113,12 @@ class UserCrudController extends AbstractCrudController
 
         yield TextareaField::new('about', t('about.label', [], 'forms'));
 
+        yield BooleanField::new('isVerified', t('is_verified.label', [], 'forms'))
+            ->renderAsSwitch(false)
+            ->setDisabled()
+            ->hideWhenCreating()
+            ->setPermission('ROLE_SUPER_ADMIN');
+
         yield TextField::new('userPassword', t('password.label', [], 'forms'))
             ->setFormType(PasswordType::class)
             ->setFormTypeOptions([
@@ -126,7 +134,7 @@ class UserCrudController extends AbstractCrudController
             ->setRequired(true);
     }
 
-    public function validateEditor(AdminContext $context, RoleHierarchyInterface $roleHierarchy, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function assignEditorRole(AdminContext $context, RoleHierarchyInterface $roleHierarchy, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $user = $context->getEntity()->getInstance();
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
@@ -143,15 +151,14 @@ class UserCrudController extends AbstractCrudController
         if (!in_array('ROLE_EDITOR', $userRoles)) {
 
             $user->setRoles(['ROLE_EDITOR']);
-
             $entityManager->persist($user);
             $entityManager->flush();
 
             $mailer->send(
                 (new TemplatedEmail())
                     ->to(new Address($user->getEmail(), $user->getUsername()))
-                    ->subject(t('registration_request.title', [], 'emails'))
-                    ->htmlTemplate('registration/admin_email.html.twig')
+                    ->subject(t('new_editor_request_validate.subject', [], 'emails'))
+                    ->htmlTemplate('bundles/EasyAdminBundle/emails/new_editor_request_validate.html.twig')
                     ->context([
                         'username' => $user->getUsername()
                     ])
