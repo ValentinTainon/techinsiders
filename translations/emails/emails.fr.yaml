@@ -25,6 +25,7 @@ best_regards: 'Cordialement,'
 team: "L’équipe %app_name%"
 
 # New Editor accepted
+new_editor_request_validate.subject: "Votre demande d'adhésion au programme de rédaction a été acceptée !"
 editor_accepted_announcement: 'Nous avons le plaisir de vous annoncer que votre demande pour devenir rédacteur sur %app_name% a été acceptée ! 🥳'
 access_your_space_and_share_your_passion: 'Vous pouvez désormais accéder à votre espace rédacteur et commencer à partager votre passion avec notre communauté. Nous sommes ravis de vous compter parmi nous et avons hâte de découvrir vos articles.'
 next_steps: 'Voici les prochaines étapes :'

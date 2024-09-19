@@ -58,63 +58,63 @@
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" type="text/css">
 		<!--<![endif]-->
 		<style type="text/css">
-			.header-row {
-				padding: 0 0 24px 0; 
+			.header {
 				font-size: 14px; 
-				line-height: 150%; 
-				font-weight: 400; 
-				color: #000000; 
-				letter-spacing: 0.01em;
-				text-align: center;
-			}
-			.md-row {
-				padding: 0 0 10px 0; 
-				font-size: 14px; 
-				line-height: 150%; 
-				font-weight: 400; 
-				color: #000000; 
-				letter-spacing: 0.01em;
-			}
-			.endbodyrow-row {
-				font-size: 14px; 
-				line-height: 170%; 
-				font-weight: 400; 
-				color: #000000; 
-				letter-spacing: 0.01em;
-			}
-			.footer-row {
-				padding: 24px 0 48px; 
-				font-size: 0px;
-			}
-			.footer-row > div {
-				padding: 0 0 20px 0; 
-				vertical-align: top; 
-				display: inline-block; 
+				color: #4C83EE;
 				text-align: center; 
-				width:100%;
+				padding: 48px 0 30px 0; 
 			}
-			.footer-row span {
-				padding: 0; 
+			.row {
+				font-size: 14px; 
+				font-weight: 400; 
+				color: #000000; 
+				line-height: 150%; 
+				letter-spacing: 0.01em;
+				padding: 10px 0; 
+			}
+			.first {
+				font-size: 16px; 
+				padding: 0 0 24px 0; 
+			}
+			.last {
+				font-size: 14px; 
+				line-height: 170%;
+				padding: 14px 0 0 0;
+			}
+			.footer {
+				font-size: 0px;
+				padding: 24px 0 48px; 
+			}
+			.footer > div {
+				width:100%;
+				display: inline-block; 
+				vertical-align: top; 
+				text-align: center; 
+				padding: 0 0 20px 0; 
+			}
+			.footer span {
 				font-size: 11px; 
-				line-height: 15px; 
 				font-weight: normal; 
 				color: #8B949F;
-			}
-			.button {
-				width: 100%; 
-				background: #4C83EE; 
-				text-decoration: none; 
-				display: inline-block; 
-				padding: 10px 0; 
-				color: #fff; 
-				font-size: 14px; 
-				line-height: 21px; 
-				text-align: center; 
-				font-weight: bold; 
-				border-radius: 7px;
+				line-height: 15px; 
+				padding: 0; 
 			}
 			a {
 				color: #7799e5;
+			}
+			.button {
+				width: 75%;
+				font-size: 14px; 
+				font-weight: bold; 
+				color: #fff; 
+				background: #4C83EE; 
+				text-decoration: none; 
+				display: inline-block; 
+				line-height: 21px; 
+				text-align: center; 
+				border-radius: 7px;
+				padding: 10px 0 10px 0; 
+				margin: 10px 0;
 			}
 		</style>
 	</head>
@@ -127,7 +127,7 @@
 						<table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
 							<tbody>
 								<tr>
-									<td style="padding:48px 0 30px 0; text-align: center; font-size: 14px; color: #4C83EE;">
+									<td class="header">
 										{{ app_name }}
 									</td>
 								</tr>
@@ -136,32 +136,32 @@
 										<table width="100%" cellspacing="0" cellpadding="0" border="0">
 											<tbody>
 												<tr>
-													<td class="header-row">
+													<td class="row first">
 														{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="md-row">
+													<td class="row">
 														{{ 'editor_accepted_announcement'|trans({'%app_name%': app_name}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="md-row">
+													<td class="row">
 														{{ 'access_your_space_and_share_your_passion'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="md-row">
+													<td class="row">
 														{{ 'next_steps'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="md-row">
+													<td class="row">
 														{{ 'step_1'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="padding: 0 0 24px 0;">
+													<td class="padding: 0 0 24px 0; text-align: center;">
 														<a class="button" 
                                                             href="{{ app_base_url ~ '/login' }}" 
                                                             title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}"
@@ -171,33 +171,33 @@
 													</td>
 												</tr>
 												<tr>
-													<td style="md-row">
+													<td class="row">
 														{{ 'step_2'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td style="md-row">
+													<td class="row">
 														{{ 'step_3'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="md-row">
+													<td class="row">
 														{% set editor_guide_link = 'href="' ~ app_base_url ~ '/editor-guide" title="' ~ 'editor_guide'|trans([], 'emails') ~ '">' ~ 'editor_guide'|trans([], 'emails') ~ '</a>' %}
 														{{ 'consult_our_editor_guide'|trans({'%app_editor_guide_link%': editor_guide_link}, 'emails')|raw }}
 													</td>
 												</tr>
 												<tr>
-													<td class="md-row">
+													<td class="row">
 														{{ 'if_need_help'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="md-row">
+													<td class="row">
 														{{ 'welcome_on_board'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
-													<td class="footer-row">
+													<td class="row last">
 														{{ 'best_regards'|trans([], 'emails') }}
 														<br>
                                                         <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
@@ -208,7 +208,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="footer-row">
+									<td class="footer">
 										<div class="outlook-group-fix">
 											<span>
                                                 {{ app_name }}

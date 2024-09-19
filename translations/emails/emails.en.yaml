@@ -22,9 +22,10 @@ if_not_send_request_ignore_or_contact: "If you didn’t request the password res
 hello.user: 'Hello %username%.'
 link_expire_in.message: 'This link will expire in %expire_message%.'
 best_regards: 'Best regards,'
-team: "The %app_name% team"
+team: 'The %app_name% team'
 
 # New Editor accepted
+new_editor_request_validate.subject: 'Your application to join the editorial program has been accepted!'
 editor_accepted_announcement: 'We are pleased to announce that your application to become an editor on %app_name% has been accepted! 🥳'
 access_your_space_and_share_your_passion: 'You can now access your editor space and start sharing your passion with our community. We are delighted to have you among us and look forward to discovering your posts.'
 next_steps: 'Here are the next steps:'

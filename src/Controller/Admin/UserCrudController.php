@@ -41,7 +41,7 @@ class UserCrudController extends AbstractCrudController
             ->setEntityLabelInPlural(t('user.label.plural', [], 'EasyAdminBundle'))
             ->setPageTitle('new', t('create.user', [], 'EasyAdminBundle'))
             ->setPageTitle('edit', t('edit.user', [], 'EasyAdminBundle'))
-            ->setDefaultSort(['username' => 'ASC']);
+            ->setDefaultSort(['id' => 'ASC']);
     }
 
     public function configureActions(Actions $actions): Actions
@@ -74,6 +74,12 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        yield BooleanField::new('isVerified', t('is_verified.label', [], 'forms'))
+            ->renderAsSwitch(false)
+            ->setDisabled()
+            ->hideWhenCreating()
+            ->setPermission('ROLE_SUPER_ADMIN');
+        
         yield TextField::new('username', t('username.label', [], 'forms'));
 
         yield ChoiceField::new('roles', t('roles.label', [], 'forms'))
@@ -112,12 +118,6 @@ class UserCrudController extends AbstractCrudController
             ->setHelp(t('image.field.help.message', [], 'forms'));
 
         yield TextareaField::new('about', t('about.label', [], 'forms'));
-
-        yield BooleanField::new('isVerified', t('is_verified.label', [], 'forms'))
-            ->renderAsSwitch(false)
-            ->setDisabled()
-            ->hideWhenCreating()
-            ->setPermission('ROLE_SUPER_ADMIN');
 
         yield TextField::new('userPassword', t('password.label', [], 'forms'))
             ->setFormType(PasswordType::class)
