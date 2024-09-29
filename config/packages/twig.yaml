@@ -4,6 +4,8 @@ twig:
         app_name: '%env(APP_NAME)%'
         app_base_url: '%env(APP_BASE_URL)%'
         app_contact_email: '%env(APP_CONTACT_EMAIL)%'
+    paths:
+        '%kernel.project_dir%/assets/styles': styles
 
 when@test:
     twig:

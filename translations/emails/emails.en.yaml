@@ -1,3 +1,9 @@
+# Common
+hello.user: 'Hello %username%,'
+link_expire_in.message: 'This link will expire in %expire_message%.'
+best_regards: 'Best regards,'
+team: 'The %app_name% team'
+
 # Registration
 registration_request.subject: 'Registration request'
 confirm_email.subject: 'Please Confirm your email'
@@ -7,27 +13,24 @@ happy_to_see_you: 'Happy to see you on board.'
 please_confirm_your_email: 'To get started, please confirm your email address by clicking the following link:'
 confirm_email: 'Confirm my email'
 hello.admin: 'Hello %admin%!'
-username.send_registration_request: '%username% has sent a registration request:'
+user.send_registration_request: '%username% has sent a registration request:'
 go_to.website: 'Go to %app_name%'
 
 # Reset password
-password_reset_request.title: 'Your password reset request'
-forgot_password: 'Forgot password?'
+password_reset_request.subject: 'Your password reset request'
 received_password_request_for_your_account: 'We received a password reset request for your account.'
-click_button_below: 'Click the button below to proceed.'
+click_button_below: 'Click the button below to proceed:'
 reset_password: 'Reset Password'
-if_not_send_request_ignore_or_contact: "If you didn’t request the password reset, please ignore this message or contact us at"
+if_not_send_request_ignore_or_contact: "If you didn’t request the password reset, please ignore this message or contact us at %app_contact_link%."
 
-# Common
-hello.user: 'Hello %username%.'
-link_expire_in.message: 'This link will expire in %expire_message%.'
-best_regards: 'Best regards,'
-team: 'The %app_name% team'
+# New Post validation request
+new_post_validation_request.subject: 'New post awaiting validation'
+user.send_post_validation_request: '%username% has sent a validation request for the following post:<br><b>%post_title%</b>'
 
-# New Editor accepted
-new_editor_request_validate.subject: 'Your application to join the editorial program has been accepted!'
-editor_accepted_announcement: 'We are pleased to announce that your application to become an editor on %app_name% has been accepted! 🥳'
-access_your_space_and_share_your_passion: 'You can now access your editor space and start sharing your passion with our community. We are delighted to have you among us and look forward to discovering your posts.'
+# Editor membership request accepted
+assigned_to_editor_group.subject: 'Your request to join as an editor has been accepted'
+editor_accepted_announcement: 'We are pleased to announce that your request to become an editor on %app_name% has been accepted! 🥳'
+access_your_space_and_share_your_passion: "We're delighted to have you on board, and now you can access your editor's area and start sharing your passion with the community."
 next_steps: 'Here are the next steps:'
 step_1: '1. Log in to your account via the following link:'
 step_2: "2. Go to your editor's area to start writing."
@@ -36,3 +39,25 @@ consult_our_editor_guide: 'Please feel free to check out our %app_editor_guide_l
 editor_guide: "editor's guide"
 if_need_help: 'We remain at your disposal if you have any questions or need assistance.'
 welcome_on_board: 'Welcome to the team and happy writing!'
+
+# Remove from Editor group
+update_on_your_status.subject: 'Update on your status'
+no_longer_editor_announcement: 'We inform you that as of today, you are no longer an editor at %app_name%.'
+thank_for_your_contribution_and_wish_you_all_the_best: 'We would like to thank you for your contribution and wish you all the best for the future.'
+if_you_have_any_questions: 'If you have any questions or require clarification, please do not hesitate to contact us.'
+
+# Promote to Admin
+promoted_to_admin.subject: 'Congratulations, you have been promoted to Administrator'
+promoted_to_admin_announcement: 'We are pleased to inform you that you have been promoted to the rank of administrator within %app_name%.'
+your_advantages_as_admin: 'As an administrator, you will now have access to advanced site features, including user management, content moderation, and much more.'
+we_trust_your_ability_to_contribute_even_more: 'We trust in your ability to further contribute to the success of our platform.'
+feel_free_to_contact_us: 'Feel free to contact us if you have any questions about your new responsibilities.'
+thank_for_your_dedication: 'Thank you for your dedication to the community.'
+
+# Reassign to Editor group
+reassigned_to_editor_group.subject: 'Update on your status'
+no_longer_admin_but_still_editor_announcement: 'We inform you that your role within %app_name% has been revised, you are no longer an administrator but you are still an editor.'
+you_will_continue_to_contribute: 'As an editor, you can continue to contribute to the creation of quality content on our platform.'
+your_expertise_and_dedication_remain_vital: 'While you no longer have access to the administrator functions, your expertise and dedication remain vital to the success of %app_name%.'
+if_you_have_any_questions_regarding_this_change: 'If you have any questions regarding this change, please feel free to contact us.'
+thank_for_your_understanding: 'Thank you for your understanding and for your continued contribution.'

@@ -1,6 +1,6 @@
 # Fields label
 username.label: "Nom d’utilisateur"
-roles.label: 'Rôles'
+roles.label: 'Rôle'
 email.label: 'Email'
 avatar.label: 'Avatar'
 about.label: 'À propos de vous'

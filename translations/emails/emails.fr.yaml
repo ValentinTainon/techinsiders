@@ -1,3 +1,9 @@
+# Common
+hello.user: 'Bonjour %username%,'
+link_expire_in.message: 'Ce lien expire dans %expire_message%.'
+best_regards: 'Cordialement,'
+team: "L’équipe %app_name%"
+
 # Registration
 registration_request.subject: "Demande d’inscription"
 confirm_email.subject: 'Veuillez confirmer votre email'
@@ -7,27 +13,24 @@ happy_to_see_you: 'Heureux de vous voir à bord.'
 please_confirm_your_email: 'Pour commencer, veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant :'
 confirm_email: 'Confirmer mon email'
 hello.admin: 'Bonjour %admin% !'
-username.send_registration_request: '%username% a envoyé une demande d’inscription :'
+user.send_registration_request: '%username% a envoyé une demande d’inscription :'
 go_to.website: 'Aller sur %app_name%'
 
 # Reset password
-password_reset_request.title: 'Votre demande de réinitialisation de mot de passe'
-forgot_password: 'Mot de passe oublié ?'
+password_reset_request.subject: 'Votre demande de réinitialisation de mot de passe'
 received_password_request_for_your_account: 'Nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.'
-click_button_below: 'Cliquez sur le bouton ci-dessous pour continuer.'
+click_button_below: 'Cliquez sur le bouton ci-dessous pour continuer :'
 reset_password: 'Réinitialiser le mot de passe'
-if_not_send_request_ignore_or_contact: "Si vous n'avez pas demandé la réinitialisation du mot de passe, veuillez ignorer ce message ou nous contacter à"
+if_not_send_request_ignore_or_contact: "Si vous n'avez pas demandé la réinitialisation du mot de passe, veuillez ignorer ce message ou nous contacter à %app_contact_link%."
 
-# Common
-hello.user: 'Bonjour %username%.'
-link_expire_in.message: 'Ce lien expire dans %expire_message%.'
-best_regards: 'Cordialement,'
-team: "L’équipe %app_name%"
+# New Post validation request
+new_post_validation_request.subject: 'Nouvel article en attente de validation'
+user.send_post_validation_request: "%username% a envoyé une demande de validation pour l'article suivant :<br><b>%post_title%</b>"
 
-# New Editor accepted
-new_editor_request_validate.subject: "Votre demande d'adhésion au programme de rédaction a été acceptée !"
+# Editor membership request accepted
+assigned_to_editor_group.subject: "Votre demande d'adhésion en tant que rédacteur a été accepté"
 editor_accepted_announcement: 'Nous avons le plaisir de vous annoncer que votre demande pour devenir rédacteur sur %app_name% a été acceptée ! 🥳'
-access_your_space_and_share_your_passion: 'Vous pouvez désormais accéder à votre espace rédacteur et commencer à partager votre passion avec notre communauté. Nous sommes ravis de vous compter parmi nous et avons hâte de découvrir vos articles.'
+access_your_space_and_share_your_passion: 'Nous sommes ravis de vous compter parmi nous, vous pouvez désormais accéder à votre espace rédacteur et commencer à partager votre passion avec la communauté.'
 next_steps: 'Voici les prochaines étapes :'
 step_1: '1. Connectez-vous à votre compte via le lien suivant :'
 step_2: '2. Accédez à votre espace rédacteur pour commencer à écrire.'
@@ -36,3 +39,25 @@ consult_our_editor_guide: "N'hésitez pas à consulter notre %app_editor_guide_l
 editor_guide: 'guide du rédacteur'
 if_need_help: 'Nous restons à votre disposition si vous avez des questions ou besoin d’aide.'
 welcome_on_board: 'Bienvenue dans l’équipe et bonne rédaction !'
+
+# Remove from Editor group
+update_on_your_status.subject: 'Mise à jour de votre statut'
+no_longer_editor_announcement: "Nous vous informons qu'à partir de ce jour, vous ne faites plus partie des rédacteurs au sein de %app_name%."
+thank_for_your_contribution_and_wish_you_all_the_best: 'Nous tenons à vous remercier pour votre contribution et nous vous souhaitons une excellente continuation.'
+if_you_have_any_questions: "Si vous avez des questions ou souhaitez obtenir des clarifications, n’hésitez pas à nous contacter."
+
+# Promote to Admin
+promoted_to_admin.subject: 'Félicitations, vous avez été promu Administrateur'
+promoted_to_admin_announcement: "Nous avons le plaisir de vous informer que vous avez été promu au rang d'administrateur au sein de %app_name%."
+your_advantages_as_admin: "En tant qu'administrateur, vous aurez accès à des fonctionnalités avancées du site, incluant la gestion des utilisateurs, la modération des contenus et bien plus encore."
+we_trust_your_ability_to_contribute_even_more: 'Nous avons pleinement confiance en votre capacité à contribuer davantage au succès de notre plateforme.'
+feel_free_to_contact_us: "N'hésitez pas à nous contacter si vous avez des questions concernant vos nouvelles responsabilités."
+thank_for_your_dedication: 'Merci pour votre dévouement au sein de la communauté.'
+
+# Reassign to Editor group
+reassigned_to_editor_group.subject: 'Mise à jour de votre statut'
+no_longer_admin_but_still_editor_announcement: "Nous vous informons que votre rôle au sein de %app_name% a été révisé, désormais vous n'êtes plus administrateur mais vous êtes toujours rédacteur."
+you_will_continue_to_contribute: 'En tant que rédacteur, vous pouvez continuer à contribuer à la création de contenu de qualité sur notre plateforme.'
+your_expertise_and_dedication_remain_vital: "Bien que vous n'ayez plus accès aux fonctions d'administrateur, votre expertise et votre engagement restent essentiels au succès de %app_name%."
+if_you_have_any_questions_regarding_this_change: "Si vous avez des questions concernant ce changement, n'hésitez pas à nous contacter."
+thank_for_your_understanding: 'Merci pour votre compréhension et pour votre contribution continue.'

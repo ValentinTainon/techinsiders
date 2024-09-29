@@ -32,4 +32,7 @@ create_and_add.post.label: 'Create and add another post'
 create_and_add.user.label: 'Create and add another user'
 save_and_continue.editing.label: 'Save and continue editing'
 save.label: 'Save'
-
+assign_to_editor_group.label: 'Assign to Editor group'
+remove_from_editor_group.label: 'Remove from Editor group'
+promote_to_admin.label: 'Promote to Admin'
+reassign_to_editor_group.label: 'Reassign to Editor group'

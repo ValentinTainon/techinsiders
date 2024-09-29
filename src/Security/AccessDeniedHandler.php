@@ -19,8 +19,10 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
+        $user = $this->security->getUser();
         $hasEditorRole = $this->security->isGranted('ROLE_EDITOR');
-        $isUserVerified = $this->security->getUser()->isVerified();
+        $isUserVerified = $user->isVerified();
+        $isUserActive = $user->isActive();
 
         $message = match (true) {
             !$hasEditorRole && !$isUserVerified => t('access_denied.user_has_not_permission_and_email_not_verified', [], 'flashes'),

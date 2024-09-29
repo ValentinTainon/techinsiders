@@ -9,7 +9,6 @@ use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +24,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function register(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -41,7 +40,7 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address($user->getEmail(), $user->getUsername()))
                     ->to(new Address($this->getParameter('app_contact_email'), $this->getParameter('app_name')))
-                    ->subject(t('registration_request.subject', [], 'emails'))
+                    ->subject($translator->trans('registration_request.subject', [], 'emails'))
                     ->htmlTemplate('registration/admin_email.html.twig')
                     ->context([
                         'username' => $user->getUsername(),
@@ -53,17 +52,14 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->to(new Address($user->getEmail(), $user->getUsername()))
-                    ->subject(t('confirm_email.subject', [], 'emails'))
+                    ->subject($translator->trans('confirm_email.subject', [], 'emails'))
                     ->htmlTemplate('registration/confirmation_email.html.twig')
                     ->context([
                         'username' => $user->getUsername()
                     ])
             );
 
-            $this->addFlash(
-                'success', 
-                'Afin de completer votre demande inscription, merci de valider votre adresse email en cliquant sur le lien qui vous a été envoyé.'
-            );
+            $this->addFlash('success', $translator->trans('validate_email_after_registration', [], 'flashes'));
 
             return $this->redirectToRoute('app_home');
         }
@@ -97,7 +93,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Your email address has been verified. Votre demande d\'inscription est en cours de traitement.');
+        $this->addFlash('success', $translator->trans('email_verified_and_registration_request_being_processed', [], 'flashes'));
 
         return $this->redirectToRoute('app_home');
     }

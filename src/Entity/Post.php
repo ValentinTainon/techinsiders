@@ -48,7 +48,7 @@ class Post
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?bool $isVisible = null;
+    private ?bool $isVisible = false;
 
     public function getId(): ?int
     {

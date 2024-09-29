@@ -9,8 +9,8 @@ use Symfony\Component\Mime\Address;
 use App\Form\Admin\Field\CkeditorField;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
 use function Symfony\Component\Translation\t;
+use Symfony\Component\Mailer\MailerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -21,10 +21,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -34,13 +34,24 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class PostCrudController extends AbstractCrudController
 {
-    public function __construct(private MailerInterface $mailer)
+    public function __construct(private MailerInterface $mailer, private TranslatorInterface $translator)
     {
     }
 
     public static function getEntityFqcn(): string
     {
         return Post::class;
+    }
+
+    private function postInstance(): Post|null
+    {
+        $entityInstance = $this->getContext()->getEntity()->getInstance();
+
+        if ($entityInstance instanceof Post) {
+            return $entityInstance;
+        }
+
+        return null;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -85,7 +96,7 @@ class PostCrudController extends AbstractCrudController
             ->setDisabled()
             ->setRequired(false);
 
-        if ($this->isUpdatedAtDefine($this->getContext())) {
+        if (!is_null($this->postInstance()) && !empty($this->postInstance()->getUpdatedAt())) {
             yield DateTimeField::new('updatedAt', t('updated_at.label', [], 'forms'))
                 ->hideWhenCreating()
                 ->setDisabled()
@@ -106,7 +117,7 @@ class PostCrudController extends AbstractCrudController
             ->setFormTypeOption('allow_delete', false)
             ->setHelp(t('image.field.help.message', [], 'forms'));
 
-        if ($pageName === Crud::PAGE_EDIT && $this->isThumbnailDefine($this->getContext())) {
+        if ($pageName === Crud::PAGE_EDIT && !is_null($this->postInstance()) && !empty($this->postInstance()->getThumbnail())) {
             $postThumbnailField->setRequired(false);
         }
 
@@ -116,7 +127,8 @@ class PostCrudController extends AbstractCrudController
 
         yield BooleanField::new('isVisible', t('is_visible.label', [], 'forms'))
             ->renderAsSwitch(false)
-            ->setPermission('ROLE_ADMIN');
+            ->setDisabled()
+            ->onlyOnIndex();
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -144,28 +156,6 @@ class PostCrudController extends AbstractCrudController
         return $queryBuilder;
     }
 
-    public function isThumbnailDefine(AdminContext $context): bool
-    {
-        $post = $context->getEntity()->getInstance();
-        
-        if (!$post || !$post->getThumbnail()) {
-            return false;
-        }
-        
-        return true;
-    }
-
-    public function isUpdatedAtDefine(AdminContext $context): bool
-    {
-        $post = $context->getEntity()->getInstance();
-        
-        if (!$post || !$post->getUpdatedAt()) {
-            return false;
-        }
-        
-        return true;
-    }
-
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if ($entityInstance instanceof Post) {
@@ -176,16 +166,16 @@ class PostCrudController extends AbstractCrudController
                 ->setUser($user)
                 ->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
             
-            if (!$this->isGranted('ROLE_ADMIN')) {
-                $entityInstance->setIsVisible(false);
-
+            if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
                 $this->mailer->send(
                     (new TemplatedEmail())
-                        ->to(new Address($user->getEmail(), $user->getUsername()))
-                        ->subject(t('new_post_validation_request.subject', [], 'emails'))
-                        ->htmlTemplate('bundles/EasyAdminBundle/emails/new_post_validation_request.html.twig')
+                        ->from(new Address($user->getEmail(), $user->getUsername()))
+                        ->to(new Address($this->getParameter('app_contact_email'), $this->getParameter('app_name')))
+                        ->subject($this->translator->trans('new_post_validation_request.subject', [], 'emails'))
+                        ->htmlTemplate('bundles/EasyAdminBundle/crud/post/emails/new_post_validation_request.html.twig')
                         ->context([
-                            'username' => $user->getUsername()
+                            'username' => $user->getUsername(),
+                            'post_title' => $entityInstance->getTitle()
                         ])
                 );
             }

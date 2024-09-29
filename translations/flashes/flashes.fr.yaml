@@ -1,4 +1,16 @@
+# Access denied
 access_denied.user_has_not_permission_and_email_not_verified: "Vous n'avez pas l'autorisation et vous devez valider votre email pour accéder à cette page."
 access_denied.user_has_not_permission: "Vous n'avez pas la permission d'accéder à cette page."
 access_denied.user_has_email_not_verified: 'Vous devez valider votre email pour accéder à cette page.'
 access_denied.user_have_to_login: 'Vous devez vous connecter pour accéder à cette page.'
+
+# Registration
+validate_email_after_registration: 'Afin de completer votre demande inscription, merci de valider votre adresse email en cliquant sur le lien qui vous a été envoyé.'
+email_verified_and_registration_request_being_processed: "Votre adresse email a été vérifiée. Votre demande d'inscription est en cours de traitement."
+
+# Assign Editor
+user_not_found: 'Aucun utilisateur trouvé.'
+user_assigned_to_editor_group: "L'utilisateur a été affecté au groupe Rédacteur"
+user_removed_from_editor_group: "L'utilisateur a été retiré du groupe Rédacteur"
+editor_promoted_to_admin: 'Le Rédacteur a été promu Administrateur'
+admin_reassigned_to_editor_group: "L'Administrateur a été réaffecté au groupe Rédacteur"
