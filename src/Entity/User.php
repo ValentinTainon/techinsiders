@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 #[ORM\UniqueConstraint(name: 'UNIQ_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['username'], message: 'user.unique.entity.constraint.username.message')]
@@ -71,9 +72,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NoSuspiciousCharacters]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     #[Assert\NoSuspiciousCharacters]
-    private ?string $avatar = null;
+    private string $avatar;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(
@@ -93,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\Column]
-    private ?bool $isActive = true;
+    private bool $isActive = true;
 
     public function __construct()
     {
@@ -214,6 +215,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function initializeToDefaultAvatarIfNull(): void
+    {
+        if (is_null($this->avatar)) {
+            $this->avatar = 'default-avatar.svg';
+        }
+    }
+
+    #[ORM\PreUpdate]
+    public function updateToDefaultAvatarIfNull(): void
+    {
+        if (empty($this->avatar)) {
+            $this->avatar = 'default-avatar.svg';
+        }
     }
 
     public function getAbout(): ?string

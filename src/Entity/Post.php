@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\UniqueConstraint(name: 'UNIQ_TITLE', fields: ['title'])]
 #[UniqueEntity(fields: ['title'], message: 'post.unique.entity.constraint.title.message')]
 class Post
@@ -42,7 +43,7 @@ class Post
     private ?string $thumbnail = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
@@ -139,6 +140,12 @@ class Post
         return $this;
     }
 
+    #[ORM\PrePersist]
+    public function initializeCreatedAt(): void
+    {
+        $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+    }
+
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
@@ -149,6 +156,12 @@ class Post
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    #[ORM\PreUpdate]
+    public function initializeUpdatedAt(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
     }
 
     public function isVisible(): ?bool

@@ -163,7 +163,8 @@ class UserCrudController extends AbstractCrudController
             ->setDisabled()
             ->setPermission('ROLE_SUPER_ADMIN');
 
-        yield EmailField::new('email', t('email.label', [], 'forms'));
+        yield EmailField::new('email', t('email.label', [], 'forms'))
+            ->setRequired(true);
 
         $passwordField = PasswordField::new('plainPassword')
             ->setRequired($pageName === Crud::PAGE_NEW);
@@ -185,7 +186,8 @@ class UserCrudController extends AbstractCrudController
             ->setBasePath('uploads/users/avatars')
             ->setUploadDir('public/uploads/users/avatars')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setHelp(t('image.field.help.message', [], 'forms'));
+            ->setHelp(t('image.field.help.message', [], 'forms'))
+            ->setRequired(false);
 
         yield TextareaField::new('about', t('about.label', [], 'forms'))
             ->hideOnIndex();
@@ -325,7 +327,7 @@ class UserCrudController extends AbstractCrudController
             ->setRoles([])
             ->setEmail(null)
             ->setPassword(null)
-            ->setAvatar('anonymous-avatar.svg')
+            ->setAvatar('default-avatar.svg')
             ->setAbout(null)
             ->setVerified(false)
             ->setActive(false);
