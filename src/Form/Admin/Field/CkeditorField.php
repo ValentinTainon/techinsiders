@@ -26,7 +26,7 @@ final class CkeditorField implements FieldInterface
             ])
             ->addCssFiles(Asset::new('/ckeditor/build/ckeditor.css')->htmlAttr('type', 'text/css')->onlyOnForms())
             ->addJsFiles(Asset::new('/ckeditor/build/ckeditor.js')->onlyOnForms())
-            ->addWebpackEncoreEntries(Asset::new('ckeditor-init')->onlyOnForms())
+            ->addWebpackEncoreEntries(Asset::new('ckeditor_init')->onlyOnForms())
             ->setDefaultColumns(8)
             ->onlyOnForms()
         ;

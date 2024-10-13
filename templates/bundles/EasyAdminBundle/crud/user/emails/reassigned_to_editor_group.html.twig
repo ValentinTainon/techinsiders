@@ -41,27 +41,44 @@
 											<tbody>
 												<tr>
 													<td class="first row">
-														{{ 'hello.admin'|trans({'%admin%': 'Valentin'}, 'emails', locale) }}
+														{{ 'hello.user'|trans({'%username%': username}, 'emails', locale) }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'user.send_registration_request'|trans({'%username%': username}, 'emails', locale) }}
+														{{ 'no_longer_admin_but_still_editor_announcement'|trans({'%app_name%': app_name}, 'emails', locale) }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ user_motivation }}
+														{{ 'you_will_continue_to_contribute'|trans([], 'emails', locale) }}
 													</td>
 												</tr>
 												<tr>
-													<td style="text-align: center;">
-														<a class="button" 
-                                                            href="{{ app_base_url }}" 
-                                                            title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails', locale) }}"
-                                                        >
-                                                            {{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails', locale) }}
-                                                        </a>
+													<td class="row">
+														{{ 'your_expertise_and_dedication_remain_vital'|trans({'%app_name%': app_name}, 'emails', locale) }}
+													</td>
+												</tr>
+												<tr>
+													<td class="row">
+														{{ 'if_you_have_any_questions_regarding_this_change'|trans([], 'emails', locale) }}
+													</td>
+												</tr>
+												<tr>
+													<td class="row">
+														{{ 'thank_for_your_understanding'|trans([], 'emails', locale) }}
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<span class="separator"></span>
+													</td>
+												</tr>
+												<tr>
+													<td class="last row">
+														{{ 'best_regards'|trans([], 'emails', locale) }}
+														<br>
+                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails', locale) }}</strong>
 													</td>
 												</tr>
 											</tbody>

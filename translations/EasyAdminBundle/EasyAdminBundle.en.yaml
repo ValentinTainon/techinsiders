@@ -12,11 +12,11 @@ back.website.label: 'Back to the website'
 
 # Entity labels
 category.label.singular: 'Category'
-categories.label.plural: 'Categories'
+category.label.plural: 'Categories'
 post.label.singular: 'Post'
-posts.label.plural: 'Posts'
+post.label.plural: 'Posts'
 user.label.singular: 'User'
-users.label.plural: 'Users'
+user.label.plural: 'Users'
 
 # Pages titles
 create.category: 'Create a category'
@@ -36,3 +36,7 @@ assign_to_editor_group.label: 'Assign to Editor group'
 remove_from_editor_group.label: 'Remove from Editor group'
 promote_to_admin.label: 'Promote to Admin'
 reassign_to_editor_group.label: 'Reassign to Editor group'
+
+# Locales
+locale.french.label: 'French'
+locale.english.label: 'English'

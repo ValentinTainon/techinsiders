@@ -11,12 +11,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(private TranslatorInterface $translator)
+    {
+    }
+
     #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
@@ -46,8 +51,8 @@ class DashboardController extends AbstractDashboardController
             // ->setFaviconPath('favicon.svg')
             ->setTitle($this->getParameter('app_name'))
             ->setLocales([
-                'fr' => 'Français', 
-                'en' => 'English'
+                'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'), 
+                'en' => $this->translator->trans('locale.english.label', [], 'EasyAdminBundle')
             ])
             ->renderContentMaximized();
     }
@@ -66,7 +71,7 @@ class DashboardController extends AbstractDashboardController
             ]);
         
         if ($user->getAvatar()) {
-            $userMenu->setAvatarUrl('/uploads/users/avatars/'.$user->getAvatar());
+            $userMenu->setAvatarUrl('/uploads/images/users/avatars/'.$user->getAvatar());
         }
         
         return $userMenu;
@@ -74,16 +79,19 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        // Blog
         yield MenuItem::section(t('blog.label', [], 'EasyAdminBundle'));
         yield MenuItem::linkToCrud(t('category.label.plural', [], 'EasyAdminBundle'), 'fas fa-list', Category::class)
             ->setPermission('ROLE_SUPER_ADMIN');
         yield MenuItem::linkToCrud(t('post.label.plural', [], 'EasyAdminBundle'), 'fas fa-newspaper', Post::class);
         
+        // Community
         yield MenuItem::section(t('community.label', [], 'EasyAdminBundle'))
             ->setPermission('ROLE_SUPER_ADMIN');
         yield MenuItem::linkToCrud(t('user.label.plural', [], 'EasyAdminBundle'), 'fas fa-user', User::class)
             ->setPermission('ROLE_SUPER_ADMIN');
         
+        // Website
         yield MenuItem::section(t('website.label', [], 'EasyAdminBundle'));
         yield MenuItem::linktoRoute(t('back.website.label', [], 'EasyAdminBundle'), 'fas fa-home', 'app_home');
     }

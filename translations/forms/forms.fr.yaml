@@ -1,10 +1,15 @@
 # Fields label
+id.label: 'ID'
 username.label: "Nom d’utilisateur"
 roles.label: 'Rôle'
+roles.super_admin.label: 'Super administrateur'
+roles.admin.label: 'Administrateur'
+roles.editor.label: 'Rédacteur'
 email.label: 'Email'
 avatar.label: 'Avatar'
 about.label: 'À propos de vous'
 is_verified.label: 'Vérifié'
+is_active.label: 'Actif'
 password.label: 'Mot de passe'
 repeat.password.label: 'Répéter le mot de passe'
 new.password.label: 'Nouveau mot de passe'
@@ -18,7 +23,7 @@ updated_at.label: 'Date de mise à jour'
 title.label: 'Titre'
 thumbnail.label: 'Miniature'
 content.label: 'Contenu'
-ckeditor.wordcount.label: 'Nombre de mots : '
+ckeditor.wordcount.label: 'Nombre de mots: '
 is_visible.label: 'Publié'
 user_motivation.label: 'Vos motivations'
 remember_me.label: 'Se souvenir de moi'
@@ -31,6 +36,7 @@ next.label: 'Suivant'
 reset.password.label: 'Réinitialiser le mot de passe'
 
 # Helps message
-image.field.help.message: "Téléchargez une image d'une taille maximale de 2 Mo."
+avatar.field.help.message: 'Formats supportés: jpg, png, webp, svg, gif. Taille max: %size%o.'
+thumbnail.field.help.message: 'Formats supportés: jpg, png, webp. Taille max: %size%o.'
 check.user.password.help.message: 'Pour valider vos modifications, veuillez saisir votre mot de passe actuel.'
 reset.password.request.help.message: 'Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.'

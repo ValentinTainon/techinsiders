@@ -41,33 +41,34 @@
 											<tbody>
 												<tr>
 													<td class="first row" style="text-align: center;">
-														{{ 'welcome.user'|trans({'%username%': username}, 'emails') }}
+														{{ 'welcome.user'|trans({'%username%': username}, 'emails', locale) }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'thanks_choosing.app_name'|trans({'%app_name%': app_name}, 'emails') }} {{ 'happy_to_see_you'|trans([], 'emails') }}
+														{{ 'thanks_choosing.app_name'|trans({'%app_name%': app_name}, 'emails', locale) }}<br/>
+														{{ 'happy_to_see_you'|trans([], 'emails', locale) }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'please_confirm_your_email'|trans([], 'emails') }}
+														{{ 'please_confirm_your_email'|trans([], 'emails', locale) }}
 													</td>
 												</tr>
 												<tr>
 													<td style="text-align: center;">
 														<a class="button" 
                                                             href="{{ signedUrl|raw }}" 
-                                                            title="{{ 'confirm_email'|trans([], 'emails') }}"
+                                                            title="{{ 'confirm_email'|trans([], 'emails', locale) }}"
                                                         >
-                                                            {{ 'confirm_email'|trans([], 'emails') }}
+                                                            {{ 'confirm_email'|trans([], 'emails', locale) }}
                                                         </a>
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-                                                        {% set expire_message = expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') %}
-														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
+                                                        {% set expire_message = expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle', locale) %}
+														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails', locale) }}
 													</td>
 												</tr>
 												<tr>
@@ -77,9 +78,9 @@
 												</tr>
 												<tr>
 													<td class="last row">
-														{{ 'best_regards'|trans([], 'emails') }}
+														{{ 'best_regards'|trans([], 'emails', locale) }}
 														<br>
-                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
+                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails', locale) }}</strong>
 													</td>
 												</tr>
 											</tbody>

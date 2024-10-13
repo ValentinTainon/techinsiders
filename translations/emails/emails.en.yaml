@@ -28,7 +28,7 @@ new_post_validation_request.subject: 'New post awaiting validation'
 user.send_post_validation_request: '%username% has sent a validation request for the following post:<br><b>%post_title%</b>'
 
 # Editor membership request accepted
-assigned_to_editor_group.subject: 'Your request to join as an editor has been accepted'
+assigned_to_editor_group.subject: 'Your request to join us as an editor has been accepted'
 editor_accepted_announcement: 'We are pleased to announce that your request to become an editor on %app_name% has been accepted! 🥳'
 access_your_space_and_share_your_passion: "We're delighted to have you on board, and now you can access your editor's area and start sharing your passion with the community."
 next_steps: 'Here are the next steps:'

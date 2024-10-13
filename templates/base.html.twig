@@ -24,6 +24,12 @@
             </div>
         {% endfor %}
 
+		{% for message in app.flashes('note') %}
+            <div class="alert alert-danger">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+
         {% block menu %}
 			{% include "components/navbar.html.twig" %}
 		{% endblock %}

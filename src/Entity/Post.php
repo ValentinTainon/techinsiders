@@ -49,7 +49,7 @@ class Post
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?bool $isVisible = false;
+    private bool $isVisible = false;
 
     public function getId(): ?int
     {
@@ -164,7 +164,7 @@ class Post
         $this->updatedAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
     }
 
-    public function isVisible(): ?bool
+    public function isVisible(): bool
     {
         return $this->isVisible;
     }

@@ -3,14 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\EmailService;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
-use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -19,12 +17,8 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
-    {
-    }
-
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, TranslatorInterface $translator): Response
+    public function register(Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator, EmailService $emailService): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -35,28 +29,29 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Email to the admin
-            $mailer->send(
-                (new TemplatedEmail())
-                    ->from(new Address($user->getEmail(), $user->getUsername()))
-                    ->to(new Address($this->getParameter('app_contact_email'), $this->getParameter('app_name')))
-                    ->subject($translator->trans('registration_request.subject', [], 'emails'))
-                    ->htmlTemplate('registration/admin_email.html.twig')
-                    ->context([
-                        'username' => $user->getUsername(),
-                        'user_motivation' => $form->get('userMotivation')->getData()
-                    ])
+            // Send email to the admin
+            $emailService->sendTemplatedEmail(
+                $this->getParameter('app_contact_email'),
+                $this->getParameter('app_name'),
+                'registration_request.subject',
+                'registration/admin_email.html.twig',
+                [
+                    'username' => $user->getUsername(),
+                    'user_motivation' => $form->get('userMotivation')->getData()
+                ],
+                false,
+                $user->getEmail(),
+                $user->getUsername()
             );
 
             // Generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->to(new Address($user->getEmail(), $user->getUsername()))
-                    ->subject($translator->trans('confirm_email.subject', [], 'emails'))
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-                    ->context([
-                        'username' => $user->getUsername()
-                    ])
+            $emailService->sendRegistrationConfirmationEmail(
+                $user,
+                $user->getEmail(),
+                $user->getUsername(),
+                'confirm_email.subject',
+                'registration/confirmation_email.html.twig',
+                ['username' => $user->getUsername()]
             );
 
             $this->addFlash('success', $translator->trans('validate_email_after_registration', [], 'flashes'));
@@ -70,7 +65,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
+    public function verifyUserEmail(Request $request, UserRepository $userRepository, TranslatorInterface $translator, EmailVerifier $emailVerifier): Response
     {
         $id = $request->query->get('id');
 
@@ -86,7 +81,7 @@ class RegistrationController extends AbstractController
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
+            $emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 

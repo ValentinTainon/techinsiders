@@ -74,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NoSuspiciousCharacters]
-    private string $avatar;
+    private string $avatar = '';
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(
@@ -84,17 +84,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NoSuspiciousCharacters]
     private ?string $about = null;
 
+    #[ORM\Column(length: 2)]
+    private string $locale = "fr";
+
+    #[ORM\Column]
+    private bool $isVerified = false;
+
     /**
      * @var Collection<int, Post>
      */
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
     private Collection $posts;
-
-    #[ORM\Column]
-    private bool $isVerified = false;
-
-    #[ORM\Column]
-    private bool $isActive = true;
 
     public function __construct()
     {
@@ -212,21 +212,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setAvatar(?string $avatar): static
     {
-        $this->avatar = $avatar;
+        $this->avatar = $avatar ?? '';
 
         return $this;
     }
 
     #[ORM\PrePersist]
-    public function initializeToDefaultAvatarIfNull(): void
-    {
-        if (is_null($this->avatar)) {
-            $this->avatar = 'default-avatar.svg';
-        }
-    }
-
     #[ORM\PreUpdate]
-    public function updateToDefaultAvatarIfNull(): void
+    public function initializeDefaultAvatar(): void
     {
         if (empty($this->avatar)) {
             $this->avatar = 'default-avatar.svg';
@@ -245,6 +238,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): static
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -253,18 +258,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function isActive(): ?bool
-    {
-        return $this->isActive;
-    }
-
-    public function setActive(bool $isActive): static
-    {
-        $this->isActive = $isActive;
 
         return $this;
     }

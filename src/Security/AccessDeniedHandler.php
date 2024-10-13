@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,19 +20,16 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
+        /** @var User $user */
         $user = $this->security->getUser();
-        $hasEditorRole = $this->security->isGranted('ROLE_EDITOR');
-        $isUserVerified = $user->isVerified();
-        $isUserActive = $user->isActive();
 
         $message = match (true) {
-            !$hasEditorRole && !$isUserVerified => t('access_denied.user_has_not_permission_and_email_not_verified', [], 'flashes'),
-            !$hasEditorRole => t('access_denied.user_has_not_permission', [], 'flashes'),
-            !$isUserVerified => t('access_denied.user_has_email_not_verified', [], 'flashes'),
-            default => t('access_denied.user_have_to_login', [], 'flashes')
+            !$user->isVerified() => t('access_denied.user_has_email_not_verified', [], 'flashes'),
+            !$this->security->isGranted('ROLE_EDITOR') => t('access_denied.user_has_not_permission', [], 'flashes'),
+            default => t('access_denied', [], 'flashes')
         };
 
-        $request->getSession()->getFlashBag()->add('note', $message);
+        $request->getSession()->getFlashBag()->add('danger', $message);
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }

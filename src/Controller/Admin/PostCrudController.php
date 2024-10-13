@@ -4,13 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Service\EmailService;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Mime\Address;
 use App\Form\Admin\Field\CkeditorField;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use function Symfony\Component\Translation\t;
-use Symfony\Component\Mailer\MailerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -21,7 +19,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
@@ -31,10 +28,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use Symfony\Component\Validator\Constraints\Image;
 
 class PostCrudController extends AbstractCrudController
 {
-    public function __construct(private MailerInterface $mailer, private TranslatorInterface $translator)
+    private const string maxThumbnailSize = '400k';
+
+    public function __construct(private EmailService $emailService)
     {
     }
 
@@ -43,7 +44,7 @@ class PostCrudController extends AbstractCrudController
         return Post::class;
     }
 
-    private function postInstance(): Post|null
+    private function postInstance(): ?Post
     {
         $entityInstance = $this->getContext()->getEntity()->getInstance();
 
@@ -86,6 +87,10 @@ class PostCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        yield IdField::new('id', t('id.label', [], 'forms'))
+            ->hideOnForm()
+            ->setPermission('ROLE_SUPER_ADMIN');
+
         yield AssociationField::new('user', t('author.label', [], 'forms'))
             ->onlyOnIndex();
 
@@ -96,7 +101,7 @@ class PostCrudController extends AbstractCrudController
             ->setDisabled()
             ->setRequired(false);
 
-        if (!is_null($this->postInstance()) && !empty($this->postInstance()->getUpdatedAt())) {
+        if (!is_null($this->postInstance()) && !is_null($this->postInstance()->getUpdatedAt())) {
             yield DateTimeField::new('updatedAt', t('updated_at.label', [], 'forms'))
                 ->hideWhenCreating()
                 ->setDisabled()
@@ -105,23 +110,34 @@ class PostCrudController extends AbstractCrudController
 
         yield TextField::new('title', t('title.label', [], 'forms'));
         
-        yield SlugField::new('slug', t('slug.label', [], 'forms'))
+        $slugField = SlugField::new('slug', t('slug.label', [], 'forms'))
             ->setTargetFieldName('title')
-            ->hideOnIndex()
-            ->setFormTypeOption('row_attr', ['style' => 'display: none;']);
+            ->hideOnIndex();
 
-        $postThumbnailField = ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
-            ->setBasePath('uploads/posts/thumbnails')
-            ->setUploadDir('public/uploads/posts/thumbnails')
-            ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setFormTypeOption('allow_delete', false)
-            ->setHelp(t('image.field.help.message', [], 'forms'));
-
-        if ($pageName === Crud::PAGE_EDIT && !is_null($this->postInstance()) && !empty($this->postInstance()->getThumbnail())) {
-            $postThumbnailField->setRequired(false);
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $slugField->setFormTypeOption('row_attr', ['style' => 'display: none;']);
         }
 
-        yield $postThumbnailField;
+        yield $slugField;
+
+        yield ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
+            ->setBasePath('uploads/posts/thumbnails')
+            ->setUploadDir($this->getParameter('uploads_images_relative_path').'/posts/thumbnails')
+            ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
+            ->setFormTypeOption('allow_delete', false)
+            ->setFileConstraints(
+                new Image(
+                    detectCorrupted: true, 
+                    maxSize: self::maxThumbnailSize, 
+                    mimeTypes: [
+                        'image/jpeg', 
+                        'image/png', 
+                        'image/webp',
+                    ]
+                )
+            )
+            ->setHelp(t('thumbnail.field.help.message', ['%size%' => self::maxThumbnailSize], 'forms'))
+            ->setRequired($pageName === Crud::PAGE_EDIT && empty($this->postInstance()->getThumbnail()) ? true : false);
 
         yield CkeditorField::new('content', t('content.label', [], 'forms'));
 
@@ -134,13 +150,13 @@ class PostCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         if ($this->isGranted('ROLE_ADMIN')) {
-            $filters->add(EntityFilter::new('user'));
+            $filters->add(EntityFilter::new('user', t('author.label', [], 'forms')));
         }
 
-        $filters->add(EntityFilter::new('category'))
-                ->add(DateTimeFilter::new('createdAt'))
-                ->add(BooleanFilter::new('isVisible'));
-        
+        $filters->add(EntityFilter::new('category', t('category.label.singular', [], 'EasyAdminBundle')))
+                ->add(DateTimeFilter::new('createdAt', t('created_at.label', [], 'forms')))
+                ->add(BooleanFilter::new('isVisible', t('is_visible.label', [], 'forms')));
+
         return $filters;
     }
 
@@ -162,34 +178,25 @@ class PostCrudController extends AbstractCrudController
             /** @var User $user */
             $user = $this->getUser();
 
-            $entityInstance
-                ->setUser($user)
-                ->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+            $entityInstance->setUser($user);
             
             if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
-                $this->mailer->send(
-                    (new TemplatedEmail())
-                        ->from(new Address($user->getEmail(), $user->getUsername()))
-                        ->to(new Address($this->getParameter('app_contact_email'), $this->getParameter('app_name')))
-                        ->subject($this->translator->trans('new_post_validation_request.subject', [], 'emails'))
-                        ->htmlTemplate('bundles/EasyAdminBundle/crud/post/emails/new_post_validation_request.html.twig')
-                        ->context([
-                            'username' => $user->getUsername(),
-                            'post_title' => $entityInstance->getTitle()
-                        ])
+                $this->emailService->sendTemplatedEmail(
+                    $this->getParameter('app_contact_email'),
+                    $this->getParameter('app_name'),
+                    'new_post_validation_request.subject',
+                    'bundles/EasyAdminBundle/crud/post/emails/new_post_validation_request.html.twig',
+                    [
+                        'username' => $user->getUsername(),
+                        'post_title' => $entityInstance->getTitle()
+                    ],
+                    false,
+                    $user->getEmail(), 
+                    $user->getUsername()
                 );
             }
         }
         
         parent::persistEntity($entityManager, $entityInstance);
-    }
-
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        if ($entityInstance instanceof Post) {
-            $entityInstance->setUpdatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
-        }
-
-        parent::updateEntity($entityManager, $entityInstance);
     }
 }

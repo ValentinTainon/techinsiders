@@ -6,6 +6,7 @@ use App\Entity\Category;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -40,10 +41,12 @@ class CategoryCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        yield IdField::new('id', t('id.label', [], 'forms'))
+            ->hideOnForm();
+            
         yield TextField::new('name', t('name.label', [], 'forms'));
         
         yield SlugField::new('slug', t('slug.label', [], 'forms'))
-            ->setTargetFieldName('name')
-            ->setFormTypeOption('row_attr', ['style' => 'display: none;']);
+            ->setTargetFieldName('name');
     }
 }

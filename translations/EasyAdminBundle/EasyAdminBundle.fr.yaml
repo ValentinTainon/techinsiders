@@ -36,3 +36,7 @@ assign_to_editor_group.label: 'Affecter au groupe Rédacteur'
 remove_from_editor_group.label: 'Retirer du groupe Rédacteur'
 promote_to_admin.label: "Promouvoir au rang d'Administrateur"
 reassign_to_editor_group.label: 'Réaffecter au groupe Rédacteur'
+
+# Locales
+locale.french.label: 'Français'
+locale.english.label: 'Anglais'
