@@ -38,14 +38,14 @@ class UserCrudController extends AbstractCrudController
 
     private const string MAX_AVATAR_FILE_SIZE = '500k';
 
+    private const string EA_USER_EMAILS_DIR = 'bundles/EasyAdminBundle/crud/user/emails/';
+
     public function __construct(
-        private EmailService $emailService, 
+        private EmailService $emailService,
         private TranslatorInterface $translator,
         private RoleHierarchyInterface $roleHierarchy
-    )
-    {
-    }
-    
+    ) {}
+
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -79,7 +79,8 @@ class UserCrudController extends AbstractCrudController
             ->setIcon('fa fa-user-plus')
             ->linkToCrudAction('manageUserRole')
             ->addCssClass('btn btn-success')
-            ->displayIf(fn (User $subject): bool => 
+            ->displayIf(
+                fn(User $subject): bool =>
                 $this->canBeAssignedToEditorRole($subject)
             );
 
@@ -88,7 +89,8 @@ class UserCrudController extends AbstractCrudController
             ->setIcon('fa fa-user-plus')
             ->linkToCrudAction('manageUserRole')
             ->addCssClass('btn btn-success')
-            ->displayIf(fn (User $subject): bool => 
+            ->displayIf(
+                fn(User $subject): bool =>
                 $this->canBeAssignedToAdminRole($subject)
             );
 
@@ -97,9 +99,10 @@ class UserCrudController extends AbstractCrudController
             ->setIcon('fa fa-user-minus')
             ->linkToCrudAction('manageUserRole')
             ->addCssClass('btn btn-danger')
-            ->displayIf(fn (User $subject): bool => 
+            ->displayIf(
+                fn(User $subject): bool =>
                 $this->canBeAssignedToEditorRole($subject)
-        );
+            );
 
         $expression = new Expression(
             'is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and is_granted("ROLE_EDITOR"))'
@@ -118,31 +121,40 @@ class UserCrudController extends AbstractCrudController
                 Action::DELETE => $expression
             ])
             ->update(
-                Crud::PAGE_INDEX, 
-                Action::NEW, fn (Action $action): Action => 
+                Crud::PAGE_INDEX,
+                Action::NEW,
+                fn(Action $action): Action =>
                 $action->setLabel(t('create.user', [], 'EasyAdminBundle'))
                     ->setIcon('fa fa-user-plus')
             )
             ->update(
-                Crud::PAGE_INDEX, 
-                Action::EDIT, fn (Action $action): Action => 
+                Crud::PAGE_INDEX,
+                Action::EDIT,
+                fn(Action $action): Action =>
                 $action->setIcon('fa fa-user-edit')
             )
             ->update(
-                Crud::PAGE_INDEX, 
-                Action::DELETE, fn (Action $action): Action => 
+                Crud::PAGE_INDEX,
+                Action::DELETE,
+                fn(Action $action): Action =>
                 $action->setIcon('fa fa-user-minus')
             )
-            ->update(Crud::PAGE_NEW, 
-                Action::SAVE_AND_ADD_ANOTHER, fn (Action $action): Action => 
+            ->update(
+                Crud::PAGE_NEW,
+                Action::SAVE_AND_ADD_ANOTHER,
+                fn(Action $action): Action =>
                 $action->setLabel(t('create_and_add.user.label', [], 'EasyAdminBundle'))
             )
-            ->update(Crud::PAGE_EDIT, 
-                Action::SAVE_AND_CONTINUE, fn (Action $action): Action => 
+            ->update(
+                Crud::PAGE_EDIT,
+                Action::SAVE_AND_CONTINUE,
+                fn(Action $action): Action =>
                 $action->setLabel(t('save_and_continue.editing.label', [], 'EasyAdminBundle'))
             )
-            ->update(Crud::PAGE_EDIT, 
-                Action::SAVE_AND_RETURN, fn (Action $action): Action => 
+            ->update(
+                Crud::PAGE_EDIT,
+                Action::SAVE_AND_RETURN,
+                fn(Action $action): Action =>
                 $action->setLabel(t('save.label', [], 'EasyAdminBundle'))
                     ->setIcon('fa fa-save')
             );
@@ -153,7 +165,7 @@ class UserCrudController extends AbstractCrudController
         yield IdField::new('id', t('id.label', [], 'forms'))
             ->hideOnForm()
             ->setPermission('ROLE_SUPER_ADMIN');
-            
+
         yield TextField::new('username', t('username.label', [], 'forms'));
 
         yield ChoiceField::new('roles', t('roles.label', [], 'forms'))
@@ -172,7 +184,7 @@ class UserCrudController extends AbstractCrudController
         $passwordField = PasswordField::new('plainPassword')
             ->setRequired($pageName === Crud::PAGE_NEW);
 
-        if($pageName === Crud::PAGE_EDIT) {
+        if ($pageName === Crud::PAGE_EDIT) {
             $passwordField->setFormTypeOptions([
                 'first_options' => [
                     'label' => t('new.password.label', [], 'forms')
@@ -187,24 +199,24 @@ class UserCrudController extends AbstractCrudController
 
         yield ImageField::new('avatar', t('avatar.label', [], 'forms'))
             ->setBasePath('uploads/images/users/avatars')
-            ->setUploadDir($this->getParameter('uploads_images_relative_path').'/users/avatars')
+            ->setUploadDir($this->getParameter('uploads_images_relative_path') . '/users/avatars')
             ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
             ->setFormTypeOptions([
                 'empty_data' => '',
                 'allow_delete' => $pageName === Crud::PAGE_EDIT && $this->userInstance()->getAvatar() !== self::DEFAULT_AVATAR_FILE_NAME,
-                'upload_delete' => 
-                    fn (File $file) => 
-                        $file->getFilename() !== self::DEFAULT_AVATAR_FILE_NAME ? unlink($file->getPathname()) : null
+                'upload_delete' =>
+                fn(File $file) =>
+                $file->getFilename() !== self::DEFAULT_AVATAR_FILE_NAME ? unlink($file->getPathname()) : null
             ])
             ->setFileConstraints(
                 new Image(
-                    detectCorrupted: true, 
-                    maxSize: self::MAX_AVATAR_FILE_SIZE, 
+                    detectCorrupted: true,
+                    maxSize: self::MAX_AVATAR_FILE_SIZE,
                     mimeTypes: [
-                        'image/jpeg', 
-                        'image/png', 
-                        'image/webp', 
-                        'image/svg+xml', 
+                        'image/jpeg',
+                        'image/png',
+                        'image/webp',
+                        'image/svg+xml',
                         'image/gif',
                     ]
                 )
@@ -241,15 +253,15 @@ class UserCrudController extends AbstractCrudController
         if ($this->isGranted('ROLE_ADMIN')) {
             $filters->add(
                 ArrayFilter::new('roles', t('roles.label', [], 'forms'))
-                ->setTranslatableChoices([
-                    'ROLE_SUPER_ADMIN' => t('roles.super_admin.label', [], 'forms'),
-                    'ROLE_ADMIN' => t('roles.admin.label', [], 'forms'),
-                    'ROLE_EDITOR' => t('roles.editor.label', [], 'forms'),
-                ])
+                    ->setTranslatableChoices([
+                        'ROLE_SUPER_ADMIN' => t('roles.super_admin.label', [], 'forms'),
+                        'ROLE_ADMIN' => t('roles.admin.label', [], 'forms'),
+                        'ROLE_EDITOR' => t('roles.editor.label', [], 'forms'),
+                    ])
             )
-            ->add(BooleanFilter::new('isVerified', t('is_verified.label', [], 'forms')));
+                ->add(BooleanFilter::new('isVerified', t('is_verified.label', [], 'forms')));
         }
-        
+
         return $filters;
     }
 
@@ -257,68 +269,67 @@ class UserCrudController extends AbstractCrudController
     {
         $subjectRoles = $this->roleHierarchy->getReachableRoleNames($subject->getRoles());
 
-        return $this->isGranted('ROLE_SUPER_ADMIN') 
+        return $this->isGranted('ROLE_SUPER_ADMIN')
             && (!in_array('ROLE_EDITOR', $subjectRoles, true)
-            || in_array('ROLE_ADMIN', $subjectRoles, true)
-            && !in_array('ROLE_SUPER_ADMIN', $subjectRoles, true));
+                || in_array('ROLE_ADMIN', $subjectRoles, true)
+                && !in_array('ROLE_SUPER_ADMIN', $subjectRoles, true));
     }
 
     private function canBeAssignedToAdminRole(User $subject): bool
     {
         $subjectRoles = $this->roleHierarchy->getReachableRoleNames($subject->getRoles());
 
-        return $this->isGranted('ROLE_SUPER_ADMIN') 
-            && in_array('ROLE_EDITOR', $subjectRoles, true) 
+        return $this->isGranted('ROLE_SUPER_ADMIN')
+            && in_array('ROLE_EDITOR', $subjectRoles, true)
             && !in_array('ROLE_ADMIN', $subjectRoles, true);
     }
 
     public function manageUserRole(AdminContext $context, EntityManagerInterface $entityManager): Response
     {
         $subject = $context->getEntity()->getInstance();
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        $crudUrl = $adminUrlGenerator->setController(self::class)->setAction('edit')->generateUrl();
-        $isAdmin = in_array('ROLE_ADMIN', 
-            $this->roleHierarchy->getReachableRoleNames($subject->getRoles()), 
-            true
-        );
 
-        if (!$subject) {
+        if (!$subject || !$subject instanceof User) {
             $this->addFlash('danger', t('user_not_found', [], 'flashes'));
-
-            return $this->redirect($crudUrl);
-        }
-
-        if ($this->canBeAssignedToEditorRole($subject)) {
-            $subject->setRoles(['ROLE_EDITOR']);
-            $entityManager->persist($subject);
-            $entityManager->flush();
-
-            $this->emailService->sendTemplatedEmail(
-                $subject->getEmail(), 
-                $subject->getUsername(),
-                sprintf('%sassigned_to_editor_group.subject', $isAdmin ? 're' : ''),
-                sprintf('bundles/EasyAdminBundle/crud/user/emails/%sassigned_to_editor_group.html.twig', $isAdmin ? 're' : ''),
-                ['username' => $subject->getUsername()]
-            );
-            
-            $this->addFlash('success', t(sprintf('%sassigned_to_editor_group', $isAdmin ? 're' : ''), [], 'flashes'));
-        } elseif ($this->canBeAssignedToAdminRole($subject)) {
-            $subject->setRoles(['ROLE_ADMIN']);
-            $entityManager->persist($subject);
-            $entityManager->flush();
-
-            $this->emailService->sendTemplatedEmail(
-                $subject->getEmail(), 
-                $subject->getUsername(),
-                'promoted_to_admin.subject',
-                'bundles/EasyAdminBundle/crud/user/emails/promoted_to_admin.html.twig',
-                ['username' => $subject->getUsername()]
-            );
-            
-            $this->addFlash('success', t('editor_promoted_to_admin', [], 'flashes'));
+            return $this->redirect($this->container->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->generateUrl());
+        } elseif (!$this->canBeAssignedToEditorRole($subject) && !$this->canBeAssignedToAdminRole($subject)) {
+            $this->addFlash('danger', t('user_cannot_be_assign_to_a_specific_role', [], 'flashes'));
+            return $this->redirect($this->container->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->generateUrl());
         }
         
-        return $this->redirect($crudUrl);
+        if ($this->canBeAssignedToEditorRole($subject)) {
+            $isAdmin = in_array('ROLE_ADMIN', $this->roleHierarchy->getReachableRoleNames($subject->getRoles()), true);
+            $role = 'ROLE_EDITOR';
+            $emailSubject = sprintf('%sassigned_to_editor_group.subject', $isAdmin ? 're' : '');
+            $emailTemplate = sprintf(self::EA_USER_EMAILS_DIR . '%sassigned_to_editor_group.html.twig', $isAdmin ? 're' : '');
+            $flashMessage = t(sprintf('%sassigned_to_editor_group', $isAdmin ? 're' : ''), [], 'flashes');
+        } elseif ($this->canBeAssignedToAdminRole($subject)) {
+            $role = 'ROLE_ADMIN';
+            $emailSubject = 'promoted_to_admin.subject';
+            $emailTemplate = self::EA_USER_EMAILS_DIR . 'promoted_to_admin.html.twig';
+            $flashMessage = t('editor_promoted_to_admin', [], 'flashes');
+        }
+
+        $subject->setRoles([$role]);
+        $entityManager->persist($subject);
+        $entityManager->flush();
+
+        $this->emailService->sendTemplatedEmail(
+            $subject->getEmail(),
+            $subject->getUsername(),
+            $emailSubject,
+            $emailTemplate,
+            ['username' => $subject->getUsername()]
+        );
+
+        $this->addFlash('success', $flashMessage);
+
+        return $this->redirect(
+            $this->container->get(AdminUrlGenerator::class)
+                ->setController(self::class)
+                ->setAction(Action::EDIT)
+                ->setEntityId($context->getEntity()->getPrimaryKeyValue())
+                ->generateUrl()
+        );
     }
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -326,14 +337,14 @@ class UserCrudController extends AbstractCrudController
         if ($entityInstance instanceof User) {
             $this->emailService->sendRegistrationConfirmationEmail(
                 $entityInstance,
-                $entityInstance->getEmail(), 
+                $entityInstance->getEmail(),
                 $entityInstance->getUsername(),
                 'confirm_email.subject',
                 'registration/confirmation_email.html.twig',
                 ['username' => $entityInstance->getUsername()]
             );
         }
-        
+
         parent::persistEntity($entityManager, $entityInstance);
     }
 }

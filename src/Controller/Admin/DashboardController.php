@@ -8,6 +8,7 @@ use App\Entity\Category;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -63,10 +64,10 @@ class DashboardController extends AbstractDashboardController
         $userMenu = parent::configureUserMenu($user)
             ->addMenuItems([
                 MenuItem::linkToCrud(t('my.profile', [], 'EasyAdminBundle'), 'fa fa-id-card', User::class)
-                    ->setAction('detail')
+                    ->setAction(Action::DETAIL)
                     ->setEntityId($user->getId()),
                 MenuItem::linkToCrud(t('edit.profile', [], 'EasyAdminBundle'), 'fa fa-user-cog', User::class)
-                    ->setAction('edit')
+                    ->setAction(Action::EDIT)
                     ->setEntityId($user->getId()),
             ]);
         
