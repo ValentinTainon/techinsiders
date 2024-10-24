@@ -21,13 +21,14 @@ final class CkeditorField implements FieldInterface
             ->setProperty($propertyName)
             ->setLabel($label)
             ->setFormType(TextareaType::class)
-            ->setFormTypeOptions([
-                'block_name' => 'custom_content'
-            ])
-            ->addCssFiles(Asset::new('/ckeditor/build/ckeditor.css')->htmlAttr('type', 'text/css')->onlyOnForms())
-            ->addJsFiles(Asset::new('/ckeditor/build/ckeditor.js')->onlyOnForms())
-            ->addWebpackEncoreEntries(Asset::new('ckeditor_init')->onlyOnForms())
-            ->setDefaultColumns(8)
+            ->setFormTypeOptions(['block_name' => 'custom_content'])
+            ->addCssClass('field-ckeditor')
+            ->addCssFiles(
+                Asset::new('../assets/styles/ckeditor/default.css'),
+                Asset::new('../assets/styles/ckeditor/dark-mode.css'),
+                Asset::new('../assets/styles/ckeditor/word-count.css')
+            )
+            ->setDefaultColumns(10)
             ->onlyOnForms()
         ;
     }

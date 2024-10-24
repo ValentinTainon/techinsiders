@@ -5,10 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app_name: '%env(APP_NAME)%'
-    app_base_url: '%env(APP_BASE_URL)%'
     app_contact_email: '%env(APP_CONTACT_EMAIL)%'
     uploads_images_relative_path: 'public/uploads/images'
-    uploads_images_path: '%kernel.project_dir%/public/uploads/images'
 
 services:
     # default configuration for services in *this* file

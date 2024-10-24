@@ -15,7 +15,6 @@ class UploadController extends AbstractController
     public function upload(Request $request, SluggerInterface $slugger): JsonResponse
     {
         $file = $request->files->get('upload');
-        $uploadsPostsContentsImgPath = $this->getParameter('uploads_images_path').'/posts/contents';
 
         if ($file) {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -24,12 +23,13 @@ class UploadController extends AbstractController
             $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
             try {
-                $file->move($uploadsPostsContentsImgPath, $newFilename);
+                $file->move("{$this->getParameter('kernel.project_dir')}/public/uploads/images/posts/contents", $newFilename);
+                
                 return new JsonResponse([
-                    'url' => '/uploads/images/posts/contents/'.(string)$newFilename
+                    'url' => "/uploads/images/posts/contents/{$newFilename}"
                 ]);
             } catch (FileException $e) {
-                return new JsonResponse(['error' => 'Unable to upload file'], 500);
+                return new JsonResponse(['error' => $e->getMessage()], 500);
             }
         }
 

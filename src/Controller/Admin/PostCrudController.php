@@ -11,8 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use Symfony\Component\Validator\Constraints\Image;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -28,8 +31,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use Symfony\Component\Validator\Constraints\Image;
 
 class PostCrudController extends AbstractCrudController
 {
@@ -55,6 +56,11 @@ class PostCrudController extends AbstractCrudController
         return null;
     }
 
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets->addAssetMapperEntry('ckeditor-init');
+    }
+
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -73,11 +79,11 @@ class PostCrudController extends AbstractCrudController
         );
         
         return $actions
-            ->remove(Crud::PAGE_DETAIL, Action::INDEX)
+            ->disable(Crud::PAGE_DETAIL)
             ->setPermissions([
                 Action::EDIT => $expression,
-                Action::DETAIL => $expression,
-                Action::DELETE => $expression
+                Action::DELETE => $expression,
+                Action::BATCH_DELETE => $expression
             ])
             ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setLabel(t('create.post', [], 'EasyAdminBundle')))
             ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn (Action $action) => $action->setLabel(t('create_and_add.post.label', [], 'EasyAdminBundle')))
@@ -137,14 +143,14 @@ class PostCrudController extends AbstractCrudController
                 )
             )
             ->setHelp(t('thumbnail.field.help.message', ['%size%' => self::maxThumbnailSize], 'forms'))
-            ->setRequired($pageName === Crud::PAGE_EDIT && empty($this->postInstance()->getThumbnail()) ? true : false);
+            ->setRequired($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT && empty($this->postInstance()->getThumbnail()) ? true : false);
 
         yield CkeditorField::new('content', t('content.label', [], 'forms'));
 
         yield BooleanField::new('isVisible', t('is_visible.label', [], 'forms'))
-            ->renderAsSwitch(false)
-            ->setDisabled()
-            ->onlyOnIndex();
+            ->renderAsSwitch($pageName === Crud::PAGE_INDEX ? false : true)
+            ->hideWhenCreating()
+            ->setPermission('ROLE_SUPER_ADMIN');
     }
 
     public function configureFilters(Filters $filters): Filters

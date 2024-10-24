@@ -74,34 +74,34 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $assignUserToEditorGroupAction = Action::new('assignUserToEditorGroupAction')
+        $assignEditorRole = Action::new('assignEditorRole')
             ->setLabel(t('assign_to_editor_group.label', [], 'EasyAdminBundle'))
             ->setIcon('fa fa-user-plus')
             ->linkToCrudAction('manageUserRole')
             ->addCssClass('btn btn-success')
             ->displayIf(
                 fn(User $subject): bool =>
-                $this->canBeAssignedToEditorRole($subject)
+                $this->canBeAssignEditorRole($subject)
             );
 
-        $promoteEditorToAdminAction = Action::new('promoteEditorToAdminAction')
+        $assignAdminRole = Action::new('assignAdminRole')
             ->setLabel(t('promote_to_admin.label', [], 'EasyAdminBundle'))
             ->setIcon('fa fa-user-plus')
             ->linkToCrudAction('manageUserRole')
             ->addCssClass('btn btn-success')
             ->displayIf(
                 fn(User $subject): bool =>
-                $this->canBeAssignedToAdminRole($subject)
+                $this->canBeAssignAdminRole($subject)
             );
 
-        $reassignAdminToEditorGroupAction = Action::new('reassignAdminToEditorGroupAction')
+        $reassignEditorRole = Action::new('reassignEditorRole')
             ->setLabel(t('reassign_to_editor_group.label', [], 'EasyAdminBundle'))
             ->setIcon('fa fa-user-minus')
             ->linkToCrudAction('manageUserRole')
             ->addCssClass('btn btn-danger')
             ->displayIf(
                 fn(User $subject): bool =>
-                $this->canBeAssignedToEditorRole($subject)
+                $this->canBeReassignEditorRole($subject)
             );
 
         $expression = new Expression(
@@ -110,15 +110,16 @@ class UserCrudController extends AbstractCrudController
 
         return $actions
             ->remove(Crud::PAGE_DETAIL, Action::INDEX)
-            ->add(Crud::PAGE_EDIT, $assignUserToEditorGroupAction)
-            ->add(Crud::PAGE_EDIT, $promoteEditorToAdminAction)
-            ->add(Crud::PAGE_EDIT, $reassignAdminToEditorGroupAction)
+            ->add(Crud::PAGE_EDIT, $assignEditorRole)
+            ->add(Crud::PAGE_EDIT, $assignAdminRole)
+            ->add(Crud::PAGE_EDIT, $reassignEditorRole)
             ->setPermissions([
                 Action::INDEX => 'ROLE_SUPER_ADMIN',
                 Action::NEW => 'ROLE_SUPER_ADMIN',
                 Action::EDIT => $expression,
                 Action::DETAIL => $expression,
-                Action::DELETE => $expression
+                Action::DELETE => $expression,
+                Action::BATCH_DELETE => $expression
             ])
             ->update(
                 Crud::PAGE_INDEX,
@@ -222,14 +223,15 @@ class UserCrudController extends AbstractCrudController
                 )
             )
             ->setHelp(t('avatar.field.help.message', ['%size%' => self::MAX_AVATAR_FILE_SIZE], 'forms'))
+            ->hideWhenCreating()
             ->setRequired(false);
 
         yield TextareaField::new('about', t('about.label', [], 'forms'))
-            ->hideOnIndex();
+            ->hideOnIndex()
+            ->hideWhenCreating();
 
         yield BooleanField::new('isVerified', t('is_verified.label', [], 'forms'))
             ->renderAsSwitch(false)
-            ->setDisabled()
             ->onlyOnIndex()
             ->setPermission('ROLE_SUPER_ADMIN');
 
@@ -265,17 +267,21 @@ class UserCrudController extends AbstractCrudController
         return $filters;
     }
 
-    private function canBeAssignedToEditorRole(User $subject): bool
+    private function canBeAssignEditorRole(User $subject): bool
+    {
+        return $this->isGranted('ROLE_SUPER_ADMIN') && (!in_array('ROLE_EDITOR', $this->roleHierarchy->getReachableRoleNames($subject->getRoles()), true));
+    }
+
+    private function canBeReassignEditorRole(User $subject): bool
     {
         $subjectRoles = $this->roleHierarchy->getReachableRoleNames($subject->getRoles());
 
         return $this->isGranted('ROLE_SUPER_ADMIN')
-            && (!in_array('ROLE_EDITOR', $subjectRoles, true)
-                || in_array('ROLE_ADMIN', $subjectRoles, true)
-                && !in_array('ROLE_SUPER_ADMIN', $subjectRoles, true));
+            && in_array('ROLE_ADMIN', $subjectRoles, true)
+            && !in_array('ROLE_SUPER_ADMIN', $subjectRoles, true);
     }
 
-    private function canBeAssignedToAdminRole(User $subject): bool
+    private function canBeAssignAdminRole(User $subject): bool
     {
         $subjectRoles = $this->roleHierarchy->getReachableRoleNames($subject->getRoles());
 
@@ -291,18 +297,18 @@ class UserCrudController extends AbstractCrudController
         if (!$subject || !$subject instanceof User) {
             $this->addFlash('danger', t('user_not_found', [], 'flashes'));
             return $this->redirect($this->container->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->generateUrl());
-        } elseif (!$this->canBeAssignedToEditorRole($subject) && !$this->canBeAssignedToAdminRole($subject)) {
+        } elseif (!$this->canBeAssignEditorRole($subject) && !$this->canBeAssignAdminRole($subject)) {
             $this->addFlash('danger', t('user_cannot_be_assign_to_a_specific_role', [], 'flashes'));
             return $this->redirect($this->container->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->generateUrl());
         }
-        
-        if ($this->canBeAssignedToEditorRole($subject)) {
+
+        if ($this->canBeAssignEditorRole($subject) || $this->canBeReassignEditorRole($subject)) {
             $isAdmin = in_array('ROLE_ADMIN', $this->roleHierarchy->getReachableRoleNames($subject->getRoles()), true);
             $role = 'ROLE_EDITOR';
             $emailSubject = sprintf('%sassigned_to_editor_group.subject', $isAdmin ? 're' : '');
             $emailTemplate = sprintf(self::EA_USER_EMAILS_DIR . '%sassigned_to_editor_group.html.twig', $isAdmin ? 're' : '');
             $flashMessage = t(sprintf('%sassigned_to_editor_group', $isAdmin ? 're' : ''), [], 'flashes');
-        } elseif ($this->canBeAssignedToAdminRole($subject)) {
+        } elseif ($this->canBeAssignAdminRole($subject)) {
             $role = 'ROLE_ADMIN';
             $emailSubject = 'promoted_to_admin.subject';
             $emailTemplate = self::EA_USER_EMAILS_DIR . 'promoted_to_admin.html.twig';

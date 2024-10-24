@@ -7,9 +7,6 @@
         <title>{% block title %}{{ app_name }}{% endblock %}</title>
         <meta name="description" content="Bienvenue, parcourez le blog pour y découvrir l'actu tech.">
         <link rel="icon" href="">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
     </head>
     <body>
         {% for message in app.flashes('success') %}
@@ -41,7 +38,7 @@
 		{% endblock %}
         
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </body>
 </html>

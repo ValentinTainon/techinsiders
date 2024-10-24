@@ -1,4 +1,4 @@
-{% apply inline_css(source('@styles/email-default-style.css')) %}
+{% apply inline_css(source('@styles/email/default-style.css')) %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -30,7 +30,7 @@
 							<tbody>
 								<tr>
 									<td class="header">
-										<a href="{{ app_base_url }}" title="{{ app_name }}">
+										<a href="{{ url('app_home') }}" title="{{ app_name }}">
 											{{ app_name }}
 										</a>
 									</td>
@@ -41,32 +41,32 @@
 											<tbody>
 												<tr>
 													<td class="first row">
-														{{ 'hello.user'|trans({'%username%': username}, 'emails', locale) }}
+														{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'no_longer_admin_but_still_editor_announcement'|trans({'%app_name%': app_name}, 'emails', locale) }}
+														{{ 'no_longer_admin_but_still_editor_announcement'|trans({'%app_name%': app_name}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'you_will_continue_to_contribute'|trans([], 'emails', locale) }}
+														{{ 'you_will_continue_to_contribute'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'your_expertise_and_dedication_remain_vital'|trans({'%app_name%': app_name}, 'emails', locale) }}
+														{{ 'your_expertise_and_dedication_remain_vital'|trans({'%app_name%': app_name}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'if_you_have_any_questions_regarding_this_change'|trans([], 'emails', locale) }}
+														{{ 'if_you_have_any_questions_regarding_this_change'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'thank_for_your_understanding'|trans([], 'emails', locale) }}
+														{{ 'thank_for_your_understanding'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
@@ -76,9 +76,9 @@
 												</tr>
 												<tr>
 													<td class="last row">
-														{{ 'best_regards'|trans([], 'emails', locale) }}
+														{{ 'best_regards'|trans([], 'emails') }}
 														<br>
-                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails', locale) }}</strong>
+                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
 													</td>
 												</tr>
 											</tbody>
@@ -89,7 +89,7 @@
 									<td class="footer">
 										<div class="outlook-group-fix">
 											<span>
-                                                <a href="{{ app_base_url }}" title="{{ app_name }}">
+                                                <a href="{{ url('app_home') }}" title="{{ app_name }}">
 													{{ app_name }}
 												</a>
                                             </span>

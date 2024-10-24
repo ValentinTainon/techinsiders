@@ -1,4 +1,4 @@
-{% apply inline_css(source('@styles/email-default-style.css')) %}
+{% apply inline_css(source('@styles/email/default-style.css')) %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -29,7 +29,7 @@
 						<table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
 							<tbody>
 								<tr>
-									<a href="{{ app_base_url }}" title="{{ app_name }}">
+									<a href="{{ url('app_home') }}" title="{{ app_name }}">
 										{{ app_name }}
 									</a>
 								</tr>
@@ -39,7 +39,7 @@
 											<tbody>
 												<tr>
 													<td class="first row">
-														{# {{ 'hello.admin'|trans({'%admin%': admin}, 'emails') }} #}
+														{{ 'hello.admin'|trans({'%admin%': Valentin}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
@@ -50,7 +50,7 @@
 												<tr>
 													<td style="text-align: center;">
 														<a class="button" 
-                                                            href="{{ app_base_url }}" 
+                                                            href="{{ url('app_home') }}" 
                                                             title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}"
                                                         >
                                                             {{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
@@ -65,7 +65,7 @@
 									<td class="footer">
 										<div class="outlook-group-fix">
 											<span>
-                                                <a href="{{ app_base_url }}" title="{{ app_name }}">
+                                                <a href="{{ url('app_home') }}" title="{{ app_name }}">
 													{{ app_name }}
 												</a>
                                             </span>

@@ -1,4 +1,4 @@
-{% apply inline_css(source('@styles/email-default-style.css')) %}
+{% apply inline_css(source('@styles/email/default-style.css')) %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -30,7 +30,7 @@
 							<tbody>
 								<tr>
 									<td class="header">
-										<a href="{{ app_base_url }}" title="{{ app_name }}">
+										<a href="{{ url('app_home') }}" title="{{ app_name }}">
 											{{ app_name }}
 										</a>
 									</td>
@@ -41,12 +41,12 @@
 											<tbody>
 												<tr>
 													<td class="first row">
-														{{ 'hello.admin'|trans({'%admin%': 'Valentin'}, 'emails', locale) }}
+														{{ 'hello.admin'|trans({'%admin%': 'Valentin'}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'user.send_registration_request'|trans({'%username%': username}, 'emails', locale) }}
+														{{ 'user.send_registration_request'|trans({'%username%': username}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
@@ -57,10 +57,10 @@
 												<tr>
 													<td style="text-align: center;">
 														<a class="button" 
-                                                            href="{{ app_base_url }}" 
-                                                            title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails', locale) }}"
+                                                            href="{{ url('app_home') }}" 
+                                                            title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}"
                                                         >
-                                                            {{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails', locale) }}
+                                                            {{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
                                                         </a>
 													</td>
 												</tr>
@@ -72,7 +72,7 @@
 									<td class="footer">
 										<div class="outlook-group-fix">
 											<span>
-                                                <a href="{{ app_base_url }}" title="{{ app_name }}">
+                                                <a href="{{ url('app_home') }}" title="{{ app_name }}">
 													{{ app_name }}
 												</a>
                                             </span>
