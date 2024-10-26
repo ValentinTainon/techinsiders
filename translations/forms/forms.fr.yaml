@@ -38,5 +38,5 @@ reset.password.label: 'Réinitialiser le mot de passe'
 # Helps message
 avatar.field.help.message: 'Formats supportés: jpg, png, webp, svg, gif. Taille max: %size%o.'
 thumbnail.field.help.message: 'Formats supportés: jpg, png, webp. Taille max: %size%o.'
-check.user.password.help.message: 'Pour valider vos modifications, veuillez saisir votre mot de passe actuel.'
+check.user.password.help.message: 'Afin de valider vos modifications, veuillez saisir votre mot de passe actuel.'
 reset.password.request.help.message: 'Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.'

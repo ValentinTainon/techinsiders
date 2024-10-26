@@ -38,5 +38,5 @@ reset.password.label: 'Reset password'
 # Helps message
 avatar.field.help.message: 'Supported formats: jpg, png, webp, svg, gif. Max size: %size%o.'
 thumbnail.field.help.message: 'Supported formats: jpg, png, webp, svg, gif. Max size: %size%o.'
-check.user.password.help.message: 'To validate your changes, please enter your current password.'
+check.user.password.help.message: 'In order to validate your changes, please enter your current password.'
 reset.password.request.help.message: 'Enter your email address and we will send you a link to reset your password.'

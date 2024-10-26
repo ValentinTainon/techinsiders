@@ -21,7 +21,8 @@ final class CkeditorField implements FieldInterface
             ->setProperty($propertyName)
             ->setLabel($label)
             ->setFormType(TextareaType::class)
-            ->setFormTypeOptions(['block_name' => 'custom_content'])
+            ->setFormTypeOption('block_name', 'custom_content')
+            ->addFormTheme('bundles/EasyAdminBundle/crud/field/ckeditor.html.twig')
             ->addCssClass('field-ckeditor')
             ->addCssFiles(
                 Asset::new('../assets/styles/ckeditor/default.css'),
@@ -29,6 +30,7 @@ final class CkeditorField implements FieldInterface
                 Asset::new('../assets/styles/ckeditor/word-count.css')
             )
             ->setDefaultColumns(10)
+            ->setFormTypeOption('row_attr', ['style' => 'max-width: 1000px;'])
             ->onlyOnForms()
         ;
     }

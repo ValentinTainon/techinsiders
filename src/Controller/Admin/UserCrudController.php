@@ -167,7 +167,8 @@ class UserCrudController extends AbstractCrudController
             ->hideOnForm()
             ->setPermission('ROLE_SUPER_ADMIN');
 
-        yield TextField::new('username', t('username.label', [], 'forms'));
+        yield TextField::new('username', t('username.label', [], 'forms'))
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
 
         yield ChoiceField::new('roles', t('roles.label', [], 'forms'))
             ->setTranslatableChoices([
@@ -177,10 +178,12 @@ class UserCrudController extends AbstractCrudController
             ])
             ->allowMultipleChoices(true)
             ->hideWhenCreating()
-            ->setDisabled();
+            ->setDisabled()
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
 
         yield EmailField::new('email', t('email.label', [], 'forms'))
-            ->setRequired(true);
+            ->setRequired(true)
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
 
         $passwordField = PasswordField::new('plainPassword')
             ->setRequired($pageName === Crud::PAGE_NEW);
@@ -228,7 +231,9 @@ class UserCrudController extends AbstractCrudController
 
         yield TextareaField::new('about', t('about.label', [], 'forms'))
             ->hideOnIndex()
-            ->hideWhenCreating();
+            ->hideWhenCreating()
+            ->setColumns(10)
+            ->setFormTypeOption('row_attr', ['style' => 'max-width: 1000px;']);;
 
         yield BooleanField::new('isVerified', t('is_verified.label', [], 'forms'))
             ->renderAsSwitch(false)
@@ -247,7 +252,8 @@ class UserCrudController extends AbstractCrudController
             ])
             ->setHelp(t('check.user.password.help.message', [], 'forms'))
             ->onlyWhenUpdating()
-            ->setRequired(true);
+            ->setRequired(true)
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
     }
 
     public function configureFilters(Filters $filters): Filters

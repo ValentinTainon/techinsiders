@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -45,9 +46,15 @@ class CategoryCrudController extends AbstractCrudController
         yield IdField::new('id', t('id.label', [], 'forms'))
             ->hideOnForm();
             
-        yield TextField::new('name', t('name.label', [], 'forms'));
+            FormField::addRow();
+        yield TextField::new('name', t('name.label', [], 'forms'))
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+            FormField::addRow();
         
+            FormField::addRow();
         yield SlugField::new('slug', t('slug.label', [], 'forms'))
-            ->setTargetFieldName('name');
+            ->setTargetFieldName('name')
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+            FormField::addRow();
     }
 }

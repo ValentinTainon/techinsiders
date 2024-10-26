@@ -18,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use Symfony\Component\Validator\Constraints\Image;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\ExpressionLanguage\Expression;
@@ -68,7 +69,6 @@ class PostCrudController extends AbstractCrudController
             ->setEntityLabelInPlural(t('post.label.plural', [], 'EasyAdminBundle'))
             ->setPageTitle('new', t('create.post', [], 'EasyAdminBundle'))
             ->setPageTitle('edit', t('edit.post', [], 'EasyAdminBundle'))
-            ->addFormTheme('bundles/EasyAdminBundle/crud/field/ckeditor.html.twig')
             ->setDefaultSort(['createdAt' => 'DESC']);
     }
 
@@ -100,7 +100,9 @@ class PostCrudController extends AbstractCrudController
         yield AssociationField::new('user', t('author.label', [], 'forms'))
             ->onlyOnIndex();
 
-        yield AssociationField::new('category', t('category.label.singular', [], 'EasyAdminBundle'));
+        yield AssociationField::new('category', t('category.label.singular', [], 'EasyAdminBundle'))
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+        FormField::addRow();
         
         yield DateTimeField::new('createdAt', t('created_at.label', [], 'forms'))
             ->hideWhenCreating()
@@ -113,18 +115,6 @@ class PostCrudController extends AbstractCrudController
                 ->setDisabled()
                 ->setRequired(false);
         }
-
-        yield TextField::new('title', t('title.label', [], 'forms'));
-        
-        $slugField = SlugField::new('slug', t('slug.label', [], 'forms'))
-            ->setTargetFieldName('title')
-            ->hideOnIndex();
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $slugField->setFormTypeOption('row_attr', ['style' => 'display: none;']);
-        }
-
-        yield $slugField;
 
         yield ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
             ->setBasePath('uploads/posts/thumbnails')
@@ -144,6 +134,22 @@ class PostCrudController extends AbstractCrudController
             )
             ->setHelp(t('thumbnail.field.help.message', ['%size%' => self::maxThumbnailSize], 'forms'))
             ->setRequired($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT && empty($this->postInstance()->getThumbnail()) ? true : false);
+
+        yield TextField::new('title', t('title.label', [], 'forms'))
+            ->setColumns(10)
+            ->setFormTypeOption('row_attr', ['style' => 'max-width: 1000px;']);
+        
+        $slugField = SlugField::new('slug', t('slug.label', [], 'forms'))
+            ->setTargetFieldName('title')
+            ->hideOnIndex()
+            ->setColumns(10)
+            ->setFormTypeOption('row_attr', ['style' => 'max-width: 1000px;']);
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $slugField->setFormTypeOption('row_attr', ['style' => 'display: none;']);
+        }
+
+        yield $slugField;
 
         yield CkeditorField::new('content', t('content.label', [], 'forms'));
 

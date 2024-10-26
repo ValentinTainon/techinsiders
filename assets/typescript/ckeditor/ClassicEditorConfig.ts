@@ -76,6 +76,7 @@ import CkWordCountUpdater from './CkWordCountUpdater.ts';
 
 interface StarterConfig {
 	codeBlock: { languages: { language: string; label: string }[] };
+	language: { ui: string; content: string };
 	link: { addTargetToExternalLinks: boolean; defaultProtocol: string };
 	mention: { feeds: { marker: string; feed: string[] }[] };
 	placeholder: string;
@@ -92,7 +93,7 @@ interface FeatureRichConfig {
 	heading: { options: { model: string; view: string; title: string; class: string }[] };
 	htmlSupport: { allow: { name: RegExp; styles: boolean; attributes: boolean; classes: boolean }[] };
 	image: { toolbar: string[] };
-	language: { textPartLanguage: { title: string; languageCode: string }[] };
+	language: { ui: string; content: string; textPartLanguage: { title: string; languageCode: string }[] };
 	link: { addTargetToExternalLinks: boolean; defaultProtocol: string; decorators: { toggleDownloadable: { mode: string; label: string; attributes: { download: string; }; }; }; };
 	list: { properties: { styles: boolean; startIndex: boolean; reversed: boolean } };
 	mention: { feeds: { marker: string; feed: string[] }[] };
@@ -144,6 +145,10 @@ export default class ClassicEditorConfig {
 					{ language: 'python', label: 'Python' },
 					{ language: 'typescript', label: 'TypeScript' }
 				]
+			},
+			language: {
+				ui: this.isDefaultLocale ? 'fr' : 'en',
+				content: this.isDefaultLocale ? 'fr' : 'en'
 			},
 			link: {
 				addTargetToExternalLinks: true,
@@ -283,6 +288,8 @@ export default class ClassicEditorConfig {
 				]
 			},
 			language: {
+				ui: this.isDefaultLocale ? 'fr' : 'en',
+				content: this.isDefaultLocale ? 'fr' : 'en',
 				textPartLanguage: [
 					{ title: this.isDefaultLocale ? 'Français' : 'French', languageCode: 'fr' },
 					{ title: this.isDefaultLocale ? 'Anglais' : 'English', languageCode: 'en' }

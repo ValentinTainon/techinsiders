@@ -25,6 +25,9 @@ final class PasswordField implements FieldInterface
             ->setFormTypeOptions([
                 'type' => PasswordType::class,
                 'options' => [
+                    'row_attr' => [
+                        'class' => 'col-sm-6 col-lg-5 col-xxl-3'
+                    ],
                     'attr' => [
                         'autocomplete' => 'new-password'
                     ],
