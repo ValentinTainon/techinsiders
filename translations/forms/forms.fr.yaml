@@ -1,42 +1,54 @@
+# General
+at: "le"
+
+# Tabs label
+general_information.label: "Informations générales"
+post_content.label: "Contenu de l'article"
+status.label: "Statut"
+post_content.tab.help.message: "Le contenu de l'article doit faire au moins %min_post_length_limit% caractères."
+
 # Fields label
-id.label: 'ID'
+id.label: "ID"
 username.label: "Nom d’utilisateur"
-roles.label: 'Rôle'
-roles.super_admin.label: 'Super administrateur'
-roles.admin.label: 'Administrateur'
-roles.editor.label: 'Rédacteur'
-email.label: 'Email'
-avatar.label: 'Avatar'
-about.label: 'À propos de vous'
-is_verified.label: 'Vérifié'
-is_active.label: 'Actif'
-password.label: 'Mot de passe'
-repeat.password.label: 'Répéter le mot de passe'
-new.password.label: 'Nouveau mot de passe'
-repeat.new.password.label: 'Répéter le nouveau mot de passe'
-forgot.password.label: 'Mot de passe oublié ?'
-name.label: 'Nom'
-slug.label: 'Slug'
-author.label: 'Auteur'
-created_at.label: 'Date de création'
-updated_at.label: 'Date de mise à jour'
-title.label: 'Titre'
-thumbnail.label: 'Miniature'
-content.label: 'Contenu'
-ckeditor.wordcount.label: 'Nombre de mots: '
-is_visible.label: 'Publié'
-user_motivation.label: 'Vos motivations'
-remember_me.label: 'Se souvenir de moi'
-agree_terms.label: 'Accepter les conditions'
+roles.label: "Rôle"
+roles.super_admin.label: "Super administrateur"
+roles.admin.label: "Administrateur"
+roles.editor.label: "Rédacteur"
+email.label: "Email"
+avatar.label: "Avatar"
+about.label: "À propos de vous"
+is_verified.label: "Vérifié"
+is_guest.label: "Invité"
+is_active.label: "Actif"
+password.label: "Mot de passe"
+repeat.password.label: "Répéter le mot de passe"
+new.password.label: "Nouveau mot de passe"
+repeat.new.password.label: "Répéter le nouveau mot de passe"
+forgot.password.label: "Mot de passe oublié ?"
+name.label: "Nom"
+slug.label: "Slug"
+author.label: "Auteur"
+created_at.label: "Date de création"
+updated_at.label: "Date de mise à jour"
+title.label: "Titre"
+thumbnail.label: "Miniature"
+content.label: "Contenu"
+ckeditor.wordcount.label: "Nombre de mots: "
+comments.label: "Commentaires"
+posts.label: "Articles"
+is_visible.label: "Publié"
+user_motivation.label: "Vos motivations"
+remember_me.label: "Se souvenir de moi"
+agree_terms.label: "Accepter les conditions"
 
 # Buttons label
-sign_in.label: 'Se connecter'
+sign_in.label: "Se connecter"
 sign_up.label: "S'inscrire"
-next.label: 'Suivant'
-reset.password.label: 'Réinitialiser le mot de passe'
+next.label: "Suivant"
+reset.password.label: "Réinitialiser le mot de passe"
 
 # Helps message
-avatar.field.help.message: 'Formats supportés: jpg, png, webp, svg, gif. Taille max: %size%o.'
-thumbnail.field.help.message: 'Formats supportés: jpg, png, webp. Taille max: %size%o.'
-check.user.password.help.message: 'Afin de valider vos modifications, veuillez saisir votre mot de passe actuel.'
-reset.password.request.help.message: 'Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.'
+avatar.field.help.message: "Formats supportés: jpg, png, webp, svg, gif. Taille max: %size%o."
+thumbnail.field.help.message: "Formats supportés: jpg, png, webp. Taille max: %size%o."
+check.user.password.help.message: "Afin de valider vos modifications, veuillez saisir votre mot de passe actuel."
+reset.password.request.help.message: "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe."

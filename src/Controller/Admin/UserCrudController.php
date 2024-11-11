@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use Symfony\Component\Validator\Constraints\Image;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
@@ -22,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ArrayFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -34,10 +36,10 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 class UserCrudController extends AbstractCrudController
 {
-    private const string DEFAULT_AVATAR_FILE_NAME = 'default-avatar.svg';
-
-    private const string MAX_AVATAR_FILE_SIZE = '500k';
-
+    public const string AVATAR_BASE_PATH = 'uploads/images/users/avatars/';
+    public const string AVATAR_UPLOAD_DIR = 'public/' . self::AVATAR_BASE_PATH;
+    public const string DEFAULT_IMAGES_DIR = '../assets/images/default/';
+    private const string AVATAR_MAX_FILE_SIZE = '500k';
     private const string EA_USER_EMAILS_DIR = 'bundles/EasyAdminBundle/crud/user/emails/';
 
     public function __construct(
@@ -51,24 +53,13 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-    private function userInstance(): ?User
-    {
-        $entityInstance = $this->getContext()->getEntity()->getInstance();
-
-        if ($entityInstance instanceof User) {
-            return $entityInstance;
-        }
-
-        return null;
-    }
-
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setEntityLabelInSingular(t('user.label.singular', [], 'EasyAdminBundle'))
             ->setEntityLabelInPlural(t('user.label.plural', [], 'EasyAdminBundle'))
-            ->setPageTitle('new', t('create.user', [], 'EasyAdminBundle'))
-            ->setPageTitle('edit', t('edit.user', [], 'EasyAdminBundle'))
+            ->setPageTitle(Crud::PAGE_NEW, t('create.user', [], 'EasyAdminBundle'))
+            ->setPageTitle(Crud::PAGE_EDIT, t('edit.user', [], 'EasyAdminBundle'))
             ->setDefaultSort(['id' => 'ASC']);
     }
 
@@ -105,7 +96,7 @@ class UserCrudController extends AbstractCrudController
             );
 
         $expression = new Expression(
-            'is_granted("ROLE_SUPER_ADMIN") or (subject.getId() === user.getId() and is_granted("ROLE_EDITOR"))'
+            'is_granted("ROLE_SUPER_ADMIN") or (user === subject and is_granted("ROLE_EDITOR"))'
         );
 
         return $actions
@@ -163,28 +154,19 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        yield FormField::addFieldset()->addCssClass('custom-max-width');
         yield IdField::new('id', t('id.label', [], 'forms'))
             ->hideOnForm()
             ->setPermission('ROLE_SUPER_ADMIN');
 
         yield TextField::new('username', t('username.label', [], 'forms'))
-            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
-
-        yield ChoiceField::new('roles', t('roles.label', [], 'forms'))
-            ->setTranslatableChoices([
-                'ROLE_SUPER_ADMIN' => t('roles.super_admin.label', [], 'forms'),
-                'ROLE_ADMIN' => t('roles.admin.label', [], 'forms'),
-                'ROLE_EDITOR' => t('roles.editor.label', [], 'forms'),
-            ])
-            ->allowMultipleChoices(true)
-            ->hideWhenCreating()
-            ->setDisabled()
-            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+            ->setColumns('col-sm-6 col-md-5');
 
         yield EmailField::new('email', t('email.label', [], 'forms'))
             ->setRequired(true)
-            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+            ->setColumns('col-sm-6 col-md-5');
 
+        yield FormField::addRow();
         $passwordField = PasswordField::new('plainPassword')
             ->setRequired($pageName === Crud::PAGE_NEW);
 
@@ -201,21 +183,39 @@ class UserCrudController extends AbstractCrudController
 
         yield $passwordField;
 
+        yield FormField::addRow();
+        yield ChoiceField::new('roles', t('roles.label', [], 'forms'))
+            ->setTranslatableChoices([
+                'ROLE_SUPER_ADMIN' => t('roles.super_admin.label', [], 'forms'),
+                'ROLE_ADMIN' => t('roles.admin.label', [], 'forms'),
+                'ROLE_EDITOR' => t('roles.editor.label', [], 'forms'),
+            ])
+            ->allowMultipleChoices(true)
+            ->hideWhenCreating()
+            ->setDisabled()
+            ->setColumns('col-sm-6 col-md-5');
+
+        yield IntegerField::new('postsCount', t('posts.label', [], 'forms'))
+            ->hideWhenCreating()
+            ->setDisabled()
+            ->setTextAlign('center')
+            ->setColumns('col-sm-6 col-md-5');
+
+        yield FormField::addRow();
         yield ImageField::new('avatar', t('avatar.label', [], 'forms'))
-            ->setBasePath('uploads/images/users/avatars')
-            ->setUploadDir($this->getParameter('uploads_images_relative_path') . '/users/avatars')
+            ->setBasePath(self::AVATAR_BASE_PATH)
+            ->setUploadDir($this->hasDefaultAvatar() ? self::DEFAULT_IMAGES_DIR : self::AVATAR_UPLOAD_DIR)
             ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
             ->setFormTypeOptions([
-                'empty_data' => '',
-                'allow_delete' => $pageName === Crud::PAGE_EDIT && $this->userInstance()->getAvatar() !== self::DEFAULT_AVATAR_FILE_NAME,
+                'allow_delete' => $pageName === Crud::PAGE_EDIT && !$this->hasDefaultAvatar(),
                 'upload_delete' =>
                 fn(File $file) =>
-                $file->getFilename() !== self::DEFAULT_AVATAR_FILE_NAME ? unlink($file->getPathname()) : null
+                $file->getFilename() !== User::DEFAULT_USER_AVATAR_FILE_NAME ? unlink($file->getPathname()) : null
             ])
             ->setFileConstraints(
                 new Image(
                     detectCorrupted: true,
-                    maxSize: self::MAX_AVATAR_FILE_SIZE,
+                    maxSize: self::AVATAR_MAX_FILE_SIZE,
                     mimeTypes: [
                         'image/jpeg',
                         'image/png',
@@ -225,17 +225,21 @@ class UserCrudController extends AbstractCrudController
                     ]
                 )
             )
-            ->setHelp(t('avatar.field.help.message', ['%size%' => self::MAX_AVATAR_FILE_SIZE], 'forms'))
+            ->setHelp(t('avatar.field.help.message', ['%size%' => self::AVATAR_MAX_FILE_SIZE], 'forms'))
             ->hideWhenCreating()
-            ->setRequired(false);
+            ->setColumns(10);
 
         yield TextareaField::new('about', t('about.label', [], 'forms'))
             ->hideOnIndex()
             ->hideWhenCreating()
-            ->setColumns(10)
-            ->setFormTypeOption('row_attr', ['style' => 'max-width: 1000px;']);;
+            ->setColumns(10);
 
         yield BooleanField::new('isVerified', t('is_verified.label', [], 'forms'))
+            ->renderAsSwitch(false)
+            ->onlyOnIndex()
+            ->setPermission('ROLE_SUPER_ADMIN');
+
+        yield BooleanField::new('isGuest', t('is_guest.label', [], 'forms'))
             ->renderAsSwitch(false)
             ->onlyOnIndex()
             ->setPermission('ROLE_SUPER_ADMIN');
@@ -253,29 +257,42 @@ class UserCrudController extends AbstractCrudController
             ->setHelp(t('check.user.password.help.message', [], 'forms'))
             ->onlyWhenUpdating()
             ->setRequired(true)
-            ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+            ->setColumns('col-sm-6 col-md-5');
+    }
+
+    public function hasDefaultAvatar(): bool
+    {
+        $entityInstance = $this->getContext()->getEntity()->getInstance();
+
+        if (!$entityInstance instanceof User) {
+            return false;
+        }
+
+        return $entityInstance->getAvatar() === User::DEFAULT_USER_AVATAR_FILE_NAME;
     }
 
     public function configureFilters(Filters $filters): Filters
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $filters->add(
-                ArrayFilter::new('roles', t('roles.label', [], 'forms'))
-                    ->setTranslatableChoices([
-                        'ROLE_SUPER_ADMIN' => t('roles.super_admin.label', [], 'forms'),
-                        'ROLE_ADMIN' => t('roles.admin.label', [], 'forms'),
-                        'ROLE_EDITOR' => t('roles.editor.label', [], 'forms'),
-                    ])
-            )
-                ->add(BooleanFilter::new('isVerified', t('is_verified.label', [], 'forms')));
+        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+            return $filters;
         }
 
-        return $filters;
+        return $filters->add(
+            ArrayFilter::new('roles', t('roles.label', [], 'forms'))
+                ->setTranslatableChoices([
+                    'ROLE_SUPER_ADMIN' => t('roles.super_admin.label', [], 'forms'),
+                    'ROLE_ADMIN' => t('roles.admin.label', [], 'forms'),
+                    'ROLE_EDITOR' => t('roles.editor.label', [], 'forms'),
+                ])
+        )
+            ->add(BooleanFilter::new('isVerified', t('is_verified.label', [], 'forms')))
+            ->add(BooleanFilter::new('isGuest', t('is_guest.label', [], 'forms')));
     }
 
     private function canBeAssignEditorRole(User $subject): bool
     {
-        return $this->isGranted('ROLE_SUPER_ADMIN') && (!in_array('ROLE_EDITOR', $this->roleHierarchy->getReachableRoleNames($subject->getRoles()), true));
+        return $this->isGranted('ROLE_SUPER_ADMIN')
+            && (!in_array('ROLE_EDITOR', $this->roleHierarchy->getReachableRoleNames($subject->getRoles()), true));
     }
 
     private function canBeReassignEditorRole(User $subject): bool
@@ -296,7 +313,7 @@ class UserCrudController extends AbstractCrudController
             && !in_array('ROLE_ADMIN', $subjectRoles, true);
     }
 
-    public function manageUserRole(AdminContext $context, EntityManagerInterface $entityManager): Response
+    private function manageUserRole(AdminContext $context, EntityManagerInterface $entityManager): Response
     {
         $subject = $context->getEntity()->getInstance();
 

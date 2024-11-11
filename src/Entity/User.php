@@ -21,6 +21,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[UniqueEntity(fields: ['email'], message: 'user.unique.entity.constraint.email.message')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const string DEFAULT_USER_AVATAR_FILE_NAME = 'default-user-avatar.svg';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -67,14 +69,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Assert\NotBlank]
     #[Assert\Email]
+    #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NoSuspiciousCharacters]
-    private string $avatar = '';
+    private ?string $avatar = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(
@@ -84,11 +86,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NoSuspiciousCharacters]
     private ?string $about = null;
 
-    #[ORM\Column(length: 2)]
-    private string $locale = "fr";
-
     #[ORM\Column]
     private bool $isVerified = false;
+
+    #[ORM\Column]
+    private bool $isGuest = false;
 
     /**
      * @var Collection<int, Post>
@@ -169,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -229,7 +231,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function initializeDefaultAvatar(): void
     {
         if (empty($this->avatar)) {
-            $this->avatar = 'default-avatar.svg';
+            $this->avatar = self::DEFAULT_USER_AVATAR_FILE_NAME;
         }
     }
 
@@ -241,18 +243,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAbout(?string $about): static
     {
         $this->about = $about;
-
-        return $this;
-    }
-
-    public function getLocale(): ?string
-    {
-        return $this->locale;
-    }
-
-    public function setLocale(string $locale): static
-    {
-        $this->locale = $locale;
 
         return $this;
     }
@@ -269,12 +259,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isGuest(): bool
+    {
+        return $this->isGuest;
+    }
+
+    public function setGuest(bool $isGuest): static
+    {
+        $this->isGuest = $isGuest;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Post>
      */
     public function getPosts(): Collection
     {
         return $this->posts;
+    }
+
+    public function getPostsCount(): int
+    {
+        return $this->posts->count();
     }
 
     public function addPost(Post $post): static

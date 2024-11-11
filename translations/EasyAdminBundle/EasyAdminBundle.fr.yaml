@@ -13,6 +13,8 @@ back.website.label: 'Retour au site web'
 # Entity labels
 category.label.singular: 'Catégorie'
 category.label.plural: 'Catégories'
+comment.label.singular: 'Commentaire'
+comment.label.plural: 'Commentaires'
 post.label.singular: 'Article'
 post.label.plural: 'Articles'
 user.label.singular: 'Utilisateur'
@@ -20,14 +22,17 @@ user.label.plural: 'Utilisateurs'
 
 # Pages titles
 create.category: 'Créer une catégorie'
+create.comment: 'Créer un commentaire'
 create.post: 'Créer un article'
 create.user: 'Créer un utilisateur'
 edit.category: 'Modifier une catégorie'
+edit.comment: 'Modifier un commentaire'
 edit.post: 'Modifier un article'
 edit.user: 'Modifier un utilisateur'
 
 # Action buttons
 create_and_add.category.label: 'Créer et ajouter une autre catégorie'
+create_and_add.comment: 'Créer et ajouter un autre commentaire'
 create_and_add.post.label: 'Créer et ajouter un autre article'
 create_and_add.user.label: 'Créer et ajouter un autre utilisateur'
 save_and_continue.editing.label: 'Enregistrer et continuer les modifications'

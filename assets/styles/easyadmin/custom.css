@@ -1,0 +1,32 @@
+.custom-max-width {
+  max-width: 1000px;
+}
+
+.hidden {
+  display: none;
+}
+
+.custom-badge {
+  --bs-badge-font-size: var(--font-size-xs);
+  --bs-badge-font-weight: 500;
+  --bs-badge-color: var(--text-color);
+  --bs-badge-border-radius: var(--bs-border-radius);
+  box-shadow: var(--badge-box-shadow);
+  border-radius: var(--bs-badge-border-radius);
+  color: var(--bs-badge-color);
+  display: inline-block;
+  font-size: var(--bs-badge-font-size);
+  font-weight: var(--bs-badge-font-weight);
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  line-height: 1;
+  margin-left: 4px;
+  padding: 3px 6px;
+}
+
+.custom-badge.custom-badge-danger {
+  background-color: var(--badge-danger-bg);
+  box-shadow: var(--badge-danger-box-shadow);
+  color: var(--badge-danger-color);
+}

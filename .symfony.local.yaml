@@ -1,3 +1,5 @@
 workers:
     typescript:
         cmd: ['symfony', 'console', 'typescript:build', '--watch']
+    # messenger:
+    #     cmd: ['symfony', 'console', 'messenger:consume', 'async', '--limit=10', '--time-limit=3600']

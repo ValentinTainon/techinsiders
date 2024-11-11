@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
+use App\Validator as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -16,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['title'], message: 'post.unique.entity.constraint.title.message')]
 class Post
 {
+    public const int MIN_POST_LENGTH_LIMIT = 500;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -38,6 +41,7 @@ class Post
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[CustomAssert\LengthWithoutHtml(min: self::MIN_POST_LENGTH_LIMIT)]
     private ?string $content = null;
 
     #[ORM\Column(length: 255)]
@@ -56,12 +60,17 @@ class Post
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true, cascade: ['persist'])]
     private Collection $comments;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -153,12 +162,6 @@ class Post
         return $this;
     }
 
-    #[ORM\PrePersist]
-    public function initializeCreatedAt(): void
-    {
-        $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
@@ -169,12 +172,6 @@ class Post
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    #[ORM\PreUpdate]
-    public function initializeUpdatedAt(): void
-    {
-        $this->updatedAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
     }
 
     public function isVisible(): bool
@@ -195,6 +192,11 @@ class Post
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    public function getCommentsCount(): int
+    {
+        return $this->comments->count();
     }
 
     public function addComment(Comment $comment): static

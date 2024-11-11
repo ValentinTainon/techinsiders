@@ -32,7 +32,7 @@ class EmailService
     {
         $templatedEmail = (new TemplatedEmail())
             ->to(new Address($emailTo, $usernameTo))
-            ->subject($this->translator->trans($subject, [], 'emails'))
+            ->subject($this->translator->trans(id: $subject, domain: 'emails'))
             ->htmlTemplate($template)
             ->context($context);
 
@@ -57,7 +57,7 @@ class EmailService
             $user,
             (new TemplatedEmail())
                 ->to(new Address($emailTo, $usernameTo))
-                ->subject($this->translator->trans($subject, [], 'emails'))
+                ->subject($this->translator->trans(id: $subject, domain: 'emails'))
                 ->htmlTemplate($template)
                 ->context($context)
         );

@@ -13,6 +13,8 @@ back.website.label: 'Back to the website'
 # Entity labels
 category.label.singular: 'Category'
 category.label.plural: 'Categories'
+comment.label.singular: 'Comment'
+comment.label.plural: 'Comments'
 post.label.singular: 'Post'
 post.label.plural: 'Posts'
 user.label.singular: 'User'
@@ -20,14 +22,17 @@ user.label.plural: 'Users'
 
 # Pages titles
 create.category: 'Create a category'
+create.comment: 'Create a comment'
 create.post: 'Create a post'
 create.user: 'Create a user'
 edit.category: 'Edit a category'
+edit.comment: 'Edit a comment'
 edit.post: 'Edit a post'
 edit.user: 'Edit a user'
 
 # Action buttons
 create_and_add.category.label: 'Create and add another category'
+create_and_add.comment: 'Create and add another comment'
 create_and_add.post.label: 'Create and add another post'
 create_and_add.user.label: 'Create and add another user'
 save_and_continue.editing.label: 'Save and continue editing'

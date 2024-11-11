@@ -4,11 +4,14 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Comment;
 use App\Entity\Category;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -19,9 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
-    public function __construct(private TranslatorInterface $translator)
-    {
-    }
+    public function __construct(private TranslatorInterface $translator, private UserCrudController $userCrudController) {}
 
     #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
@@ -52,7 +53,7 @@ class DashboardController extends AbstractDashboardController
             // ->setFaviconPath('favicon.svg')
             ->setTitle($this->getParameter('app_name'))
             ->setLocales([
-                'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'), 
+                'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'),
                 'en' => $this->translator->trans('locale.english.label', [], 'EasyAdminBundle')
             ])
             ->renderContentMaximized();
@@ -70,11 +71,11 @@ class DashboardController extends AbstractDashboardController
                     ->setAction(Action::EDIT)
                     ->setEntityId($user->getId()),
             ]);
-        
+
         if ($user->getAvatar()) {
-            $userMenu->setAvatarUrl('/uploads/images/users/avatars/'.$user->getAvatar());
+            $userMenu->setAvatarUrl($this->userCrudController->hasDefaultAvatar() ? UserCrudController::DEFAULT_IMAGES_DIR : UserCrudController::AVATAR_BASE_PATH . $user->getAvatar());
         }
-        
+
         return $userMenu;
     }
 
@@ -85,15 +86,22 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud(t('category.label.plural', [], 'EasyAdminBundle'), 'fas fa-list', Category::class)
             ->setPermission('ROLE_SUPER_ADMIN');
         yield MenuItem::linkToCrud(t('post.label.plural', [], 'EasyAdminBundle'), 'fas fa-newspaper', Post::class);
-        
+        yield MenuItem::linkToCrud(t('comment.label.plural', [], 'EasyAdminBundle'), 'fas fa-comments', Comment::class);
+
         // Community
         yield MenuItem::section(t('community.label', [], 'EasyAdminBundle'))
             ->setPermission('ROLE_SUPER_ADMIN');
         yield MenuItem::linkToCrud(t('user.label.plural', [], 'EasyAdminBundle'), 'fas fa-user', User::class)
             ->setPermission('ROLE_SUPER_ADMIN');
-        
+
         // Website
         yield MenuItem::section(t('website.label', [], 'EasyAdminBundle'));
-        yield MenuItem::linktoRoute(t('back.website.label', [], 'EasyAdminBundle'), 'fas fa-home', 'app_home');
+        yield MenuItem::linkToRoute(t('back.website.label', [], 'EasyAdminBundle'), 'fas fa-home', 'app_home');
+    }
+
+    public function configureAssets(): Assets
+    {
+        return parent::configureAssets()
+            ->addCssFile(Asset::new('../assets/styles/easyadmin/custom.css'));
     }
 }
