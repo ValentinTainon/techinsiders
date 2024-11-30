@@ -2,13 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Enum\UserRole;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Comment;
 use App\Entity\Category;
+use App\Service\PathService;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -17,18 +19,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
-    public function __construct(private TranslatorInterface $translator, private UserCrudController $userCrudController) {}
+    public function __construct(private TranslatorInterface $translator) {}
 
     #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(PostCrudController::class)->generateUrl());
+        return $this->redirectToRoute('admin_post_index');
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -73,7 +73,7 @@ class DashboardController extends AbstractDashboardController
             ]);
 
         if ($user->getAvatar()) {
-            $userMenu->setAvatarUrl($this->userCrudController->hasDefaultAvatar() ? UserCrudController::DEFAULT_IMAGES_DIR : UserCrudController::AVATAR_BASE_PATH . $user->getAvatar());
+            $userMenu->setAvatarUrl(PathService::USERS_AVATAR_BASE_PATH . $user->getAvatar());
         }
 
         return $userMenu;
@@ -84,15 +84,15 @@ class DashboardController extends AbstractDashboardController
         // Blog
         yield MenuItem::section(t('blog.label', [], 'EasyAdminBundle'));
         yield MenuItem::linkToCrud(t('category.label.plural', [], 'EasyAdminBundle'), 'fas fa-list', Category::class)
-            ->setPermission('ROLE_SUPER_ADMIN');
+            ->setPermission(UserRole::SUPER_ADMIN->value);
         yield MenuItem::linkToCrud(t('post.label.plural', [], 'EasyAdminBundle'), 'fas fa-newspaper', Post::class);
         yield MenuItem::linkToCrud(t('comment.label.plural', [], 'EasyAdminBundle'), 'fas fa-comments', Comment::class);
 
         // Community
         yield MenuItem::section(t('community.label', [], 'EasyAdminBundle'))
-            ->setPermission('ROLE_SUPER_ADMIN');
+            ->setPermission(UserRole::SUPER_ADMIN->value);
         yield MenuItem::linkToCrud(t('user.label.plural', [], 'EasyAdminBundle'), 'fas fa-user', User::class)
-            ->setPermission('ROLE_SUPER_ADMIN');
+            ->setPermission(UserRole::SUPER_ADMIN->value);
 
         // Website
         yield MenuItem::section(t('website.label', [], 'EasyAdminBundle'));

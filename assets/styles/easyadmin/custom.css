@@ -2,10 +2,6 @@
   max-width: 1000px;
 }
 
-.hidden {
-  display: none;
-}
-
 .custom-badge {
   --bs-badge-font-size: var(--font-size-xs);
   --bs-badge-font-weight: 500;

@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Enum\UserRole;
 use Symfony\Bundle\SecurityBundle\Security;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +15,7 @@ use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
 
 class AccessDeniedHandler implements AccessDeniedHandlerInterface
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator,  private Security $security)
-    {
-    }
+    public function __construct(private UrlGeneratorInterface $urlGenerator,  private Security $security) {}
 
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
@@ -25,7 +24,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 
         $message = match (true) {
             !$user->isVerified() => t('access_denied.user_has_email_not_verified', [], 'flashes'),
-            !$this->security->isGranted('ROLE_EDITOR') => t('access_denied.user_has_not_permission', [], 'flashes'),
+            !$this->security->isGranted(UserRole::EDITOR->value) => t('access_denied.user_has_not_permission', [], 'flashes'),
             default => t('access_denied', [], 'flashes')
         };
 

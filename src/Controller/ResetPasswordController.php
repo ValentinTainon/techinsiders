@@ -7,6 +7,7 @@ use App\Service\EmailService;
 use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
+use App\Service\PathService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,9 +27,9 @@ class ResetPasswordController extends AbstractController
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private EntityManagerInterface $entityManager,
-        private EmailService $emailService
-    ) {
-    }
+        private EmailService $emailService,
+        private PathService $pathService,
+    ) {}
 
     /**
      * Display & process form to request a password reset.
@@ -155,11 +156,12 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $this->emailService->sendTemplatedEmail(
+        $this->emailService->sendEmailToUser(
             $user->getEmail(),
             $user->getUsername(),
             'password_reset_request.subject',
-            'reset_password/email.html.twig',
+            'reset_password.html.twig',
+            [],
             [
                 'username' => $user->getUsername(),
                 'resetToken' => $resetToken,

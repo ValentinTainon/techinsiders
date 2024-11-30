@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Enum\UserRole;
 use App\Entity\Post;
 use App\Entity\Comment;
 use Doctrine\ORM\QueryBuilder;
@@ -48,7 +49,11 @@ class CommentCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $expression = new Expression(
-            'is_granted("ROLE_SUPER_ADMIN") or (is_granted("ROLE_EDITOR"))'
+            sprintf(
+                'is_granted("%s") or (user === subject and is_granted("%s"))',
+                UserRole::SUPER_ADMIN->value,
+                UserRole::EDITOR->value
+            )
         );
 
         return $actions
@@ -68,7 +73,7 @@ class CommentCrudController extends AbstractCrudController
     {
         yield IdField::new('id', t('id.label', [], 'forms'))
             ->hideOnForm()
-            ->setPermission('ROLE_SUPER_ADMIN');
+            ->setPermission(UserRole::SUPER_ADMIN->value);
 
         $createdAtField = DateTimeField::new('createdAt', t('created_at.label', [], 'forms'))
             ->setDisabled()
@@ -122,7 +127,7 @@ class CommentCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->isGranted(UserRole::SUPER_ADMIN->value)) {
             $filters->add(EntityFilter::new('user', t('author.label', [], 'forms')));
         }
 
@@ -137,7 +142,7 @@ class CommentCrudController extends AbstractCrudController
     {
         $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
-        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+        if (!$this->isGranted(UserRole::SUPER_ADMIN->value)) {
             $queryBuilder->where('entity.user = :user')
                 ->setParameter('user', $this->getUser());
         }

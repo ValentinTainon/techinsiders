@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentRepository;
-use function Symfony\Component\Translation\t;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
@@ -39,9 +38,7 @@ class Comment
 
     public function __toString(): string
     {
-        $date = $this->updatedAt ?? $this->createdAt;
-
-        return "{$this->user->getUsername()} - {$date->format('d/m/Y  H:i:s')}";
+        return $this->collectionItemLabel();
     }
 
     public function getId(): ?int
@@ -107,5 +104,12 @@ class Comment
         $this->content = $content;
 
         return $this;
+    }
+
+    public function collectionItemLabel(): string
+    {
+        $date = $this->updatedAt ?? $this->createdAt;
+
+        return "{$this->user->getUsername()} - {$date->format('d/m/Y  H:i:s')}";
     }
 }

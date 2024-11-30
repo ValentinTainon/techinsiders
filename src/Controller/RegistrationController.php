@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Enum\UserRole;
 use App\Service\EmailService;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Service\PathService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,41 +20,19 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator, EmailService $emailService): Response
-    {
+    public function register(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator,
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $user->setMotivations($form->get('motivations')->getData());
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // Send email to the admin
-            $emailService->sendTemplatedEmail(
-                $this->getParameter('app_contact_email'),
-                $this->getParameter('app_name'),
-                'registration_request.subject',
-                'registration/admin_email.html.twig',
-                [
-                    'username' => $user->getUsername(),
-                    'user_motivation' => $form->get('userMotivation')->getData()
-                ],
-                false,
-                $user->getEmail(),
-                $user->getUsername()
-            );
-
-            // Generate a signed url and email it to the user
-            $emailService->sendRegistrationConfirmationEmail(
-                $user,
-                $user->getEmail(),
-                $user->getUsername(),
-                'confirm_email.subject',
-                'registration/confirmation_email.html.twig',
-                ['username' => $user->getUsername()]
-            );
 
             $this->addFlash('success', $translator->trans('validate_email_after_registration', [], 'flashes'));
 
@@ -88,7 +68,11 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', $translator->trans('email_verified_and_registration_request_being_processed', [], 'flashes'));
+        if (!$user->isVerified()) {
+            $this->addFlash('error', $translator->trans('error_during_email_verification', [], 'flashes'));
+        }
+
+        $this->addFlash('success', $translator->trans('email_verified_and_editor_membership_request_being_processed', [], 'flashes'));
 
         return $this->redirectToRoute('app_home');
     }

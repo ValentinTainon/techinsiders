@@ -29,11 +29,9 @@
 						<table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
 							<tbody>
 								<tr>
-									<td class="header">
-										<a href="{{ url('app_home') }}" title="{{ app_name }}">
-											{{ app_name }}
-										</a>
-									</td>
+									<a href="{{ url('app_home') }}" title="{{ app_name }}">
+										{{ app_name }}
+									</a>
 								</tr>
 								<tr>
 									<td class="main-content">
@@ -41,51 +39,22 @@
 											<tbody>
 												<tr>
 													<td class="first row">
-														{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
+														{{ 'hello.admin'|trans({'%admin%': app_author}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'received_password_request_for_your_account'|trans([], 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td class="row">
-														{{ 'click_button_below'|trans([], 'emails') }}
+														{{ 'user.send_post_validation_request'|trans({'%username%': username, '%post_title%': post_title}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="text-align: center;">
 														<a class="button" 
-															href="{{ url('app_reset_password', {token: resetToken.token}) }}" 
-															title="{{ 'reset_password'|trans([], 'emails') }}"
-														>
-															{{ 'reset_password'|trans([], 'emails') }}
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td class="row">
-														{% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle', locale) %}
-														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td class="row">
-														{% set app_contact_link = '<a href="mailto:' ~ app_contact_email ~ '" title="' ~ app_contact_email ~ '">' ~ app_contact_email ~ '</a>' %}
-														{{ 'if_not_send_request_ignore_or_contact'|trans({'%app_contact_link%': app_contact_link}, 'emails')|raw }}
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<span class="separator"></span>
-													</td>
-												</tr>
-												<tr>
-													<td class="last row">
-														{{ 'best_regards'|trans([], 'emails') }}
-														<br>
-                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
+                                                            href="{{ url('app_home') }}" 
+                                                            title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}"
+                                                        >
+                                                            {{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
+                                                        </a>
 													</td>
 												</tr>
 											</tbody>

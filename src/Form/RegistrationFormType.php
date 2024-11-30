@@ -24,55 +24,55 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('username', TextType::class, [
-            'label' => t('username.label', [], 'forms')
-        ])
-        ->add('email', EmailType::class, [
-            'label' => t('email.label', [], 'forms')
-        ])
-        ->add('plainPassword', RepeatedType::class, [
-            'type' => PasswordType::class,
-            'options' => [
-                'attr' => [
-                    'autocomplete' => 'new-password'
+            ->add('username', TextType::class, [
+                'label' => t('username.label', [], 'forms')
+            ])
+            ->add('email', EmailType::class, [
+                'label' => t('email.label', [], 'forms')
+            ])
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'options' => [
+                    'attr' => [
+                        'autocomplete' => 'new-password'
+                    ],
                 ],
-            ],
-            'first_options' => [
-                'label' => t('password.label', [], 'forms')
-            ],
-            'second_options' => [
-                'label' => t('repeat.password.label', [], 'forms')
-            ],
-            'invalid_message' => t('password.constraint.repeat.invalid_message')
-        ])
-        ->add('userMotivation', TextareaType::class, [
-            'label' => t('user_motivation.label', [], 'forms'),
-            'mapped' => false,
-            'constraints' => [
-                new NotBlank([
-                    'message' => t('field.constraint.not_blank.message')
-                ]),
-                new Length([
-                    'min' => 100,
-                    'minMessage' => t('field.constraint.length.min_message'),
-                    'max' => 1000,
-                    'maxMessage' => t('field.constraint.length.max_message')
-                ]),
-                new NoSuspiciousCharacters()
-            ]
-        ])
-        ->add('agreeTerms', CheckboxType::class, [
-            'label' => t('agree_terms.label', [], 'forms'),
-            'mapped' => false,
-            'constraints' => [
-                new IsTrue([
-                    'message' => t('agree_terms.constraint.is_true.message')
-                ])
-            ]
-        ])
-        ->add('submit', SubmitType::class, [
-            'label' => t('sign_up.label', [], 'forms'),
-        ])
+                'first_options' => [
+                    'label' => t('password.label', [], 'forms')
+                ],
+                'second_options' => [
+                    'label' => t('repeat.password.label', [], 'forms')
+                ],
+                'invalid_message' => t('password.constraint.repeat.invalid_message')
+            ])
+            ->add('motivations', TextareaType::class, [
+                'label' => t('motivations.label', [], 'forms'),
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => t('field.constraint.not_blank.message')
+                    ]),
+                    new Length([
+                        'min' => 100,
+                        'minMessage' => t('field.constraint.length.min_message'),
+                        'max' => 1000,
+                        'maxMessage' => t('field.constraint.length.max_message')
+                    ]),
+                    new NoSuspiciousCharacters()
+                ]
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'label' => t('agree_terms.label', [], 'forms'),
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => t('agree_terms.constraint.is_true.message')
+                    ])
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => t('sign_up.label', [], 'forms'),
+            ])
         ;
     }
 

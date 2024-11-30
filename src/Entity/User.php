@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\Role;
+use App\Enum\UserRole;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
@@ -21,7 +23,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[UniqueEntity(fields: ['email'], message: 'user.unique.entity.constraint.email.message')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const string DEFAULT_USER_AVATAR_FILE_NAME = 'default-user-avatar.svg';
+    public const string DEFAULT_AVATAR_FILE_NAME = 'avatar.svg';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,11 +35,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NoSuspiciousCharacters]
     private ?string $username = null;
 
-    /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
+    #[ORM\Column(enumType: UserRole::class)]
+    private ?UserRole $role = UserRole::GUEST;
 
     /**
      * @var string The plain password
@@ -89,9 +88,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
-    #[ORM\Column]
-    private bool $isGuest = false;
-
     /**
      * @var Collection<int, Post>
      */
@@ -103,6 +99,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
     private Collection $comments;
+
+    private ?string $motivations = null;
 
     public function __construct()
     {
@@ -142,26 +140,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
-    /**
-     * @see UserInterface
-     *
-     * @return list<string>
-     */
-    public function getRoles(): array
+    public function getRole(): ?UserRole
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->role;
     }
 
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
+    public function getRoles(): array
     {
-        $this->roles = $roles;
+        return [$this->role->value];
+    }
+
+    public function setRole(UserRole $role): static
+    {
+        $this->role = $role;
 
         return $this;
     }
@@ -221,18 +212,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setAvatar(?string $avatar): static
     {
-        $this->avatar = $avatar ?? '';
+        $this->avatar = $avatar;
 
         return $this;
-    }
-
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function initializeDefaultAvatar(): void
-    {
-        if (empty($this->avatar)) {
-            $this->avatar = self::DEFAULT_USER_AVATAR_FILE_NAME;
-        }
     }
 
     public function getAbout(): ?string
@@ -255,18 +237,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function isGuest(): bool
-    {
-        return $this->isGuest;
-    }
-
-    public function setGuest(bool $isGuest): static
-    {
-        $this->isGuest = $isGuest;
 
         return $this;
     }
@@ -332,6 +302,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMotivations(): ?string
+    {
+        return $this->motivations;
+    }
+
+    public function setMotivations(?string $motivations): static
+    {
+        $this->motivations = $motivations;
 
         return $this;
     }

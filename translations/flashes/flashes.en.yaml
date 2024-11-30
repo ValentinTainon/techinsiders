@@ -1,15 +1,16 @@
 # Access denied
-access_denied.user_has_email_not_verified: 'You must validate your email to access this page.'
-access_denied.user_has_not_permission: 'You do not have permission to access this page.'
-access_denied: 'Access denied.'
+access_denied.user_has_email_not_verified: "You must validate your email to access this page."
+access_denied.user_has_not_permission: "You do not have permission to access this page."
+access_denied: "Access denied."
 
 # Registration
-validate_email_after_subscribe: 'In order to complete your registration request, please validate your email address by clicking on the link that was sent to you.'
-email_verified_and_registration_request_being_processed: 'Your email address has been verified. Your registration request is being processed.'
+validate_email_after_subscribe: "In order to complete your registration request, please validate your email address by clicking on the link that was sent to you."
+email_verified_and_editor_membership_request_being_processed: "Your email address has been verified. Your application for membership as an editor is being validated."
+error_during_email_verification: "An error occurred during email verification."
 
 # Assign Editor
-user_not_found: 'No users found.'
-user_cannot_be_assign_to_a_specific_role: 'The user cannot be assigned to a specific role.'
-assigned_to_editor_group: 'The user has been assigned to Editor group'
-editor_promoted_to_admin: 'The Editor has been promoted to Administrator'
-reassigned_to_editor_group: 'The Administrator has been reassigned to the Editor group'
+user_not_found: "No users found."
+user_cannot_be_assign_to_a_specific_role: "The user cannot be assigned to a specific role."
+assigned_to_editor_group: "The user has been assigned to Editor group"
+editor_promoted_to_admin: "The Editor has been promoted to Administrator"
+reassigned_to_editor_group: "The Administrator has been reassigned to the Editor group"

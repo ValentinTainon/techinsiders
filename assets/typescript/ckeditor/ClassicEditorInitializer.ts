@@ -32,13 +32,19 @@ class ClassicEditorInitializer {
 
       const ckeditorConfigType: string =
         this.ckeditorField.dataset.editorConfigType || "";
+      const currentPostId: number =
+        Number(this.ckeditorField.dataset.currentPostId) || 0;
       const minPostLengthLimit: number =
         Number(this.ckeditorField.dataset.minPostLengthLimit) || 0;
       const ckWordCountUpdater = new CkWordCountUpdater(minPostLengthLimit);
 
       await ClassicEditor.create(
         this.ckeditorPlaceholder,
-        new ClassicEditorConfig(ckeditorConfigType, ckWordCountUpdater).config()
+        new ClassicEditorConfig(
+          ckeditorConfigType,
+          currentPostId,
+          ckWordCountUpdater
+        ).config()
       );
 
       ckWordCountUpdater.handlePostLengthValidation();

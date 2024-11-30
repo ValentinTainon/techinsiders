@@ -1,11 +1,12 @@
 twig:
-    file_name_pattern: '*.twig'
-    globals:
-        app_name: '%env(APP_NAME)%'
-        app_contact_email: '%env(APP_CONTACT_EMAIL)%'
-    paths:
-        '%kernel.project_dir%/assets/styles': styles
+  file_name_pattern: "*.twig"
+  globals:
+    app_name: !php/const App\Config\AppConfig::APP_NAME
+    app_author: !php/const App\Config\AppConfig::APP_AUTHOR
+    app_contact_email: !php/const App\Config\AppConfig::APP_CONTACT_EMAIL
+  paths:
+    "%kernel.project_dir%/assets/styles": styles
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true

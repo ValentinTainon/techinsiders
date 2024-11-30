@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use App\Enum\UserRole;
+
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -23,7 +25,7 @@ class CategoryCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityPermission('ROLE_SUPER_ADMIN')
+            ->setEntityPermission(UserRole::SUPER_ADMIN->value)
             ->setEntityLabelInSingular(t('category.label.singular', [], 'EasyAdminBundle'))
             ->setEntityLabelInPlural(t('category.label.plural', [], 'EasyAdminBundle'))
             ->setPageTitle(Crud::PAGE_NEW, t('create.category', [], 'EasyAdminBundle'))

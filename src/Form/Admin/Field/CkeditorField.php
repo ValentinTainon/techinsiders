@@ -3,6 +3,7 @@
 namespace App\Form\Admin\Field;
 
 use App\Entity\Post;
+use App\Repository\PostRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Contracts\Translation\TranslatableInterface;
@@ -12,8 +13,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 final class CkeditorField implements FieldInterface
 {
     use FieldTrait;
-
-    public const string EDITOR_CONFIG_TYPE = 'feature-rich';
 
     /**
      * @param TranslatableInterface|string|false|null $label
@@ -32,10 +31,6 @@ final class CkeditorField implements FieldInterface
                 Asset::new('../assets/styles/ckeditor/dark-mode.css'),
                 Asset::new('../assets/styles/ckeditor/word-count.css')
             )
-            ->setFormTypeOption('row_attr', [
-                'data-editor-config-type' => self::EDITOR_CONFIG_TYPE,
-                'data-min-post-length-limit' => Post::MIN_POST_LENGTH_LIMIT,
-            ])
             ->setDefaultColumns(12)
             ->onlyOnForms()
         ;

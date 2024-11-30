@@ -29,32 +29,58 @@
 						<table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
 							<tbody>
 								<tr>
-									<a href="{{ url('app_home') }}" title="{{ app_name }}">
-										{{ app_name }}
-									</a>
+									<td class="header">
+										<a href="{{ url('app_home') }}" title="{{ app_name }}">
+											{{ app_name }}
+										</a>
+									</td>
 								</tr>
 								<tr>
 									<td class="main-content">
 										<table width="100%" cellspacing="0" cellpadding="0" border="0">
 											<tbody>
 												<tr>
-													<td class="first row">
-														{{ 'hello.admin'|trans({'%admin%': Valentin}, 'emails') }}
+													<td class="first row" style="text-align: center;">
+														{{ 'welcome.user'|trans({'%username%': username}, 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td class="row">
-														{{ 'user.send_post_validation_request'|trans({'%username%': username, '%post_title%': post_title}, 'emails') }}
+														{{ 'thanks_choosing.app_name'|trans({'%app_name%': app_name}, 'emails') }}<br/>
+														{{ 'happy_to_see_you'|trans([], 'emails') }}
+													</td>
+												</tr>
+												<tr>
+													<td class="row">
+														{{ 'please_confirm_your_email'|trans([], 'emails') }}
 													</td>
 												</tr>
 												<tr>
 													<td style="text-align: center;">
 														<a class="button" 
-                                                            href="{{ url('app_home') }}" 
-                                                            title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}"
+                                                            href="{{ signedUrl|raw }}" 
+                                                            title="{{ 'confirm_email'|trans([], 'emails') }}"
                                                         >
-                                                            {{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
+                                                            {{ 'confirm_email'|trans([], 'emails') }}
                                                         </a>
+													</td>
+												</tr>
+												<tr>
+													<td class="row">
+                                                        {% set expire_message = expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') %}
+														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<span class="separator"></span>
+													</td>
+												</tr>
+												<tr>
+													<td class="last row">
+														{{ 'best_regards'|trans([], 'emails') }}
+														<br>
+                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
 													</td>
 												</tr>
 											</tbody>

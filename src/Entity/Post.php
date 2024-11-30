@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Enum\PostStatus;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
 use App\Validator as CustomAssert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -18,6 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Post
 {
     public const int MIN_POST_LENGTH_LIMIT = 500;
+    public const string DEFAULT_THUMBNAIL_FILE_NAME = 'thumbnail.svg';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -54,8 +56,8 @@ class Post
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column]
-    private bool $isVisible = false;
+    #[ORM\Column(enumType: PostStatus::class)]
+    private PostStatus $status = PostStatus::DRAFTED;
 
     /**
      * @var Collection<int, Comment>
@@ -174,14 +176,14 @@ class Post
         return $this;
     }
 
-    public function isVisible(): bool
+    public function getStatus(): PostStatus
     {
-        return $this->isVisible;
+        return $this->status;
     }
 
-    public function setIsVisible(bool $isVisible): static
+    public function setStatus(PostStatus $status): static
     {
-        $this->isVisible = $isVisible;
+        $this->status = $status;
 
         return $this;
     }

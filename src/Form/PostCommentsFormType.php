@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Enum\UserRole;
 use App\Entity\Comment;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -51,17 +52,17 @@ class PostCommentsFormType extends AbstractType
         $form->add('content', TextareaType::class, [
             'label' => false,
             'row_attr' => [
-                'data-allow-delete-item' => $this->isAllowedToEditOrDeleteItem($comment) ? 'true' : 'false',
+                'data-allow-delete-item' => $this->isAllowedToHandleItem($comment) ? 'true' : 'false',
             ],
             'attr' => [
-                'readonly' => !$this->isAllowedToEditOrDeleteItem($comment),
+                'readonly' => !$this->isAllowedToHandleItem($comment),
                 'required' => true,
             ],
         ]);
     }
 
-    private function isAllowedToEditOrDeleteItem($comment): bool
+    private function isAllowedToHandleItem($comment): bool
     {
-        return $this->security->isGranted('ROLE_SUPER_ADMIN') || $this->security->getUser() === $comment->getUser();
+        return $this->security->isGranted(UserRole::SUPER_ADMIN->value) || $this->security->getUser() === $comment->getUser();
     }
 }

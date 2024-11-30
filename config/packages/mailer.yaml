@@ -1,8 +1,8 @@
 framework:
-    mailer:
-        dsn: '%env(MAILER_DSN)%'
-        envelope:
-            sender: '%env(APP_CONTACT_EMAIL)%'
-        headers:
-            From: '%env(APP_NAME)% <%env(APP_CONTACT_EMAIL)%>'
-            X-Auto-Response-Suppress: 'OOF, DR, RN, NRN, AutoReply'
+  mailer:
+    dsn: "%env(MAILER_DSN)%"
+    envelope:
+      sender: "%app_contact_email%"
+    headers:
+      From: "%app_name% <%app_contact_email%>"
+      X-Auto-Response-Suppress: "OOF, DR, RN, NRN, AutoReply"

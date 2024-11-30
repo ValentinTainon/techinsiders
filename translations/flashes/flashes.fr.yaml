@@ -1,15 +1,16 @@
 # Access denied
-access_denied.user_has_email_not_verified: 'Vous devez valider votre email pour accéder à cette page.'
+access_denied.user_has_email_not_verified: "Vous devez valider votre email pour accéder à cette page."
 access_denied.user_has_not_permission: "Vous n'avez pas la permission d'accéder à cette page."
-access_denied: 'Accès refusé.'
+access_denied: "Accès refusé."
 
 # Registration
-validate_email_after_registration: 'Afin de completer votre demande inscription, merci de valider votre adresse email en cliquant sur le lien qui vous a été envoyé.'
-email_verified_and_registration_request_being_processed: "Votre adresse email a été vérifiée. Votre demande d'inscription est en cours de traitement."
+validate_email_after_registration: "Afin de completer votre demande inscription, merci de valider votre adresse email en cliquant sur le lien qui vous a été envoyé."
+email_verified_and_editor_membership_request_being_processed: "Votre adresse email a été vérifiée. Votre demande d'adhésion en tant que rédacteur est en cours de validation."
+error_during_email_verification: "Une erreur est survenue lors de la vérification de votre email."
 
 # Assign Editor
-user_not_found: 'Aucun utilisateur trouvé.'
+user_not_found: "Aucun utilisateur trouvé."
 user_cannot_be_assign_to_a_specific_role: "L'utilisateur ne peut être affecté à un rôle spécifique."
 assigned_to_editor_group: "L'utilisateur a été affecté au groupe Rédacteur"
-editor_promoted_to_admin: 'Le Rédacteur a été promu Administrateur'
+editor_promoted_to_admin: "Le Rédacteur a été promu Administrateur"
 reassigned_to_editor_group: "L'Administrateur a été réaffecté au groupe Rédacteur"

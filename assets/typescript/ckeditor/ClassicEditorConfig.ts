@@ -143,14 +143,17 @@ interface FeatureRichConfig {
 
 export default class ClassicEditorConfig {
   private ckeditorConfigType: string;
+  private currentPostId: number;
   private ckWordCountUpdater: CkWordCountUpdater;
   private isDefaultLocale: boolean;
 
   constructor(
     ckeditorConfigType: string,
+    currentPostId: number,
     ckWordCountUpdater: CkWordCountUpdater
   ) {
     this.ckeditorConfigType = ckeditorConfigType;
+    this.currentPostId = currentPostId;
     this.ckWordCountUpdater = ckWordCountUpdater;
     this.isDefaultLocale =
       document.documentElement.getAttribute("lang") === "fr";
@@ -237,6 +240,10 @@ export default class ClassicEditorConfig {
   }
 
   private featureRichConfig(): FeatureRichConfig {
+    if (this.currentPostId <= 0) {
+      console.warn("Invalid current post id.");
+    }
+
     return {
       balloonToolbar: [
         "bold",
@@ -462,7 +469,7 @@ export default class ClassicEditorConfig {
         WordCount,
       ],
       simpleUpload: {
-        uploadUrl: "/upload",
+        uploadUrl: `/upload-post-image?current-post-id=${this.currentPostId}`,
         withCredentials: true,
         headers: {
           "X-CSRF-TOKEN": "CSRF-Token",
