@@ -72,98 +72,28 @@ import {
 } from "ckeditor5";
 // @ts-ignore
 import frTranslations from "ckeditor5/translations/fr.js";
-import CkWordCountUpdater from "./CkWordCountUpdater.ts";
+import EditorWordCountManager from "./EditorWordCounter.ts";
+import EditorConfigType from "./enum/EditorConfigType.ts";
+import StarterConfigType from "./interface/StarterConfigType.ts";
+import FeatureRichConfigType from "./interface/FeatureRichConfigType.ts";
 
-interface StarterConfig {
-  codeBlock: { languages: { language: string; label: string }[] };
-  language: { ui: string; content: string };
-  link: { addTargetToExternalLinks: boolean; defaultProtocol: string };
-  mention: { feeds: { marker: string; feed: string[] }[] };
-  placeholder: string;
-  plugins: any[];
-  toolbar: { items: string[] };
-  translations: any | null;
-}
-
-interface FeatureRichConfig {
-  balloonToolbar: string[];
-  codeBlock: { languages: { language: string; label: string }[] };
-  fontFamily: { supportAllValues: boolean };
-  fontSize: { options: (number | string)[]; supportAllValues: boolean };
-  heading: {
-    options: { model: string; view: string; title: string; class: string }[];
-  };
-  htmlSupport: {
-    allow: {
-      name: RegExp;
-      styles: boolean;
-      attributes: boolean;
-      classes: boolean;
-    }[];
-  };
-  image: { toolbar: string[] };
-  language: {
-    ui: string;
-    content: string;
-    textPartLanguage: { title: string; languageCode: string }[];
-  };
-  link: {
-    addTargetToExternalLinks: boolean;
-    defaultProtocol: string;
-    decorators: {
-      toggleDownloadable: {
-        mode: string;
-        label: string;
-        attributes: { download: string };
-      };
-    };
-  };
-  list: {
-    properties: { styles: boolean; startIndex: boolean; reversed: boolean };
-  };
-  mention: { feeds: { marker: string; feed: string[] }[] };
-  menuBar: { isVisible: boolean };
-  placeholder: string;
-  plugins: any[];
-  simpleUpload: {
-    uploadUrl: string;
-    withCredentials: boolean;
-    headers: { "X-CSRF-TOKEN": string; Authorization: string };
-  };
-  style: {
-    definitions: { name: string; element: string; classes: string[] }[];
-  };
-  toolbar: { items: string[]; shouldNotGroupWhenFull: boolean };
-  table: { contentToolbar: string[] };
-  translations: any | null;
-  wordCount: {
-    onUpdate: (stats: { characters: number; words: number }) => void;
-  };
-}
-
-export default class ClassicEditorConfig {
-  private ckeditorConfigType: string;
-  private currentPostId: number;
-  private ckWordCountUpdater: CkWordCountUpdater;
+export default class EditorConfigManager {
+  private postUuid: string;
   private isDefaultLocale: boolean;
+  private ckWordCountUpdater: EditorWordCountManager;
 
-  constructor(
-    ckeditorConfigType: string,
-    currentPostId: number,
-    ckWordCountUpdater: CkWordCountUpdater
-  ) {
-    this.ckeditorConfigType = ckeditorConfigType;
-    this.currentPostId = currentPostId;
+  constructor(postUuid: string, ckWordCountUpdater: EditorWordCountManager) {
+    this.postUuid = postUuid;
     this.ckWordCountUpdater = ckWordCountUpdater;
     this.isDefaultLocale =
       document.documentElement.getAttribute("lang") === "fr";
   }
 
-  public config(): object {
-    switch (this.ckeditorConfigType) {
-      case "starter":
+  public getConfig(editorConfigType: string): object {
+    switch (editorConfigType) {
+      case EditorConfigType.Starter:
         return this.starterConfig();
-      case "feature-rich":
+      case EditorConfigType.FeatureRich:
         return this.featureRichConfig();
       default:
         console.warn(
@@ -173,7 +103,7 @@ export default class ClassicEditorConfig {
     }
   }
 
-  private starterConfig(): StarterConfig {
+  private starterConfig(): StarterConfigType {
     return {
       codeBlock: {
         languages: [
@@ -239,11 +169,7 @@ export default class ClassicEditorConfig {
     };
   }
 
-  private featureRichConfig(): FeatureRichConfig {
-    if (this.currentPostId <= 0) {
-      console.warn("Invalid current post id.");
-    }
-
+  private featureRichConfig(): FeatureRichConfigType {
     return {
       balloonToolbar: [
         "bold",
@@ -468,12 +394,14 @@ export default class ClassicEditorConfig {
         Underline,
         WordCount,
       ],
+      removePlugins: ["MediaEmbedToolbar"],
       simpleUpload: {
-        uploadUrl: `/upload-post-image?current-post-id=${this.currentPostId}`,
+        uploadUrl: "/upload-post-image",
         withCredentials: true,
         headers: {
           "X-CSRF-TOKEN": "CSRF-Token",
           Authorization: "Bearer <JSON Web Token>",
+          "Post-Uuid": this.postUuid,
         },
       },
       style: {
@@ -494,6 +422,16 @@ export default class ClassicEditorConfig {
             classes: ["document-subtitle"],
           },
           {
+            name: "Code (bright)",
+            element: "pre",
+            classes: ["fancy-code", "fancy-code-bright"],
+          },
+          {
+            name: "Code (dark)",
+            element: "pre",
+            classes: ["fancy-code", "fancy-code-dark"],
+          },
+          {
             name: "Info box",
             element: "p",
             classes: ["info-box"],
@@ -512,16 +450,6 @@ export default class ClassicEditorConfig {
             name: "Spoiler",
             element: "span",
             classes: ["spoiler"],
-          },
-          {
-            name: "Code (dark)",
-            element: "pre",
-            classes: ["fancy-code", "fancy-code-dark"],
-          },
-          {
-            name: "Code (bright)",
-            element: "pre",
-            classes: ["fancy-code", "fancy-code-bright"],
           },
         ],
       },

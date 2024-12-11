@@ -20,15 +20,20 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     private ?Post $post = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     #[Assert\Length(
         max: 500,
         maxMessage: 'field.constraint.length.max_message',

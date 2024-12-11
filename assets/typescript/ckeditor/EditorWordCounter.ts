@@ -1,15 +1,15 @@
-export default class CkWordCountUpdater {
+export default class EditorWordCountManager {
   private minPostLengthLimit: number;
   private statCharacters: number;
   private wordCountContainer: HTMLDivElement | null;
   private wordsCountBox: HTMLSpanElement | null;
   private progressCircle: SVGCircleElement | null;
   private charactersBox: SVGTextElement | null;
-  private submitButtons: NodeListOf<HTMLButtonElement>;
   private editorTabLink: HTMLAnchorElement | null;
   private contentHeaderHelp: HTMLDivElement | null;
   private eaBadgeDanger: HTMLSpanElement | null | undefined;
   private customBadgeDanger: HTMLSpanElement;
+  private submitButtons: NodeListOf<HTMLButtonElement> | null;
 
   constructor(minPostLengthLimit: number) {
     this.minPostLengthLimit = this.getMinPostLengthLimit(minPostLengthLimit);
@@ -25,9 +25,6 @@ export default class CkWordCountUpdater {
     this.charactersBox = document.querySelector<SVGTextElement>(
       ".ck-update__chart__characters"
     );
-    this.submitButtons = document.querySelectorAll<HTMLButtonElement>(
-      'button[type="submit"]'
-    );
     this.editorTabLink = document.querySelector<HTMLAnchorElement>(
       "#tablist-tab-post-content-label"
     );
@@ -38,6 +35,9 @@ export default class CkWordCountUpdater {
       ".badge.badge-danger"
     );
     this.customBadgeDanger = this.createCustomBadgeDanger();
+    this.submitButtons = document.querySelectorAll<HTMLButtonElement>(
+      "button.action-save[type=submit]"
+    );
   }
 
   public updateStats(stats: { characters: number; words: number }): void {
@@ -85,12 +85,12 @@ export default class CkWordCountUpdater {
   }
 
   public handlePostLengthValidation(): void {
-    this.submitButtons.forEach((button) => {
-      button.addEventListener("click", (event) => {
+    this.submitButtons?.forEach((button) => {
+      button.addEventListener("click", (event: MouseEvent) => {
         if (this.isMinPostLengthConstraintViolated()) {
-          this.addError();
           event.preventDefault();
           event.stopPropagation();
+          this.addError();
         } else {
           this.removeError();
         }

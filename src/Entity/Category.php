@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_NAME', fields: ['name'])]
 #[UniqueEntity(fields: ['name'], message: 'category.unique.entity.constraint.name.message')]
 class Category
 {
@@ -19,11 +18,15 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
     private ?string $slug = null;
 

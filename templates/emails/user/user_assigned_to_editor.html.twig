@@ -1,0 +1,62 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+	<tr>
+		<td class="first row">
+			{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'editor_accepted_announcement'|trans({'%app_name%': app_name}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'access_your_space_and_share_your_passion'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'next_steps'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'step_1'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center;">
+			<a class="button" href="{{ url('app_login') }}" title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}">
+				{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'step_2'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'step_3'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		{# <td class="row">
+							{% set editor_guide_link = '<a href="' ~ url('app_editor_guide') ~ '" title="' ~ 'editor_guide'|trans([], 'emails') ~ '">' ~ 'editor_guide'|trans([], 'emails') ~ '</a>' %}
+							{{ 'consult_our_editor_guide'|trans({'%app_editor_guide_link%': editor_guide_link}, 'emails')|raw }}
+						</td> #}
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'if_need_help'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'welcome_on_board'|trans([], 'emails') }}
+		</td>
+	</tr>
+{% endblock %}

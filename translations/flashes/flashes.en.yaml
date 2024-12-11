@@ -10,7 +10,5 @@ error_during_email_verification: "An error occurred during email verification."
 
 # Assign Editor
 user_not_found: "No users found."
-user_cannot_be_assign_to_a_specific_role: "The user cannot be assigned to a specific role."
 assigned_to_editor_group: "The user has been assigned to Editor group"
 editor_promoted_to_admin: "The Editor has been promoted to Administrator"
-reassigned_to_editor_group: "The Administrator has been reassigned to the Editor group"

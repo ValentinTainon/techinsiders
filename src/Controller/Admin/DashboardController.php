@@ -2,23 +2,28 @@
 
 namespace App\Controller\Admin;
 
-use App\Enum\UserRole;
+use App\Config\UserAvatarConfig;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Enum\UserRole;
 use App\Entity\Comment;
 use App\Entity\Category;
 use App\Service\PathService;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+// use Symfony\Component\Routing\Attribute\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
@@ -28,18 +33,10 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
-        return $this->redirectToRoute('admin_post_index');
+        // return $this->redirectToRoute('admin_post_index');
 
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        return $this->redirect($adminUrlGenerator->setController(PostCrudController::class)->generateUrl());
 
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
@@ -50,7 +47,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            // ->setFaviconPath('favicon.svg')
+            ->setFaviconPath('favicon.svg')
             ->setTitle($this->getParameter('app_name'))
             ->setLocales([
                 'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'),
@@ -73,7 +70,7 @@ class DashboardController extends AbstractDashboardController
             ]);
 
         if ($user->getAvatar()) {
-            $userMenu->setAvatarUrl(PathService::USERS_AVATAR_BASE_PATH . $user->getAvatar());
+            $userMenu->setAvatarUrl(UserAvatarConfig::getConfig()->imgPath($user->getAvatar()));
         }
 
         return $userMenu;
@@ -96,12 +93,74 @@ class DashboardController extends AbstractDashboardController
 
         // Website
         yield MenuItem::section(t('website.label', [], 'EasyAdminBundle'));
-        yield MenuItem::linkToRoute(t('back.website.label', [], 'EasyAdminBundle'), 'fas fa-home', 'app_home');
+        yield MenuItem::linkToRoute(t('back.website.label', [], 'EasyAdminBundle'), 'fas fa-home', 'app_homepage');
     }
 
     public function configureAssets(): Assets
     {
         return parent::configureAssets()
             ->addCssFile(Asset::new('../assets/styles/easyadmin/custom.css'));
+    }
+
+    public function configureActions(): Actions
+    {
+        return parent::configureActions()
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::NEW,
+                fn(Action $action) => $action->setIcon('fa fa-plus')
+            )
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::EDIT,
+                fn(Action $action) => $action->setIcon('fa fa-pen-to-square')
+            )
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::DETAIL,
+                fn(Action $action) => $action->setIcon('fa fa-eye')
+            )
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::DELETE,
+                fn(Action $action) => $action->setIcon('fa fa-trash-can text-danger')
+            )
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::BATCH_DELETE,
+                fn(Action $action) => $action->setIcon('fa fa-trash-can')
+            )
+            ->update(
+                Crud::PAGE_NEW,
+                Action::SAVE_AND_ADD_ANOTHER,
+                fn(Action $action) => $action->setIcon('fa fa-circle-plus')
+            )
+            ->update(
+                Crud::PAGE_EDIT,
+                Action::SAVE_AND_CONTINUE,
+                fn(Action $action): Action =>
+                $action->setLabel(t('save_and_continue.editing.label', [], 'EasyAdminBundle'))
+                    ->setIcon('fa fa-pen-to-square')
+            )
+            ->update(
+                Crud::PAGE_NEW,
+                Action::SAVE_AND_RETURN,
+                fn(Action $action): Action =>
+                $action->setIcon('fa fa-save')
+            )
+            ->update(
+                Crud::PAGE_EDIT,
+                Action::SAVE_AND_RETURN,
+                fn(Action $action): Action =>
+                $action->setLabel(t('save.label', [], 'EasyAdminBundle'))
+                    ->setIcon('fa fa-save')
+            )
+            ->remove(Crud::PAGE_DETAIL, Action::INDEX)
+            ->update(
+                Crud::PAGE_DETAIL,
+                Action::EDIT,
+                fn(Action $action) => $action->setIcon('fa fa-pen-to-square')
+            );
     }
 }

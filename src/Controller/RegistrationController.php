@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Enum\UserRole;
-use App\Service\EmailService;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
-use App\Service\PathService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +33,7 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', $translator->trans('validate_email_after_registration', [], 'flashes'));
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_homepage');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -74,6 +71,6 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', $translator->trans('email_verified_and_editor_membership_request_being_processed', [], 'flashes'));
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_homepage');
     }
 }

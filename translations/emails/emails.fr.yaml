@@ -36,8 +36,11 @@ post.published.subject: "Votre article vient d'être publié"
 # Post rejected
 post.rejected.subject: "Votre article nécessite des modifications"
 
+# User verified
+user_is_verified.subject: "%username% est désormais un utilisateur vérifié"
+
 # Editor membership request accepted
-assigned_to_editor_group.subject: "Votre demande d'adhésion en tant que rédacteur a été accepté"
+assigned_to_editor.subject: "Votre demande d'adhésion en tant que rédacteur a été accepté"
 editor_accepted_announcement: "Nous avons le plaisir de vous annoncer que votre demande pour devenir rédacteur sur %app_name% a été acceptée ! 🥳"
 access_your_space_and_share_your_passion: "Nous sommes ravis de vous compter parmi nous, vous pouvez désormais accéder à votre espace rédacteur et commencer à partager votre passion avec la communauté."
 next_steps: "Voici les prochaines étapes :"
@@ -49,12 +52,6 @@ editor_guide: "guide du rédacteur"
 if_need_help: "Nous restons à votre disposition si vous avez des questions ou besoin d’aide."
 welcome_on_board: "Bienvenue dans l’équipe et bonne rédaction !"
 
-# Remove from Editor group
-update_on_your_status.subject: "Mise à jour de votre statut"
-no_longer_editor_announcement: "Nous vous informons qu'à partir de ce jour, vous ne faites plus partie des rédacteurs au sein de %app_name%."
-thank_for_your_contribution_and_wish_you_all_the_best: "Nous tenons à vous remercier pour votre contribution et nous vous souhaitons une excellente continuation."
-if_you_have_any_questions: "Si vous avez des questions ou souhaitez obtenir des clarifications, n’hésitez pas à nous contacter."
-
 # Promote to Admin
 promoted_to_admin.subject: "Félicitations, vous avez été promu Administrateur"
 promoted_to_admin_announcement: "Nous avons le plaisir de vous informer que vous avez été promu au rang d'administrateur au sein de %app_name%."
@@ -64,9 +61,15 @@ feel_free_to_contact_us: "N'hésitez pas à nous contacter si vous avez des ques
 thank_for_your_dedication: "Merci pour votre dévouement au sein de la communauté."
 
 # Reassign to Editor group
-reassigned_to_editor_group.subject: "Mise à jour de votre statut"
+reassigned_to_editor.subject: "Vous avez été réaffecté en tant que rédacteur"
 no_longer_admin_but_still_editor_announcement: "Nous vous informons que votre rôle au sein de %app_name% a été révisé, désormais vous n'êtes plus administrateur mais vous êtes toujours rédacteur."
 you_will_continue_to_contribute: "En tant que rédacteur, vous pouvez continuer à contribuer à la création de contenu de qualité sur notre plateforme."
 your_expertise_and_dedication_remain_vital: "Bien que vous n'ayez plus accès aux fonctions d'administrateur, votre expertise et votre engagement restent essentiels au succès de %app_name%."
 if_you_have_any_questions_regarding_this_change: "Si vous avez des questions concernant ce changement, n'hésitez pas à nous contacter."
 thank_for_your_understanding: "Merci pour votre compréhension et pour votre contribution continue."
+
+# Deleted user
+account_deleted.subject: "Votre compte a été supprimé"
+no_longer_member_announcement: "Nous vous informons qu'à partir de ce jour, vous n'êtes plus membre de %app_name%."
+thank_for_your_contribution_and_wish_you_all_the_best: "Nous tenons à vous remercier pour votre contribution et nous vous souhaitons une excellente continuation."
+if_you_have_any_questions: "Si vous avez des questions ou souhaitez obtenir des clarifications, n’hésitez pas à nous contacter."

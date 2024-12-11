@@ -36,8 +36,11 @@ post.published.subject: "Your article has just been published"
 # Post rejected
 post.rejected.subject: "Your article requires editing"
 
+# User verified
+user_is_verified.subject: "%username% is now a verified user"
+
 # Editor membership request accepted
-assigned_to_editor_group.subject: "Your request to join us as an editor has been accepted"
+assigned_to_editor.subject: "Your request to join us as an editor has been accepted"
 editor_accepted_announcement: "We are pleased to announce that your request to become an editor on %app_name% has been accepted! 🥳"
 access_your_space_and_share_your_passion: "We're delighted to have you on board, and now you can access your editor's area and start sharing your passion with the community."
 next_steps: "Here are the next steps:"
@@ -49,12 +52,6 @@ editor_guide: "editor's guide"
 if_need_help: "We remain at your disposal if you have any questions or need assistance."
 welcome_on_board: "Welcome to the team and happy writing!"
 
-# Remove from Editor group
-update_on_your_status.subject: "Update on your status"
-no_longer_editor_announcement: "We inform you that as of today, you are no longer an editor at %app_name%."
-thank_for_your_contribution_and_wish_you_all_the_best: "We would like to thank you for your contribution and wish you all the best for the future."
-if_you_have_any_questions: "If you have any questions or require clarification, please do not hesitate to contact us."
-
 # Promote to Admin
 promoted_to_admin.subject: "Congratulations, you have been promoted to Administrator"
 promoted_to_admin_announcement: "We are pleased to inform you that you have been promoted to the rank of administrator within %app_name%."
@@ -64,9 +61,15 @@ feel_free_to_contact_us: "Feel free to contact us if you have any questions abou
 thank_for_your_dedication: "Thank you for your dedication to the community."
 
 # Reassign to Editor group
-reassigned_to_editor_group.subject: "Update on your status"
+reassigned_to_editor.subject: "You have been reassigned as an editor"
 no_longer_admin_but_still_editor_announcement: "We inform you that your role within %app_name% has been revised, you are no longer an administrator but you are still an editor."
 you_will_continue_to_contribute: "As an editor, you can continue to contribute to the creation of quality content on our platform."
 your_expertise_and_dedication_remain_vital: "While you no longer have access to the administrator functions, your expertise and dedication remain vital to the success of %app_name%."
 if_you_have_any_questions_regarding_this_change: "If you have any questions regarding this change, please feel free to contact us."
 thank_for_your_understanding: "Thank you for your understanding and for your continued contribution."
+
+# Deleted User
+account_deleted.subject: "Your account has been deleted"
+no_longer_member_announcement: "We inform you that as of today, you are no longer a member at %app_name%."
+thank_for_your_contribution_and_wish_you_all_the_best: "We would like to thank you for your contribution and wish you all the best for the future."
+if_you_have_any_questions: "If you have any questions or require clarification, please do not hesitate to contact us."

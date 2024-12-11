@@ -2,8 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Enum\UserRole;
 use App\Entity\Post;
+use App\Enum\UserRole;
 use App\Entity\Comment;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormEvent;
@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -46,6 +47,11 @@ class CommentCrudController extends AbstractCrudController
             ->setDefaultSort(['createdAt' => 'DESC']);
     }
 
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets->addAssetMapperEntry('ckeditor-init');
+    }
+
     public function configureActions(Actions $actions): Actions
     {
         $expression = new Expression(
@@ -57,16 +63,16 @@ class CommentCrudController extends AbstractCrudController
         );
 
         return $actions
-            ->disable(Action::NEW)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->setPermissions([
-                Action::EDIT => $expression,
-                Action::DELETE => $expression,
-                Action::BATCH_DELETE => $expression
-            ])
-            ->update(Crud::PAGE_INDEX, Action::NEW, fn(Action $action) => $action->setLabel(t('create.comment', [], 'EasyAdminBundle')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE, fn(Action $action) => $action->setLabel(t('save_and_continue.editing.label', [], 'EasyAdminBundle')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn(Action $action) => $action->setLabel(t('save.label', [], 'EasyAdminBundle')));
+            // ->setPermissions([
+            //     Action::EDIT => $expression,
+            //     Action::DELETE => $expression,
+            //     Action::BATCH_DELETE => $expression
+            // ])
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::NEW,
+                fn(Action $action) => $action->setLabel(t('create.comment', [], 'EasyAdminBundle'))
+            );
     }
 
     public function configureFields(string $pageName): iterable
@@ -76,13 +82,15 @@ class CommentCrudController extends AbstractCrudController
             ->setPermission(UserRole::SUPER_ADMIN->value);
 
         $createdAtField = DateTimeField::new('createdAt', t('created_at.label', [], 'forms'))
-            ->setDisabled()
             ->setRequired(false)
+            ->setDisabled()
+            ->hideWhenCreating()
             ->setColumns('col-sm-6 col-md-5');
 
         $updatedAtField = DateTimeField::new('updatedAt', t('updated_at.label', [], 'forms'))
-            ->setDisabled()
             ->setRequired(false)
+            ->setDisabled()
+            ->hideWhenCreating()
             ->setColumns('col-sm-6 col-md-5');
 
         if ($this->isUpdatedAtNull()) {
@@ -91,11 +99,11 @@ class CommentCrudController extends AbstractCrudController
 
         $userField = AssociationField::new('user', t('author.label', [], 'forms'))
             ->setDisabled()
+            ->hideWhenCreating()
             ->setColumns('col-sm-6 col-md-5');
 
         $postField = AssociationField::new('post', t('post.label.singular', [], 'EasyAdminBundle'))
-            ->setDisabled()
-            ->setRequired(false)
+            ->setHtmlAttribute('required', true)
             ->setColumns(10);
 
         $contentField = TextareaField::new('content', t('content.label', [], 'forms'))

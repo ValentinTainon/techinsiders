@@ -37,10 +37,20 @@ class CategoryCrudController extends AbstractCrudController
     {
         return $actions
             ->disable(Crud::PAGE_DETAIL)
-            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
-            ->update(Crud::PAGE_INDEX, Action::NEW, fn(Action $action) => $action->setLabel(t('create.category', [], 'EasyAdminBundle')))
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, fn(Action $action) => $action->setLabel(t('create_and_add.category.label', [], 'EasyAdminBundle')))
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, fn(Action $action) => $action->setLabel(t('save.label', [], 'EasyAdminBundle')));
+            ->remove(
+                Crud::PAGE_EDIT,
+                Action::SAVE_AND_CONTINUE
+            )
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::NEW,
+                fn(Action $action) => $action->setLabel(t('create.category', [], 'EasyAdminBundle'))
+            )
+            ->update(
+                Crud::PAGE_NEW,
+                Action::SAVE_AND_ADD_ANOTHER,
+                fn(Action $action) => $action->setLabel(t('create_and_add.category.label', [], 'EasyAdminBundle'))
+            );
     }
 
     public function configureFields(string $pageName): iterable

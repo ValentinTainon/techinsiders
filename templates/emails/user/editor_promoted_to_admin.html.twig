@@ -1,0 +1,34 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+	<tr>
+		<td class="first row">
+			{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'promoted_to_admin_announcement'|trans({'%app_name%': app_name}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'your_advantages_as_admin'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'we_trust_your_ability_to_contribute_even_more'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'feel_free_to_contact_us'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'thank_for_your_dedication'|trans([], 'emails') }}
+		</td>
+	</tr>
+{% endblock %}

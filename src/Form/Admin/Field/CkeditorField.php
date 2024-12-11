@@ -2,8 +2,6 @@
 
 namespace App\Form\Admin\Field;
 
-use App\Entity\Post;
-use App\Repository\PostRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Contracts\Translation\TranslatableInterface;
@@ -24,12 +22,11 @@ final class CkeditorField implements FieldInterface
             ->setLabel($label)
             ->setFormType(TextareaType::class)
             ->setFormTypeOption('block_name', 'custom_content')
-            ->addFormTheme('bundles/EasyAdminBundle/crud/field/ckeditor.html.twig')
+            ->addFormTheme('bundles/EasyAdminBundle/crud/field/editor-placeholder.html.twig')
             ->addCssClass('field-ckeditor')
             ->addCssFiles(
                 Asset::new('../assets/styles/ckeditor/default.css'),
                 Asset::new('../assets/styles/ckeditor/dark-mode.css'),
-                Asset::new('../assets/styles/ckeditor/word-count.css')
             )
             ->setDefaultColumns(12)
             ->onlyOnForms()

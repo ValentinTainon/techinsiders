@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Config\PostContentConfig;
 use App\Enum\PostStatus;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,32 +10,33 @@ use App\Repository\PostRepository;
 use App\Validator as CustomAssert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-#[ORM\UniqueConstraint(name: 'UNIQ_TITLE', fields: ['title'])]
 #[UniqueEntity(fields: ['title'], message: 'post.unique.entity.constraint.title.message')]
 class Post
 {
-    public const int MIN_POST_LENGTH_LIMIT = 500;
-    public const string DEFAULT_THUMBNAIL_FILE_NAME = 'thumbnail.svg';
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     private ?Category $category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
     private ?string $title = null;
 
@@ -43,10 +45,14 @@ class Post
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[CustomAssert\LengthWithoutHtml(min: self::MIN_POST_LENGTH_LIMIT)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    #[CustomAssert\LengthWithoutHtml(min: PostContentConfig::MIN_LENGTH_LIMIT)]
     private ?string $content = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
     private ?string $thumbnail = null;
 
@@ -57,7 +63,13 @@ class Post
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(enumType: PostStatus::class)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     private PostStatus $status = PostStatus::DRAFTED;
+
+    #[Assert\NotNull]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private Uuid $uuid;
 
     /**
      * @var Collection<int, Comment>
@@ -67,6 +79,7 @@ class Post
 
     public function __construct()
     {
+        $this->uuid = Uuid::v4();
         $this->comments = new ArrayCollection();
     }
 
@@ -184,6 +197,18 @@ class Post
     public function setStatus(PostStatus $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUuid(): Uuid
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(Uuid $uuid): static
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }

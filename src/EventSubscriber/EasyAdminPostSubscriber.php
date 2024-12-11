@@ -3,10 +3,11 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Enum\UserRole;
 use App\Enum\PostStatus;
 use App\Service\EmailService;
-use App\Service\PathService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -17,13 +18,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 
 class EasyAdminPostSubscriber implements EventSubscriberInterface
 {
-    private PostStatus $previousPostStatus;
+    private array $postChangeSet;
 
     public function __construct(
         private Security $security,
         private SluggerInterface $slugger,
         private EmailService $emailService,
-        private PathService $pathService,
+        private EntityManagerInterface $entityManager,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -61,9 +62,7 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
 
         $post = &$entity;
 
-        if (!$this->security->isGranted(UserRole::SUPER_ADMIN->value)) {
-            $this->processEmail($post);
-        }
+        // $this->processEmail($post, $post->getUser());
     }
 
     public function preUpdate(BeforeEntityUpdatedEvent $event): void
@@ -75,11 +74,11 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
         }
 
         $post = &$entity;
-        $this->previousPostStatus = $post->getStatus();
-        $postTitleSlug = $this->slugger->slug($post->getTitle());
 
-        if ($post->getSlug() !== $postTitleSlug) {
-            $post->setSlug($postTitleSlug);
+        $this->postChangeSet = $this->entityManager->getUnitOfWork()->getOriginalEntityData($post);
+
+        if ($this->isPostTitleChanged()) {
+            $post->setSlug($this->slugger->slug($post->getTitle()));
         }
 
         $post->setUpdatedAt(new \DateTimeImmutable(timezone: new \DateTimeZone('Europe/Paris')));
@@ -95,66 +94,69 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
 
         $post = &$entity;
 
-        if (!$this->security->isGranted(UserRole::SUPER_ADMIN->value) && $this->isPostStatusChange($post)) {
-            $this->processEmail($post);
-        }
+        // if ($this->isPostStatusChanged()) {
+        //     $this->processEmail($post, $post->getUser());
+        // }
     }
 
-    private function isPostStatusChange(Post $post): bool
+    private function isPostTitleChanged(): bool
     {
-        if (!isset($this->previousPostStatus)) {
-            return false;
-        }
-
-        return $post->getStatus() !== $this->previousPostStatus;
+        return isset($this->postChangeSet) && array_key_exists('title', $this->postChangeSet);
     }
 
-    private function processEmail(Post $post): void
+    private function isPostStatusChanged(): bool
     {
-        $user = $post->getUser();
+        return isset($this->postChangeSet) && array_key_exists('status', $this->postChangeSet);
+    }
 
-        match ($post->getStatus()) {
-            PostStatus::DRAFTED => $this->emailService->sendEmailToAdmin(
-                $user->getEmail(),
-                $user->getUsername(),
-                'post.draft.subject',
+    private function processEmail(Post $post, User $author): void
+    {
+        match (true) {
+            $author->getRole() !== UserRole::SUPER_ADMIN && $post->getStatus() === PostStatus::DRAFTED
+            => $this->emailService->sendEmailToAdmin(
+                $author->getEmail(),
+                $author->getUsername(),
+                'post.drafted.subject',
                 'post_drafted.html.twig',
                 [],
                 [
-                    'username' => $user->getUsername(),
+                    'username' => $author->getUsername(),
                     'post_title' => $post->getTitle()
                 ]
             ),
-            PostStatus::READY_FOR_REVIEW => $this->emailService->sendEmailToAdmin(
-                $user->getEmail(),
-                $user->getUsername(),
+            $author->getRole() !== UserRole::SUPER_ADMIN && $post->getStatus() === PostStatus::READY_FOR_REVIEW
+            => $this->emailService->sendEmailToAdmin(
+                $author->getEmail(),
+                $author->getUsername(),
                 'post.ready_for_review.subject',
                 'post_ready_for_review.html.twig',
                 [],
                 [
-                    'username' => $user->getUsername(),
+                    'username' => $author->getUsername(),
                     'post_title' => $post->getTitle()
                 ]
             ),
-            PostStatus::PUBLISHED => $this->emailService->sendEmailToUser(
-                $user->getEmail(),
-                $user->getUsername(),
+            $author->getRole() !== UserRole::SUPER_ADMIN && $post->getStatus() === PostStatus::PUBLISHED
+            => $this->emailService->sendEmailToUser(
+                $author->getEmail(),
+                $author->getUsername(),
                 'post.published.subject',
                 'post_published.html.twig',
                 [],
                 [
-                    'username' => $user->getUsername(),
+                    'username' => $author->getUsername(),
                     'post_title' => $post->getTitle()
                 ]
             ),
-            PostStatus::REJECTED => $this->emailService->sendEmailToUser(
-                $user->getEmail(),
-                $user->getUsername(),
+            $author->getRole() !== UserRole::SUPER_ADMIN && $post->getStatus() === PostStatus::REJECTED
+            => $this->emailService->sendEmailToUser(
+                $author->getEmail(),
+                $author->getUsername(),
                 'post.rejected.subject',
                 'post_rejected.html.twig',
                 [],
                 [
-                    'username' => $user->getUsername(),
+                    'username' => $author->getUsername(),
                     'post_title' => $post->getTitle()
                 ]
             ),

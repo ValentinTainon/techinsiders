@@ -5,7 +5,6 @@ namespace App\EventListener;
 use App\Entity\User;
 use App\Enum\UserRole;
 use Doctrine\ORM\Events;
-use App\Service\PathService;
 use App\Service\EmailService;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
@@ -20,12 +19,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: User::class)]
 class UserEntityListener
 {
-    private bool $isGuestVerified = false;
+    private array $userChangeSet;
 
     public function __construct(
-        private UserPasswordHasherInterface $userPasswordHasher,
         private EmailService $emailService,
-        private PathService $pathService,
+        private UserPasswordHasherInterface $userPasswordHasher,
     ) {}
 
     public function prePersist(User $user, PrePersistEventArgs $event): void
@@ -64,27 +62,17 @@ class UserEntityListener
 
     public function preUpdate(User $user, PreUpdateEventArgs $event): void
     {
+        $this->userChangeSet = $event->getEntityChangeSet();
+
         if (!empty($user->getPlainPassword())) {
             $this->processUserPassword($user);
-        }
-
-        if ($user->getRole() === UserRole::GUEST && $user->isVerified()) {
-            $this->isGuestVerified = true;
-            $user->setRole(UserRole::USER);
         }
     }
 
     public function postUpdate(User $user, PostUpdateEventArgs $event): void
     {
-        if ($this->isGuestVerified) {
-            $this->emailService->sendEmailToAdmin(
-                $user->getEmail(),
-                $user->getUsername(),
-                'user_is_verified.subject',
-                'user_is_verified.html.twig',
-                [],
-                ['username' => $user->getUsername()]
-            );
+        if ($this->isUserRoleChanged()) {
+            $this->processEmail($user);
         }
     }
 
@@ -96,5 +84,49 @@ class UserEntityListener
                 $user->getPlainPassword()
             )
         )->eraseCredentials();
+    }
+
+    private function isUserRoleChanged(): bool
+    {
+        return isset($this->userChangeSet) && array_key_exists('role', $this->userChangeSet);
+    }
+
+    private function processEmail(User $user): void
+    {
+        match (true) {
+            $user->getRole() === UserRole::USER => $this->emailService->sendEmailToAdmin(
+                $user->getEmail(),
+                $user->getUsername(),
+                'user_is_verified.subject',
+                'user_is_verified.html.twig',
+                ['%username%' => $user->getUsername()],
+                ['username' => $user->getUsername()]
+            ),
+            $user->getRole() === UserRole::EDITOR => $this->emailService->sendEmailToUser(
+                $user->getEmail(),
+                $user->getUsername(),
+                'assigned_to_editor.subject',
+                'user_assigned_to_editor.html.twig',
+                [],
+                ['username' => $user->getUsername()]
+            ),
+            $this->userChangeSet['role'][0] === UserRole::ADMIN->value && $user->getRole() === UserRole::EDITOR
+            => $this->emailService->sendEmailToUser(
+                $user->getEmail(),
+                $user->getUsername(),
+                'reassigned_to_editor.subject',
+                'user_reassigned_to_editor.html.twig',
+                [],
+                ['username' => $user->getUsername()]
+            ),
+            $user->getRole() === UserRole::ADMIN => $this->emailService->sendEmailToUser(
+                $user->getEmail(),
+                $user->getUsername(),
+                'promoted_to_admin.subject',
+                'editor_promoted_to_admin.html.twig',
+                [],
+                ['username' => $user->getUsername()]
+            ),
+        };
     }
 }

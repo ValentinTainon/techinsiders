@@ -1,109 +1,33 @@
-{% apply inline_css(source('@styles/email/default-style.css')) %}
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!--[if !mso]><!-->
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" type="text/css">
-		<style type="text/css">
-			@media only screen and (max-width:480px) {
-				@-ms-viewport {
-					width: 320px;
-				}
-				@viewport {
-					width: 320px;
-				}
-			}
-			@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600 &display=swap');
-		</style>
-		<!--<![endif]-->
-	</head>
-	<body>
-		<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#F6FAFB">
-			<tbody>
-				<tr>
-					<td valign="top" align="center">
-						<table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
-							<tbody>
-								<tr>
-									<td class="header">
-										<a href="{{ url('app_home') }}" title="{{ app_name }}">
-											{{ app_name }}
-										</a>
-									</td>
-								</tr>
-								<tr>
-									<td class="main-content">
-										<table width="100%" cellspacing="0" cellpadding="0" border="0">
-											<tbody>
-												<tr>
-													<td class="first row" style="text-align: center;">
-														{{ 'welcome.user'|trans({'%username%': username}, 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td class="row">
-														{{ 'thanks_choosing.app_name'|trans({'%app_name%': app_name}, 'emails') }}<br/>
-														{{ 'happy_to_see_you'|trans([], 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td class="row">
-														{{ 'please_confirm_your_email'|trans([], 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td style="text-align: center;">
-														<a class="button" 
-                                                            href="{{ signedUrl|raw }}" 
-                                                            title="{{ 'confirm_email'|trans([], 'emails') }}"
-                                                        >
-                                                            {{ 'confirm_email'|trans([], 'emails') }}
-                                                        </a>
-													</td>
-												</tr>
-												<tr>
-													<td class="row">
-                                                        {% set expire_message = expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') %}
-														{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<span class="separator"></span>
-													</td>
-												</tr>
-												<tr>
-													<td class="last row">
-														{{ 'best_regards'|trans([], 'emails') }}
-														<br>
-                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-								<tr>
-									<td class="footer">
-										<div class="outlook-group-fix">
-											<span>
-                                                <a href="{{ url('app_home') }}" title="{{ app_name }}">
-													{{ app_name }}
-												</a>
-                                            </span>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</body>
-</html>
-{% endapply %}
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+	<tr>
+		<td class="first row" style="text-align: center;">
+			{{ 'welcome.user'|trans({'%username%': username}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'thanks_choosing.app_name'|trans({'%app_name%': app_name}, 'emails') }}<br/>
+			{{ 'happy_to_see_you'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'please_confirm_your_email'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center;">
+			<a class="button" href="{{ signedUrl|raw }}" title="{{ 'confirm_email'|trans([], 'emails') }}">
+				{{ 'confirm_email'|trans([], 'emails') }}
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{% set expire_message = expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') %}
+			{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
+		</td>
+	</tr>
+{% endblock %}

@@ -20,7 +20,7 @@ return [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
     'ckeditor-init' => [
-        'path' => './assets/typescript/ckeditor/ClassicEditorInitializer.ts',
+        'path' => './assets/typescript/ckeditor/EditorInitializer.ts',
         'entrypoint' => true,
     ],
     '@hotwired/stimulus' => [

@@ -2,7 +2,6 @@
 
 namespace App\EventListener;
 
-use App\Entity\User;
 use App\Entity\Comment;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\PreUpdateEventArgs;

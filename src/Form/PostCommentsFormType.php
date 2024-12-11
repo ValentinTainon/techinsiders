@@ -41,7 +41,7 @@ class PostCommentsFormType extends AbstractType
         $form = $event->getForm();
         $comment = $event->getData();
 
-        if (is_null($comment)) {
+        if ($comment === null) {
             return;
         }
 

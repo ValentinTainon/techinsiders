@@ -16,27 +16,30 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-#[ORM\UniqueConstraint(name: 'UNIQ_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['username'], message: 'user.unique.entity.constraint.username.message')]
 #[UniqueEntity(fields: ['email'], message: 'user.unique.entity.constraint.email.message')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const string DEFAULT_AVATAR_FILE_NAME = 'avatar.svg';
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
     private ?string $username = null;
 
     #[ORM\Column(enumType: UserRole::class)]
+    #[Assert\NotNull]
     private ?UserRole $role = UserRole::GUEST;
+
+    #[ORM\Column(length: 50, unique: true, nullable: true)]
+    #[Assert\Email]
+    #[Assert\NotBlank]
+    #[Assert\NoSuspiciousCharacters]
+    private ?string $email = null;
 
     /**
      * @var string The plain password
@@ -67,12 +70,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    #[Assert\Email]
-    #[Assert\NotBlank]
-    #[Assert\NoSuspiciousCharacters]
-    private ?string $email = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NoSuspiciousCharacters]
     private ?string $avatar = null;
@@ -86,6 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $about = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private bool $isVerified = false;
 
     /**
