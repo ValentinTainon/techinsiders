@@ -50,7 +50,7 @@
     "symfonycasts/verify-email-bundle": "^1.17",
     "twig/cssinliner-extra": "^3.14",
     "twig/extra-bundle": "^3.14",
-    "twig/twig": "3.14"
+    "twig/twig": "^3.14"
   },
   "config": {
     "allow-plugins": {

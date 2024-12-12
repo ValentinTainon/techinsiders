@@ -10,8 +10,8 @@ use App\Entity\Comment;
 use App\Entity\Category;
 use App\Config\UserAvatarConfig;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-// use Symfony\Component\Routing\Attribute\Route;
+// use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -29,13 +29,11 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(private TranslatorInterface $translator) {}
 
-    #[Route('/admin/{_locale}', name: 'admin')]
+    // #[Route('/admin/{_locale}', name: 'admin')]
+    #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        // return $this->redirectToRoute('admin_post_index');
-
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(PostCrudController::class)->generateUrl());
+        return $this->redirectToRoute('admin_post_index');
 
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
@@ -48,10 +46,10 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setFaviconPath('favicon.svg')
             ->setTitle($this->getParameter('app_name'))
-            ->setLocales([
-                'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'),
-                'en' => $this->translator->trans('locale.english.label', [], 'EasyAdminBundle')
-            ])
+            // ->setLocales([
+            //     'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'),
+            //     'en' => $this->translator->trans('locale.english.label', [], 'EasyAdminBundle')
+            // ])
             ->renderContentMaximized();
     }
 
