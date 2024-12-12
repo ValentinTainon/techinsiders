@@ -14,6 +14,7 @@ use App\Form\PostCommentsFormType;
 use App\Repository\PostRepository;
 use App\Config\PostThumbnailConfig;
 use App\Form\Admin\Field\CkeditorField;
+use App\Security\Voter\PostVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use function Symfony\Component\Translation\t;
@@ -75,21 +76,13 @@ class PostCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $expression = new Expression(
-            sprintf(
-                'is_granted("%s") or (user === subject and is_granted("%s"))',
-                UserRole::SUPER_ADMIN->value,
-                UserRole::EDITOR->value
-            )
-        );
-
         return $actions
-            // ->setPermissions([
-            //     Action::EDIT => $expression,
-            //     Action::DELETE => $expression,
-            //     Action::BATCH_DELETE => $expression
-            // ])
             ->disable(Action::DETAIL)
+            ->setPermissions([
+                Action::EDIT => PostVoter::EDIT,
+                Action::DELETE => PostVoter::DELETE,
+                Action::BATCH_DELETE => PostVoter::BATCH_DELETE
+            ])
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
@@ -275,7 +268,8 @@ class PostCrudController extends AbstractCrudController
         $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
         if (!$this->isGranted(UserRole::SUPER_ADMIN->value)) {
-            $queryBuilder->where('entity.user = :user')
+            $queryBuilder
+                ->where('entity.user = :user')
                 ->setParameter('user', $this->getUser());
         }
 

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Post;
 use App\Enum\UserRole;
 use App\Entity\Comment;
+use App\Security\Voter\CommentVoter;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormEvent;
 use Doctrine\ORM\PersistentCollection;
@@ -54,20 +55,13 @@ class CommentCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $expression = new Expression(
-            sprintf(
-                'is_granted("%s") or (user === subject and is_granted("%s"))',
-                UserRole::SUPER_ADMIN->value,
-                UserRole::EDITOR->value
-            )
-        );
-
         return $actions
-            // ->setPermissions([
-            //     Action::EDIT => $expression,
-            //     Action::DELETE => $expression,
-            //     Action::BATCH_DELETE => $expression
-            // ])
+            ->setPermissions([
+                Action::EDIT => CommentVoter::EDIT,
+                Action::DETAIL => CommentVoter::DETAIL,
+                Action::DELETE => CommentVoter::DELETE,
+                Action::BATCH_DELETE => CommentVoter::BATCH_DELETE
+            ])
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,

@@ -7,6 +7,7 @@ use App\Enum\UserRole;
 use App\Service\EmailService;
 use App\Config\UserAvatarConfig;
 use App\Form\Admin\Field\PasswordField;
+use App\Security\Voter\UserVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use function Symfony\Component\Translation\t;
@@ -58,23 +59,13 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $expression = new Expression(
-            sprintf(
-                'is_granted("%s") or (user === subject and is_granted("%s"))',
-                UserRole::SUPER_ADMIN->value,
-                UserRole::EDITOR->value
-            )
-        );
-
         return $actions
-            // ->setPermissions([
-            //     Action::INDEX => UserRole::SUPER_ADMIN->value,
-            //     Action::NEW => UserRole::SUPER_ADMIN->value,
-            //     Action::EDIT => $expression,
-            //     Action::DETAIL => $expression,
-            //     Action::DELETE => $expression,
-            //     Action::BATCH_DELETE => $expression
-            // ])
+            ->setPermissions([
+                Action::EDIT => UserVoter::EDIT,
+                Action::DETAIL => UserVoter::DETAIL,
+                Action::DELETE => UserVoter::DELETE,
+                Action::BATCH_DELETE => UserVoter::BATCH_DELETE
+            ])
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,

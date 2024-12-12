@@ -2,14 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Config\UserAvatarConfig;
+use function Symfony\Component\Translation\t;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Enum\UserRole;
 use App\Entity\Comment;
 use App\Entity\Category;
-use App\Service\PathService;
-use function Symfony\Component\Translation\t;
+use App\Config\UserAvatarConfig;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 // use Symfony\Component\Routing\Attribute\Route;
