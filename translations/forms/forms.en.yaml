@@ -5,7 +5,6 @@ at: "at"
 general_information.label: "General information"
 post_content.label: "Post content"
 status.label: "Status"
-post_content.tab.help.message: "The post content must be at least %min_post_length_limit% characters."
 
 # Fields label
 id.label: "ID"
@@ -55,3 +54,5 @@ reset.password.label: "Reset password"
 image.field.help.message: "Supported formats: %formats%. Max size: %size%o."
 check.user.password.help.message: "In order to validate your changes, please enter your current password."
 reset.password.request.help.message: "Enter your email address and we will send you a link to reset your password."
+post_content.help.message: "The post content must be at least %min_post_length_limit% characters."
+comment_content.help.message: "The maximum length of a comment is %max_comment_length_limit% characters."

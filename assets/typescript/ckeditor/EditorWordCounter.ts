@@ -1,4 +1,4 @@
-export default class EditorWordCountManager {
+export default class EditorWordCounter {
   private minPostLengthLimit: number;
   private statCharacters: number;
   private wordCountContainer: HTMLDivElement | null;

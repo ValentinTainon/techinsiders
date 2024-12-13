@@ -15,14 +15,14 @@ class LengthWithoutHtmlValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, LengthWithoutHtml::class);
         }
 
+        if (!is_string($value)) {
+            throw new UnexpectedValueException($value, 'string');
+        }
+
         $valueWithoutHtml = strip_tags($value);
 
         if (empty($valueWithoutHtml)) {
             return;
-        }
-
-        if (!is_string($value)) {
-            throw new UnexpectedValueException($value, 'string');
         }
 
         if (mb_strlen($valueWithoutHtml) >= $constraint->min) {

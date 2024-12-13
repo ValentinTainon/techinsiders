@@ -1,15 +1,15 @@
 export default class EditorMediaCleaner {
-  private pageName: string;
+  private pageName: string | undefined;
+  private postUuid: string | undefined;
   private eventType: string;
-  private postUuid: string;
-  private form: HTMLFormElement | null;
+  private postForm: HTMLFormElement | null;
   private editorInput: HTMLDivElement | null;
   private imgPathsOnLoad: (string | null)[];
 
-  constructor(pageName: string, postUuid: string) {
-    this.pageName = pageName;
-    this.postUuid = postUuid;
-    this.form = document.querySelector<HTMLFormElement>(
+  constructor(editorDataset: DOMStringMap) {
+    this.pageName = editorDataset.pageName;
+    this.postUuid = editorDataset.postUuid;
+    this.postForm = document.querySelector<HTMLFormElement>(
       "form#new-Post-form, form#edit-Post-form"
     );
     this.editorInput = document.querySelector<HTMLDivElement>(
@@ -18,9 +18,14 @@ export default class EditorMediaCleaner {
   }
 
   public cleanUnusedImages(): void {
-    if (!this.pageName || !this.postUuid || !this.form || !this.editorInput) {
+    if (
+      !this.pageName ||
+      !this.postUuid ||
+      !this.postForm ||
+      !this.editorInput
+    ) {
       throw new Error(
-        "Cannot initialize EditorImageCleaner due to missing page name, post UUID, form, or editor input."
+        "Cannot initialize EditorImageCleaner due to missing page name or post UUID or form or editor input."
       );
     }
 
@@ -32,13 +37,13 @@ export default class EditorMediaCleaner {
       });
     }
 
-    this.form?.addEventListener("submit", (event: SubmitEvent) => {
+    this.postForm.addEventListener("submit", (event: SubmitEvent) => {
       event.preventDefault();
       this.eventType = event.type;
       this.cleanUnusedImagesOnSubmit(
         this.createRequestPayload(this.getAllImgPaths())
       );
-      this.form?.submit();
+      this.postForm?.submit();
       isFormSubmitted = true;
     });
 

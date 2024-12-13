@@ -1,6 +1,8 @@
 // @ts-ignore
 import { ClassicEditor } from "ckeditor5";
-import EditorConfigurator from "./EditorConfigurator.ts";
+import EditorConfigType from "./enum/EditorConfigType.ts";
+import EditorStarterConfig from "./config/EditorStarterConfig.ts";
+import EditorFeatureRichConfig from "./config/EditorFeatureRichConfig.ts";
 import EditorWordCounter from "./EditorWordCounter.ts";
 import EditorMediaCleaner from "./EditorMediaCleaner.ts";
 
@@ -8,12 +10,7 @@ const editorPlaceholder: HTMLTextAreaElement | null =
   document.querySelector<HTMLTextAreaElement>("textarea#editor");
 
 class EditorInitializer {
-  private formTabsContent: HTMLDivElement | null;
-
-  constructor() {
-    this.formTabsContent =
-      document.querySelector<HTMLDivElement>(".form-tabs-content");
-  }
+  private editorWordCounter: EditorWordCounter;
 
   public async init(): Promise<void> {
     try {
@@ -23,26 +20,46 @@ class EditorInitializer {
         );
       }
 
-      const pageName: string = editorPlaceholder.dataset.pageName || "";
-      const editorConfigType: string =
-        editorPlaceholder.dataset.editorConfigType || "";
-      const postUuid: string = editorPlaceholder.dataset.postUuid || "";
-      const minPostLengthLimit: number =
-        Number(editorPlaceholder.dataset.minPostLengthLimit) || 0;
-      const editorWordCounter = new EditorWordCounter(minPostLengthLimit);
+      const editorDataset: DOMStringMap = editorPlaceholder.dataset;
 
       await ClassicEditor.create(
         editorPlaceholder,
-        new EditorConfigurator(postUuid, editorWordCounter).getConfig(
-          editorConfigType
-        )
+        this.getEditorConfig(editorDataset)
       );
 
-      editorWordCounter.handlePostLengthValidation();
-      new EditorMediaCleaner(pageName, postUuid).cleanUnusedImages();
+      if (
+        editorDataset.editorConfigType === EditorConfigType.FeatureRich &&
+        this.editorWordCounter
+      ) {
+        this.editorWordCounter.handlePostLengthValidation();
+        new EditorMediaCleaner(editorDataset).cleanUnusedImages();
+      }
     } catch (error) {
-      this.formTabsContent?.remove();
-      console.error(error);
+      document
+        .querySelector<HTMLDivElement>("div#tab-post-content-label")
+        ?.remove();
+      alert("Cannot initialize editor");
+      throw new Error(error);
+    }
+  }
+
+  private getEditorConfig(editorDataset: DOMStringMap): any {
+    switch (editorDataset.editorConfigType) {
+      case EditorConfigType.Starter:
+        return new EditorStarterConfig().getConfig();
+      case EditorConfigType.FeatureRich:
+        this.editorWordCounter = new EditorWordCounter(
+          Number(editorDataset.minPostLengthLimit)
+        );
+        return new EditorFeatureRichConfig(
+          editorDataset,
+          this.editorWordCounter
+        ).getConfig();
+      default:
+        console.warn(
+          "Unknown editor config type, getting starter config instead."
+        );
+        return new EditorStarterConfig().getConfig();
     }
   }
 }

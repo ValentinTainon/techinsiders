@@ -5,7 +5,6 @@ at: "le"
 general_information.label: "Informations générales"
 post_content.label: "Contenu de l'article"
 status.label: "Statut"
-post_content.tab.help.message: "Le contenu de l'article doit faire au moins %min_post_length_limit% caractères."
 
 # Fields label
 id.label: "ID"
@@ -55,3 +54,5 @@ reset.password.label: "Réinitialiser le mot de passe"
 image.field.help.message: "Formats supportés: %formats%. Taille max: %size%o."
 check.user.password.help.message: "Afin de valider vos modifications, veuillez saisir votre mot de passe actuel."
 reset.password.request.help.message: "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe."
+post_content.help.message: "Le contenu de l'article doit faire au moins %min_post_length_limit% caractères."
+comment_content.help.message: "La longueur maximale d'un commentaire est de %max_comment_length_limit% caractères."

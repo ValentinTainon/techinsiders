@@ -25,7 +25,6 @@ class Comment
     private ?Post $post = null;
 
     #[ORM\Column]
-    #[Assert\NotNull]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]

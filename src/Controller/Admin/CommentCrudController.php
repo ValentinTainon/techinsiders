@@ -5,11 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\Post;
 use App\Enum\UserRole;
 use App\Entity\Comment;
-use App\Security\Voter\CommentVoter;
+use App\Enum\EditorConfigType;
 use Doctrine\ORM\QueryBuilder;
+use App\Security\Voter\CommentVoter;
 use Symfony\Component\Form\FormEvent;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Form\FormEvents;
+use App\Form\Admin\Field\CkeditorField;
 use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -100,7 +102,16 @@ class CommentCrudController extends AbstractCrudController
             ->setHtmlAttribute('required', true)
             ->setColumns(10);
 
-        $contentField = TextareaField::new('content', t('content.label', [], 'forms'))
+        $contentField = CkeditorField::new('content', t('content.label', [], 'forms'))
+            ->addFormTheme('bundles/EasyAdminBundle/crud/field/comment-editor-placeholder.html.twig')
+            ->setFormTypeOption('attr', [
+                'editor_data' => [
+                    'editor_config_type' => EditorConfigType::STARTER->value,
+                ]
+            ])
+            ->setHelp(
+                t('comment_content.help.message', ['%max_comment_length_limit%' => 500], 'forms')
+            )
             ->setColumns(10);
 
         yield FormField::addFieldset()->addCssClass('custom-max-width');

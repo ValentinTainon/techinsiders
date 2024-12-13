@@ -22,7 +22,6 @@ final class CkeditorField implements FieldInterface
             ->setLabel($label)
             ->setFormType(TextareaType::class)
             ->setFormTypeOption('block_name', 'custom_content')
-            ->addFormTheme('bundles/EasyAdminBundle/crud/field/editor-placeholder.html.twig')
             ->addCssClass('field-ckeditor')
             ->addCssFiles(
                 Asset::new('../assets/styles/ckeditor/default.css'),

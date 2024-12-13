@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Config\PostContentConfig;
 use App\Enum\PostStatus;
+use App\Config\PostContentConfig;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\PostRepository;
 use App\Validator as CustomAssert;
+use App\Repository\PostRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 

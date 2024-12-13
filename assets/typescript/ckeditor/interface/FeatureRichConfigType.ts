@@ -45,7 +45,7 @@ export default interface FeatureRichConfigType {
     headers: {
       "X-CSRF-TOKEN": string;
       Authorization: string;
-      "Post-Uuid": string;
+      "Post-Uuid": string | undefined;
     };
   };
   style: {

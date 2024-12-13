@@ -2,22 +2,20 @@
 
 namespace App\Controller\Admin;
 
+use function Symfony\Component\Translation\t;
 use App\Entity\Post;
 use App\Enum\UserRole;
 use App\Enum\PostStatus;
 use App\Enum\EditorConfigType;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Uid\Uuid;
+use App\Security\Voter\PostVoter;
 use App\Config\PostContentConfig;
-use Symfony\Component\Uid\UuidV4;
-use App\Form\PostCommentsFormType;
+use App\Form\Admin\PostCommentsFormType;
 use App\Repository\PostRepository;
 use App\Config\PostThumbnailConfig;
 use App\Form\Admin\Field\CkeditorField;
-use App\Security\Voter\PostVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -30,10 +28,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\HiddenField;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -164,10 +160,11 @@ class PostCrudController extends AbstractCrudController
 
         yield FormField::addTab(t('post_content.label', [], 'forms'))
             ->setHelp(
-                t('post_content.tab.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
+                t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
             )
             ->addCssClass('custom-max-width');
         yield CkeditorField::new('content', false)
+            ->addFormTheme('bundles/EasyAdminBundle/crud/field/post-editor-placeholder.html.twig')
             ->addCssFiles(Asset::new('../assets/styles/ckeditor/word-count.css'))
             ->setFormTypeOption('attr', [
                 'page_name' => $pageName,
