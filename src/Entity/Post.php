@@ -63,12 +63,12 @@ class Post
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(enumType: PostStatus::class)]
-    #[Assert\NotNull]
     #[Assert\NotBlank]
+    #[Assert\NotNull]
     private PostStatus $status = PostStatus::DRAFTED;
 
-    #[Assert\NotNull]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[Assert\NotNull]
     private Uuid $uuid;
 
     /**

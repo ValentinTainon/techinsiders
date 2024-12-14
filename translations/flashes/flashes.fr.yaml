@@ -12,3 +12,9 @@ error_during_email_verification: "Une erreur est survenue lors de la vérificati
 user_not_found: "Aucun utilisateur trouvé."
 assigned_to_editor_group: "L'utilisateur a été affecté au groupe Rédacteur"
 editor_promoted_to_admin: "Le Rédacteur a été promu Administrateur"
+
+# Post Status
+author_post_drafted: "Votre article est enregistré en tant que brouillon."
+author_post_ready_for_review: "Votre article est enregistré et prêt à être revu par l'administrateur."
+author_post_published: "L'article de %author% a été publié."
+author_post_rejected: "L'article de %author% a été rejeté."

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Service\EmailService;
 use App\Form\ChangePasswordFormType;
+use App\Event\EmailSendingFailedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
@@ -154,17 +156,21 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $this->emailService->sendEmailToUser(
-            $user->getEmail(),
-            $user->getUsername(),
-            'password_reset_request.subject',
-            'reset_password.html.twig',
-            [],
-            [
-                'username' => $user->getUsername(),
-                'resetToken' => $resetToken,
-            ]
-        );
+        try {
+            $this->emailService->sendEmailToUser(
+                $user->getEmail(),
+                $user->getUsername(),
+                'password_reset_request.subject',
+                'reset_password.html.twig',
+                [],
+                [
+                    'username' => $user->getUsername(),
+                    'resetToken' => $resetToken,
+                ]
+            );
+        } catch (TransportExceptionInterface $e) {
+            $this->addFlash('error', 'Error while sending password reset email.');
+        }
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);

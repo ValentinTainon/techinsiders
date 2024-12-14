@@ -2,10 +2,10 @@
 
 namespace App\Security;
 
+use function Symfony\Component\Translation\t;
 use App\Entity\User;
 use App\Enum\UserRole;
 use Symfony\Bundle\SecurityBundle\Security;
-use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;

@@ -44,9 +44,6 @@ post.published.subject: "Your article has just been published"
 # Post rejected
 post.rejected.subject: "Your article requires editing"
 
-# User verified
-user_is_verified.subject: "%username% is now a verified user"
-
 # Editor membership request accepted
 assigned_to_editor.subject: "Your request to join us as an editor has been accepted"
 editor_accepted_announcement: "We are pleased to announce that your request to become an editor on %app_name% has been accepted! 🥳"

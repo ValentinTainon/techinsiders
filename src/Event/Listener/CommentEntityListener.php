@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\Event\Listener;
 
 use App\Entity\Comment;
 use Doctrine\ORM\Events;

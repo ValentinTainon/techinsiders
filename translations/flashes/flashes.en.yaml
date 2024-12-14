@@ -12,3 +12,9 @@ error_during_email_verification: "An error occurred during email verification."
 user_not_found: "No users found."
 assigned_to_editor_group: "The user has been assigned to Editor group"
 editor_promoted_to_admin: "The Editor has been promoted to Administrator"
+
+# Post Status
+author_post_drafted: "Your article is saved as a draft."
+author_post_ready_for_review: "Your article is saved and ready for review by the administrator."
+author_post_published: "The article of %author% has been published."
+author_post_rejected: "The article of %author% has been rejected."

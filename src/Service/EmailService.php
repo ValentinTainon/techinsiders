@@ -5,9 +5,12 @@ namespace App\Service;
 use App\Entity\User;
 use App\Security\EmailVerifier;
 use Symfony\Component\Mime\Address;
+use App\Event\EmailSendingFailedEvent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class EmailService
@@ -20,17 +23,8 @@ class EmailService
         private EmailVerifier $emailVerifier,
         private ParameterBagInterface $params,
         private TranslatorInterface $translator,
+        private EventDispatcherInterface $eventDispatcher
     ) {}
-
-    public function getAdminTemplatePath(string $template): string
-    {
-        return self::ADMIN_TEMPLATES_DIR . $template;
-    }
-
-    public function getUserTemplatePath(string $template): string
-    {
-        return self::USER_TEMPLATES_DIR . $template;
-    }
 
     public function sendEmailToAdmin(
         string $emailFrom,
@@ -40,19 +34,25 @@ class EmailService
         array $subjectTransParams = [],
         array $context = []
     ): void {
-        $templatedEmail = (new TemplatedEmail())
-            ->from(new Address($emailFrom, $usernameFrom))
-            ->to(
-                new Address(
-                    $this->params->get('app_contact_email'),
-                    $this->params->get('app_name')
-                )
-            )
-            ->subject($this->translator->trans($subject, $subjectTransParams, 'emails'))
-            ->htmlTemplate($this->getAdminTemplatePath($template))
-            ->context($context);
-
-        $this->mailer->send($templatedEmail);
+        try {
+            $this->mailer->send(
+                (new TemplatedEmail())
+                    ->from(new Address($emailFrom, $usernameFrom))
+                    ->to(
+                        new Address(
+                            $this->params->get('app_contact_email'),
+                            $this->params->get('app_name')
+                        )
+                    )
+                    ->subject($this->translator->trans($subject, $subjectTransParams, 'emails'))
+                    ->htmlTemplate(self::ADMIN_TEMPLATES_DIR . $template)
+                    ->context($context)
+            );
+        } catch (TransportExceptionInterface $e) {
+            $this->eventDispatcher->dispatch(
+                new EmailSendingFailedEvent($e->getMessage())
+            );
+        }
     }
 
     public function sendEmailToUser(
@@ -63,13 +63,19 @@ class EmailService
         array $subjectTransParams = [],
         array $context = []
     ): void {
-        $templatedEmail = (new TemplatedEmail())
-            ->to(new Address($emailTo, $usernameTo))
-            ->subject($this->translator->trans($subject, $subjectTransParams, 'emails'))
-            ->htmlTemplate($this->getUserTemplatePath($template))
-            ->context($context);
-
-        $this->mailer->send($templatedEmail);
+        try {
+            $this->mailer->send(
+                (new TemplatedEmail())
+                    ->to(new Address($emailTo, $usernameTo))
+                    ->subject($this->translator->trans($subject, $subjectTransParams, 'emails'))
+                    ->htmlTemplate(self::USER_TEMPLATES_DIR . $template)
+                    ->context($context)
+            );
+        } catch (TransportExceptionInterface $e) {
+            $this->eventDispatcher->dispatch(
+                new EmailSendingFailedEvent($e->getMessage())
+            );
+        }
     }
 
     public function sendEmailConfirmationToUser(
@@ -81,14 +87,20 @@ class EmailService
         array $subjectTransParams = [],
         array $context = []
     ): void {
-        $this->emailVerifier->sendEmailConfirmation(
-            'app_verify_email',
-            $user,
-            (new TemplatedEmail())
-                ->to(new Address($emailTo, $usernameTo))
-                ->subject($this->translator->trans($subject, $subjectTransParams, 'emails'))
-                ->htmlTemplate($this->getUserTemplatePath($template))
-                ->context($context)
-        );
+        try {
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
+                (new TemplatedEmail())
+                    ->to(new Address($emailTo, $usernameTo))
+                    ->subject($this->translator->trans($subject, $subjectTransParams, 'emails'))
+                    ->htmlTemplate(self::USER_TEMPLATES_DIR . $template)
+                    ->context($context)
+            );
+        } catch (TransportExceptionInterface $e) {
+            $this->eventDispatcher->dispatch(
+                new EmailSendingFailedEvent($e->getMessage())
+            );
+        }
     }
 }
