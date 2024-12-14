@@ -50,7 +50,7 @@ class UserEntityListener
                 $user->getEmail(),
                 $user->getUsername(),
                 'registration_request.subject',
-                'new_user_registered.html.twig',
+                'user_registered.html.twig',
                 [],
                 [
                     'username' => $user->getUsername(),

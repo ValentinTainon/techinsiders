@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityUpdatedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EasyAdminPostSubscriber implements EventSubscriberInterface
 {
@@ -25,6 +26,7 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
         private SluggerInterface $slugger,
         private EmailService $emailService,
         private EntityManagerInterface $entityManager,
+        private TranslatorInterface $translator,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -112,28 +114,19 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
     private function processEmail(Post $post, User $author): void
     {
         match (true) {
-            $author->getRole() !== UserRole::SUPER_ADMIN && $post->getStatus() === PostStatus::DRAFTED
+            $author->getRole() !== UserRole::SUPER_ADMIN &&
+                ($post->getStatus() === PostStatus::DRAFTED || $post->getStatus() === PostStatus::READY_FOR_REVIEW)
             => $this->emailService->sendEmailToAdmin(
                 $author->getEmail(),
                 $author->getUsername(),
-                'post.drafted.subject',
-                'post_drafted.html.twig',
-                [],
+                'new_post_created.subject',
+                'post_created.html.twig',
+                ['%author%' => $author->getUsername(), '%status%' => $post->getStatus()->label($this->translator)],
                 [
-                    'username' => $author->getUsername(),
-                    'post_title' => $post->getTitle()
-                ]
-            ),
-            $author->getRole() !== UserRole::SUPER_ADMIN && $post->getStatus() === PostStatus::READY_FOR_REVIEW
-            => $this->emailService->sendEmailToAdmin(
-                $author->getEmail(),
-                $author->getUsername(),
-                'post.ready_for_review.subject',
-                'post_ready_for_review.html.twig',
-                [],
-                [
-                    'username' => $author->getUsername(),
-                    'post_title' => $post->getTitle()
+                    'author' => $author->getUsername(),
+                    'post_title' => $post->getTitle(),
+                    'post_status' => $post->getStatus()->label($this->translator),
+                    'post_created_at' => $post->getCreatedAt(),
                 ]
             ),
             $author->getRole() !== UserRole::SUPER_ADMIN && $post->getStatus() === PostStatus::PUBLISHED

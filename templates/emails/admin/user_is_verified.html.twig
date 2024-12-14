@@ -8,14 +8,12 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'user.send_registration_request'|trans({'%username%': username}, 'emails') }}
+			{{ 'user_is_verified.text'|trans({'%username%': username}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
-		<td style="text-align: center;">
-			<a class="button" href="{{ url('app_homepage') }}" title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}">
-				{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
-			</a>
+		<td class="row">
+			{{ 'review_and_validate_user_application'|trans({'%username%': username}, 'emails') }}
 		</td>
 	</tr>
 {% endblock %}

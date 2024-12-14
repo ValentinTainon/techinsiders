@@ -3,12 +3,12 @@
 {% block body %}
 	<tr>
 		<td class="first row">
-			{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
+			{{ 'hello.admin'|trans({'%admin%': app_author}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post_published.text'|trans({'%post_title%': post_title}, 'emails') }}
+			{{ 'post_edited.text'|trans({'%author%': author, '%status%', status}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
@@ -22,10 +22,8 @@
 		</td>
 	</tr>
 	<tr>
-		<td style="text-align: center;">
-			<a class="button" href="{{ url('app_homepage') }}" title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}">
-				{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
-			</a>
+		<td class="row">
+			{{ 'review_if_necessary'|trans([], 'emails') }}
 		</td>
 	</tr>
 {% endblock %}

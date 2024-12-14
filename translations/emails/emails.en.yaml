@@ -4,7 +4,7 @@ link_expire_in.message: "This link will expire in %expire_message%."
 best_regards: "Best regards,"
 team: "The %app_name% team"
 
-# Registration
+# User registration
 registration_request.subject: "Registration request"
 confirm_email.subject: "Please Confirm your email"
 welcome.user: "Welcome, %username%!"
@@ -15,6 +15,9 @@ confirm_email: "Confirm my email"
 hello.admin: "Hello %admin%!"
 user.send_registration_request: "%username% has sent a registration request:"
 go_to.website: "Go to %app_name%"
+user_is_verified.subject: "%username% is now a verified user"
+user_is_verified.text: "We are pleased to inform you that %username% has been verified as a user."
+review_and_validate_user_application: "You can now review and validate if necessary his application as an editor on the website."
 
 # Reset password
 password_reset_request.subject: "Your password reset request"
@@ -23,12 +26,17 @@ click_button_below: "Click the button below to proceed:"
 reset_password: "Reset Password"
 if_not_send_request_ignore_or_contact: "If you didn’t request the password reset, please ignore this message or contact us at %app_contact_link%."
 
-# Post draft
-post.drafted.subject: "An article is being drafted"
+# Post created
+new_post_created.subject: "%author% created a new article (status: %status%)"
+new_post_created.text: "A new article has been created by %author% and is currently in %status% status."
+post.title: "Title: <br/>%post_title%"
+post.created_at: "Created at: <br/>%post_created_at%"
+review_if_necessary: "You can review and approve it if necessary."
 
-# Post ready for review
-post.ready_for_review.subject: "An article is ready for review"
-user.send_post_validation_request: "%username% has sent a validation request for the following post:<br><b>%post_title%</b>"
+# Post edited
+post_edited.subject: "%author% edited an article (status: %status%)"
+post_edited.text: "An article has been edited by %author% and is currently in %status% status."
+post.updated_at: "Updated at: <br/>%post_updated_at%"
 
 # Post published
 post.published.subject: "Your article has just been published"

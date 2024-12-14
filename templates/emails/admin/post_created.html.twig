@@ -1,0 +1,29 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+	<tr>
+		<td class="first row">
+			{{ 'hello.admin'|trans({'%admin%': app_author}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'new_post_created.text'|trans({'%author%': author, '%status%', status}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'post.title'|trans({'%post_title%': post_title}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'post.created_at'|trans({'%created_at%', created_at}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'review_if_necessary'|trans([], 'emails') }}
+		</td>
+	</tr>
+{% endblock %}

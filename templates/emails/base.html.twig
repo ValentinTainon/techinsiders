@@ -4,12 +4,13 @@
 	<head>
 		<title>{{ app_name }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1.0">
 		<!--[if !mso]><!-->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" type="text/css">
 		<style type="text/css">
-			@media only screen and (max-width:480px) {
+			@media only screen and(max-width:480px) {
 				@-ms-viewport {
 					width: 320px;
 				}
@@ -48,8 +49,8 @@
 												<tr>
 													<td class="last row">
 														{{ 'best_regards'|trans([], 'emails') }}
-														<br>
-                                                        <strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
+														<br/>
+														<strong>{{ 'team'|trans({'%app_name%': app_name}, 'emails') }}</strong>
 													</td>
 												</tr>
 											</tbody>
@@ -60,10 +61,10 @@
 									<td class="footer">
 										<div class="outlook-group-fix">
 											<span>
-                                                <a href="{{ url('app_homepage') }}" title="{{ app_name }}">
+												<a href="{{ url('app_homepage') }}" title="{{ app_name }}">
 													{{ app_name }}
 												</a>
-                                            </span>
+											</span>
 										</div>
 									</td>
 								</tr>

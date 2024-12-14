@@ -4,7 +4,7 @@ link_expire_in.message: "Ce lien expire dans %expire_message%."
 best_regards: "Cordialement,"
 team: "L’équipe %app_name%"
 
-# Registration
+# User registration
 registration_request.subject: "Demande d’inscription"
 confirm_email.subject: "Veuillez confirmer votre email"
 welcome.user: "Bienvenue, %username% !"
@@ -15,6 +15,9 @@ confirm_email: "Confirmer mon email"
 hello.admin: "Bonjour %admin% !"
 user.send_registration_request: "%username% a envoyé une demande d’inscription :"
 go_to.website: "Aller sur %app_name%"
+user_is_verified.subject: "%username% est désormais un utilisateur vérifié"
+user_is_verified.text: "Nous sommes heureux de vous informer que %username% est désormais un utilisateur vérifié."
+review_and_validate_user_application: "Vous pouvez à présent examiner et valider si nécessaire sa candidature en tant qu'éditeur sur le site web."
 
 # Reset password
 password_reset_request.subject: "Votre demande de réinitialisation de mot de passe"
@@ -23,12 +26,17 @@ click_button_below: "Cliquez sur le bouton ci-dessous pour continuer :"
 reset_password: "Réinitialiser le mot de passe"
 if_not_send_request_ignore_or_contact: "Si vous n'avez pas demandé la réinitialisation du mot de passe, veuillez ignorer ce message ou nous contacter à %app_contact_link%."
 
-# Post draft
-post.drafted.subject: "Un article est en cours de rédaction"
+# New post created
+new_post_created.subject: "%author% a créé un nouvel article (statut: %status%)"
+new_post_created.text: "Un nouvel article a été créé par %author% et est actuellement en statut %status%."
+post.title: "Titre: <br/>%post_title%"
+post.created_at: "Créé le: <br/>%post_created_at%"
+review_if_necessary: "Vous pouvez le consulter et le valider si nécessaire."
 
-# Post ready for review
-post.ready_for_review.subject: "Un article est prêt à être revu"
-user.send_post_validation_request: "%username% a envoyé une demande de validation pour l'article suivant :<br><b>%post_title%</b>"
+# Post edited
+post_edited.subject: "%author% a modifié un article (statut: %status%)"
+post_edited.text: "Un article a été modifié par %author% et est actuellement en statut %status%."
+post.updated_at: "Mis à jour le: <br/>%post_updated_at%"
 
 # Post published
 post.published.subject: "Votre article vient d'être publié"
