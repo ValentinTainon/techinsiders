@@ -20,6 +20,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: User::class)]
 #[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: User::class)]
 #[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: User::class)]
+#[AsEntityListener(event: Events::postRemove, method: 'postRemove', entity: User::class)]
 class UserEntityListener
 {
     private array $userChangeSet;
@@ -56,6 +57,11 @@ class UserEntityListener
         if ($this->isUserRoleChanged()) {
             $this->processEmailAfterUpdate($user);
         }
+    }
+
+    public function postRemove(User $user, PostUpdateEventArgs $event): void
+    {
+        $this->processEmailAfterDelete($user);
     }
 
     private function processUserPassword(User $user): void
@@ -158,6 +164,34 @@ class UserEntityListener
             $this->eventDispatcher->dispatch(
                 new EmailSendingFailedEvent(
                     "An error occurred while sending an email after updating a user."
+                )
+            );
+        }
+    }
+
+    private function processEmailAfterDelete(User $user): void
+    {
+        try {
+            $this->emailService->sendEmailToUser(
+                $user->getEmail(),
+                $user->getUsername(),
+                'account_deleted.subject',
+                'account_deleted.html.twig',
+                [],
+                ['username' => $user->getUsername()]
+            );
+            $this->emailService->sendEmailToAdmin(
+                $user->getEmail(),
+                $user->getUsername(),
+                'user_account_deleted.subject',
+                'user_account_deleted.html.twig',
+                ['%username%' => $user->getUsername()],
+                ['username' => $user->getUsername()]
+            );
+        } catch (TransportExceptionInterface $e) {
+            $this->eventDispatcher->dispatch(
+                new EmailSendingFailedEvent(
+                    "An error occurred while sending an email after deleting a user."
                 )
             );
         }
