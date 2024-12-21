@@ -126,9 +126,9 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
                         $author->getUsername(),
                         'new_post_created.subject',
                         'post_created.html.twig',
-                        ['%author%' => $author->getUsername(), '%status%' => $post->getStatus()->label($this->translator)],
+                        ['%post_author%' => $author->getUsername(), '%post_status%' => $post->getStatus()->label($this->translator)],
                         [
-                            'author' => $author->getUsername(),
+                            'post_author' => $author->getUsername(),
                             'post_title' => $post->getTitle(),
                             'post_status' => $post->getStatus()->label($this->translator),
                             'post_created_at' => $post->getCreatedAt(),
@@ -162,16 +162,17 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
                         $this->emailService->sendEmailToAdmin(
                             $author->getEmail(),
                             $author->getUsername(),
-                            'new_post_created.subject',
-                            'post_created.html.twig',
-                            ['%author%' => $author->getUsername(), '%status%' => $post->getStatus()->label($this->translator)],
+                            'post_edited.subject',
+                            'post_edited.html.twig',
+                            ['%post_author%' => $author->getUsername(), '%post_status%' => $post->getStatus()->label($this->translator)],
                             [
-                                'author' => $author->getUsername(),
+                                'post_author' => $author->getUsername(),
                                 'post_title' => $post->getTitle(),
                                 'post_status' => $post->getStatus()->label($this->translator),
                                 'post_created_at' => $post->getCreatedAt(),
                             ]
                         );
+
                         $this->eventDispatcher->dispatch(
                             new EmailSendingSuccessEvent(
                                 $post->getStatus() === PostStatus::DRAFTED ?
@@ -190,11 +191,13 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
                             'post_published.html.twig',
                             [],
                             [
-                                'username' => $author->getUsername(),
-                                'post_title' => $post->getTitle()
+                                'post_author' => $author->getUsername(),
+                                'post_title' => $post->getTitle(),
+                                'post_updated_at' => $post->getUpdatedAt(),
                             ]
                         );
                     }
+
                     $this->eventDispatcher->dispatch(
                         new EmailSendingSuccessEvent(
                             $this->translator->trans('author_post_published', ['%author%' => $author->getUsername()], 'flashes')
@@ -210,11 +213,12 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
                             'post_rejected.html.twig',
                             [],
                             [
-                                'username' => $author->getUsername(),
+                                'post_author' => $author->getUsername(),
                                 'post_title' => $post->getTitle()
                             ]
                         );
                     }
+
                     $this->eventDispatcher->dispatch(
                         new EmailSendingSuccessEvent(
                             $this->translator->trans('author_post_rejected', ['%author%' => $author->getUsername()], 'flashes')

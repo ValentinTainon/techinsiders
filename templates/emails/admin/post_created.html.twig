@@ -8,7 +8,7 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'new_post_created.text'|trans({'%author%': author, '%status%', status}, 'emails') }}
+			{{ 'new_post_created.text'|trans({'%post_author%': post_author, '%post_status%', post_status}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
@@ -18,7 +18,7 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post.created_at'|trans({'%created_at%', created_at}, 'emails') }}
+			{{ 'post.created_at'|trans({'%post_created_at%', post_created_at}, 'emails') }}
 		</td>
 	</tr>
 	<tr>

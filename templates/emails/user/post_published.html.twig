@@ -3,12 +3,12 @@
 {% block body %}
 	<tr>
 		<td class="first row">
-			{{ 'hello.user'|trans({'%username%': username}, 'emails') }}
+			{{ 'hello.user'|trans({'%username%': post_author}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post_published.text'|trans({'%post_title%': post_title}, 'emails') }}
+			{{ 'post_published.text'|trans([], 'emails') }}
 		</td>
 	</tr>
 	<tr>
@@ -18,7 +18,7 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post.updated_at'|trans({'%updated_at%', updated_at}, 'emails') }}
+			{{ 'post_published_at'|trans({'%post_updated_at%', post_updated_at}, 'emails') }}
 		</td>
 	</tr>
 	<tr>

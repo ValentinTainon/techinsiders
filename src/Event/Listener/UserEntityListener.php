@@ -122,8 +122,8 @@ class UserEntityListener
                     $this->emailService->sendEmailToAdmin(
                         $user->getEmail(),
                         $user->getUsername(),
-                        'user_is_verified.subject',
-                        'user_is_verified.html.twig',
+                        'user_verified.subject',
+                        'user_verified.html.twig',
                         ['%username%' => $user->getUsername()],
                         ['username' => $user->getUsername()]
                     );
@@ -134,7 +134,7 @@ class UserEntityListener
                             $user->getEmail(),
                             $user->getUsername(),
                             'reassigned_to_editor.subject',
-                            'user_reassigned_to_editor.html.twig',
+                            'admin_reassigned_to_editor.html.twig',
                             [],
                             ['username' => $user->getUsername()]
                         );
@@ -176,7 +176,7 @@ class UserEntityListener
                 $user->getEmail(),
                 $user->getUsername(),
                 'account_deleted.subject',
-                'account_deleted.html.twig',
+                'user_account_deleted.html.twig',
                 [],
                 ['username' => $user->getUsername()]
             );
@@ -184,9 +184,12 @@ class UserEntityListener
                 $user->getEmail(),
                 $user->getUsername(),
                 'user_account_deleted.subject',
-                'user_account_deleted.html.twig',
+                'user_deleted.html.twig',
                 ['%username%' => $user->getUsername()],
-                ['username' => $user->getUsername()]
+                [
+                    'username' => $user->getUsername(),
+                    'user_deleted_at' => new \DateTimeImmutable()
+                ]
             );
         } catch (TransportExceptionInterface $e) {
             $this->eventDispatcher->dispatch(

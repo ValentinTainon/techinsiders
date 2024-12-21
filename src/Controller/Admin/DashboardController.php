@@ -10,7 +10,6 @@ use App\Entity\Comment;
 use App\Entity\Category;
 use App\Config\UserAvatarConfig;
 use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Attribute\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
@@ -22,15 +21,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(private TranslatorInterface $translator) {}
 
-    // #[Route('/admin/{_locale}', name: 'admin')]
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
         return $this->redirectToRoute('admin_post_index');

@@ -3,12 +3,27 @@
 {% block body %}
 	<tr>
 		<td class="first row">
-			{{ 'hello.admin'|trans({'%admin%': app_author}, 'emails') }}
+			{{ 'hello.user'|trans({'%username%': post_author}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'user.send_post_validation_request'|trans({'%username%': username, '%post_title%': post_title}, 'emails') }}
+			{{ 'post_rejected.text'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'post.title'|trans({'%post_title%': post_title}, 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'post_rejected.advice'|trans([], 'emails') }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'if_need_help'|trans([], 'emails') }}
 		</td>
 	</tr>
 	<tr>

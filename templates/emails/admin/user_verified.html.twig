@@ -8,16 +8,12 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'user.send_registration_request'|trans({'%username%': username}, 'emails') }}
+			{{ 'user_verified.text'|trans({'%username%': username}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
 		<td class="row">
-			{% if user_motivation is defined and user_motivation is not null %}
-				{{ user_motivation }}
-			{% else %}
-				Error: user_motivation not found.
-			{% endif %}
+			{{ 'review_and_validate_user_application'|trans([], 'emails') }}
 		</td>
 	</tr>
 {% endblock %}

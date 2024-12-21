@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Enum\Role;
 use App\Enum\UserRole;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

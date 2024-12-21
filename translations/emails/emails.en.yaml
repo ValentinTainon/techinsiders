@@ -15,8 +15,8 @@ confirm_email: "Confirm my email"
 hello.admin: "Hello %admin%!"
 user.send_registration_request: "%username% has sent a registration request:"
 go_to.website: "Go to %app_name%"
-user_is_verified.subject: "%username% is now a verified user"
-user_is_verified.text: "We are pleased to inform you that %username% has been verified as a user."
+user_verified.subject: "%username% is now a verified user"
+user_verified.text: "We are pleased to inform you that %username% has been verified as a user."
 review_and_validate_user_application: "You can now review and validate if necessary his application as an editor on the website."
 
 # Reset password
@@ -27,22 +27,26 @@ reset_password: "Reset Password"
 if_not_send_request_ignore_or_contact: "If you didn’t request the password reset, please ignore this message or contact us at %app_contact_link%."
 
 # Post created
-new_post_created.subject: "%author% created a new article (status: %status%)"
-new_post_created.text: "A new article has been created by %author% and is currently in %status% status."
+new_post_created.subject: "%post_author% created a new article (status: %post_status%)"
+new_post_created.text: "A new article has been created by %post_author% and is currently in %post_status% status."
 post.title: "Title: <br/>%post_title%"
 post.created_at: "Created at: <br/>%post_created_at%"
 review_if_necessary: "You can review and approve it if necessary."
 
 # Post edited
-post_edited.subject: "%author% edited an article (status: %status%)"
-post_edited.text: "An article has been edited by %author% and is currently in %status% status."
+post_edited.subject: "%post_author% edited an article (status: %post_status%)"
+post_edited.text: "An article has been edited by %post_author% and is currently in %post_status% status."
 post.updated_at: "Updated at: <br/>%post_updated_at%"
 
 # Post published
-post.published.subject: "Your article has just been published"
+post.published.subject: "Your article has been approved and published!"
+post_published.text: "The following article has been validated and published on the blog, it is now available for website visitors<br/>Feel free to share it and follow the community's feedback."
+post_published_at: "Published at: <br/>%post_updated_at%"
 
 # Post rejected
-post.rejected.subject: "Your article requires editing"
+post.rejected.subject: "Your article requires modifications"
+post_rejected.text: "The following article has been reviewed and requires some modifications before publication."
+post_rejected.advice: "We invite you to consult the article in order to take note of the necessary adjustments, to apply the modifications, and to resubmit the article for validation."
 
 # Editor membership request accepted
 assigned_to_editor.subject: "Your request to join us as an editor has been accepted"
@@ -73,8 +77,8 @@ your_expertise_and_dedication_remain_vital: "While you no longer have access to 
 if_you_have_any_questions_regarding_this_change: "If you have any questions regarding this change, please feel free to contact us."
 thank_for_your_understanding: "Thank you for your understanding and for your continued contribution."
 
-# Deleted User
+# User account deleted
 account_deleted.subject: "Your account has been deleted"
-no_longer_member_announcement: "We inform you that as of today, you are no longer a member at %app_name%."
+no_longer_member_announcement: "We confirm that your account has been successfully deleted as per your request."
 thank_for_your_contribution_and_wish_you_all_the_best: "We would like to thank you for your contribution and wish you all the best for the future."
-if_you_have_any_questions: "If you have any questions or require clarification, please do not hesitate to contact us."
+if_you_change_your_mind: "If you change your mind or wish to create a new account in the future, you will always be welcome on our platform."
