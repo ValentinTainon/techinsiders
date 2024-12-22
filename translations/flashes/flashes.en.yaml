@@ -19,3 +19,6 @@ author_post_ready_for_review: "Your article will be reviewed by the administrato
 author_post_published: "The article of %author% has been published."
 author_post_rejected: "The article of %author% has been rejected."
 author_post_deleted: "The article has been deleted."
+
+# User account deleted
+user_account_deleted: "Your account has been deleted."

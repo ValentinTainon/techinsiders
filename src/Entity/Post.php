@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Enum\PostStatus;
-use App\Config\PostContentConfig;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use App\Config\PostContentConfig;
 use App\Validator as CustomAssert;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\Collection;
@@ -25,7 +25,7 @@ class Post
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]

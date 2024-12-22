@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 final class CommentVoter extends Voter
 {
     public const string EDIT = 'ADMIN_COMMENT_EDIT';
-    public const string DETAIL = 'ADMIN_COMMENT_VIEW';
     public const string DELETE = 'ADMIN_COMMENT_DELETE';
     public const string BATCH_DELETE = 'ADMIN_COMMENT_BATCH_DELETE';
 
@@ -22,7 +21,7 @@ final class CommentVoter extends Voter
     {
         return in_array(
             $attribute,
-            [self::EDIT, self::DETAIL, self::DELETE, self::BATCH_DELETE]
+            [self::EDIT, self::DELETE, self::BATCH_DELETE]
         ) && $subject instanceof Comment;
     }
 
@@ -38,7 +37,6 @@ final class CommentVoter extends Voter
 
         return match ($attribute) {
             self::EDIT,
-            self::DETAIL,
             self::DELETE,
             self::BATCH_DELETE => $user === $comment->getUser() ||
                 $this->security->isGranted(UserRole::SUPER_ADMIN->value),

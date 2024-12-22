@@ -5,6 +5,8 @@ import EditorStarterConfig from "./config/EditorStarterConfig.ts";
 import EditorFeatureRichConfig from "./config/EditorFeatureRichConfig.ts";
 import EditorWordCounter from "./EditorWordCounter.ts";
 import EditorMediaCleaner from "./EditorMediaCleaner.ts";
+import StarterConfigType from "./interface/StarterConfigType.ts";
+import FeatureRichConfigType from "./interface/FeatureRichConfigType.ts";
 
 const editorPlaceholder: HTMLTextAreaElement | null =
   document.querySelector<HTMLTextAreaElement>("textarea#editor");
@@ -32,7 +34,7 @@ class EditorInitializer {
         this.editorWordCounter
       ) {
         this.editorWordCounter.handlePostLengthValidation();
-        // new EditorMediaCleaner(editorDataset).cleanUnusedImages();
+        new EditorMediaCleaner(editorDataset).cleanUnusedImages();
       }
     } catch (error) {
       document
@@ -43,7 +45,9 @@ class EditorInitializer {
     }
   }
 
-  private getEditorConfig(editorDataset: DOMStringMap): any {
+  private getEditorConfig(
+    editorDataset: DOMStringMap
+  ): StarterConfigType | FeatureRichConfigType {
     switch (editorDataset.editorConfigType) {
       case EditorConfigType.Starter:
         return new EditorStarterConfig().getConfig();

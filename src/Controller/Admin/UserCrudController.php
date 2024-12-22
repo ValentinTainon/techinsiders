@@ -6,20 +6,20 @@ use App\Entity\User;
 use App\Enum\UserRole;
 use App\Service\EmailService;
 use App\Config\UserAvatarConfig;
-use App\Form\Admin\Field\PasswordField;
 use App\Security\Voter\UserVoter;
+use App\Form\Admin\Field\PasswordField;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Image;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -33,10 +33,13 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserCrudController extends AbstractCrudController
 {
     public function __construct(
+        private TokenStorageInterface $tokenStorage,
+        private RequestStack $requestStack,
         private EmailService $emailService,
         private TranslatorInterface $translator,
         private RoleHierarchyInterface $roleHierarchy,
@@ -235,6 +238,11 @@ class UserCrudController extends AbstractCrudController
         if ($avatar !== null) {
             $this->deleteUserAvatar($avatar);
         }
+
+        $this->tokenStorage->setToken(null);
+        $this->requestStack->getSession()->invalidate();
+
+        $this->addFlash('success', t('user_account_deleted', [], 'flashes'));
     }
 
     private function deleteUserAvatar(string $avatar): void

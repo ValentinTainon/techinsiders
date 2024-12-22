@@ -19,3 +19,6 @@ author_post_ready_for_review: "Votre article va être examiné par l'administrat
 author_post_published: "L'article de %author% a été publié."
 author_post_rejected: "L'article de %author% a été rejeté."
 author_post_deleted: "L'article a été supprimé."
+
+# User account deleted
+user_account_deleted: "Votre compte a été supprimé."

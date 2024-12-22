@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use function Symfony\Component\Translation\t;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentRepository;
@@ -16,6 +17,7 @@ class Comment
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
@@ -113,7 +115,8 @@ class Comment
     public function collectionItemLabel(): string
     {
         $date = $this->updatedAt ?? $this->createdAt;
+        $username = $this->user ? $this->user->getUsername() : 'Utilisateur supprimé';
 
-        return "{$this->user->getUsername()} - {$date->format('d/m/Y  H:i:s')}";
+        return "{$username} le {$date->format('d/m/Y à H:i:s')}";
     }
 }

@@ -58,9 +58,9 @@ class CommentCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
+            ->disable(Action::DETAIL)
             ->setPermissions([
                 Action::EDIT => CommentVoter::EDIT,
-                Action::DETAIL => CommentVoter::DETAIL,
                 Action::DELETE => CommentVoter::DELETE,
                 Action::BATCH_DELETE => CommentVoter::BATCH_DELETE
             ])
