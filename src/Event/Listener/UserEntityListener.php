@@ -10,6 +10,7 @@ use App\Event\EmailSendingFailedEvent;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -59,7 +60,7 @@ class UserEntityListener
         }
     }
 
-    public function postRemove(User $user, PostUpdateEventArgs $event): void
+    public function postRemove(User $user, PostRemoveEventArgs $event): void
     {
         $this->processEmailAfterDelete($user);
     }
@@ -188,7 +189,7 @@ class UserEntityListener
                 ['%username%' => $user->getUsername()],
                 [
                     'username' => $user->getUsername(),
-                    'user_deleted_at' => new \DateTimeImmutable()
+                    'user_deleted_at' => (new \DateTimeImmutable(timezone: new \DateTimeZone('Europe/Paris')))->format('d/m/Y à H:i')
                 ]
             );
         } catch (TransportExceptionInterface $e) {

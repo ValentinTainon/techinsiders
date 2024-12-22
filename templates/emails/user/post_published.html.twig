@@ -13,12 +13,17 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post.title'|trans({'%post_title%': post_title}, 'emails') }}
+			{{ 'share_and_follow_community_feedback'|trans([], 'emails') }}
 		</td>
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post_published_at'|trans({'%post_updated_at%', post_updated_at}, 'emails') }}
+			{{ 'post.title'|trans({'%post_title%': post_title}, 'emails')|raw }}
+		</td>
+	</tr>
+	<tr>
+		<td class="row">
+			{{ 'post_published_at'|trans({'%post_updated_at%': post_updated_at}, 'emails')|raw }}
 		</td>
 	</tr>
 	<tr>

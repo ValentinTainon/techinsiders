@@ -1,11 +1,11 @@
 # Access denied
 access_denied.user_has_email_not_verified: "Vous devez valider votre email pour accéder à cette page."
-access_denied.user_has_not_permission: "Vous n'avez pas la permission d'accéder à cette page."
+access_denied.user_has_not_permission: "Vous n'avez pas la permission d'accéder à l'interface d'administration."
 access_denied: "Accès refusé."
 
 # Registration
 validate_email_after_registration: "Afin de completer votre demande inscription, merci de valider votre adresse email en cliquant sur le lien qui vous a été envoyé."
-email_verified_and_editor_membership_request_being_processed: "Votre adresse email a été vérifiée. Votre demande d'adhésion en tant que rédacteur est en cours de validation."
+email_verified_and_editor_membership_request_being_processed: "Votre adresse email a été vérifiée. Votre demande d'adhésion en tant que rédacteur est en cours d'examen."
 error_during_email_verification: "Une erreur est survenue lors de la vérification de votre email."
 
 # Assign Editor
@@ -15,6 +15,7 @@ editor_promoted_to_admin: "Le Rédacteur a été promu Administrateur"
 
 # Post Status
 author_post_drafted: "Votre article est enregistré en tant que brouillon."
-author_post_ready_for_review: "Votre article est enregistré et prêt à être revu par l'administrateur."
+author_post_ready_for_review: "Votre article va être examiné par l'administrateur en vue d'une publication."
 author_post_published: "L'article de %author% a été publié."
 author_post_rejected: "L'article de %author% a été rejeté."
+author_post_deleted: "L'article a été supprimé."

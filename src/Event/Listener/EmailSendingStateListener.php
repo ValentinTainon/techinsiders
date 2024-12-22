@@ -15,7 +15,7 @@ final class EmailSendingStateListener
 
     public function onEmailSendingSuccess(EmailSendingSuccessEvent $event): void
     {
-        if ($event instanceof EmailSendingSuccessEvent) return;
+        if (!$event instanceof EmailSendingSuccessEvent) return;
 
         $request = $this->requestStack->getCurrentRequest();
 
@@ -29,7 +29,7 @@ final class EmailSendingStateListener
 
     public function onEmailSendingFailed(EmailSendingFailedEvent $event): void
     {
-        if ($event instanceof EmailSendingFailedEvent) return;
+        if (!$event instanceof EmailSendingFailedEvent) return;
 
         $request = $this->requestStack->getCurrentRequest();
 

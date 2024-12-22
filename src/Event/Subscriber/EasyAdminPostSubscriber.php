@@ -15,6 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityUpdatedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -23,7 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 
 class EasyAdminPostSubscriber implements EventSubscriberInterface
 {
-    private array $postChangeSet;
+    private array $originalPostData;
 
     public function __construct(
         private Security $security,
@@ -41,6 +42,7 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
             AfterEntityPersistedEvent::class => ['postPersist'],
             BeforeEntityUpdatedEvent::class => ['preUpdate'],
             AfterEntityUpdatedEvent::class => ['postUpdate'],
+            AfterEntityDeletedEvent::class => ['postDelete'],
         ];
     }
 
@@ -68,8 +70,11 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
         }
 
         $post = &$entity;
+        $author = $post->getUser();
 
-        $this->processEmailAfterPersist($post, $post->getUser());
+        if ($author !== null) {
+            $this->processEmailAfterPersist($post, $author);
+        }
     }
 
     public function preUpdate(BeforeEntityUpdatedEvent $event): void
@@ -82,9 +87,9 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
 
         $post = &$entity;
 
-        $this->postChangeSet = $this->entityManager->getUnitOfWork()->getOriginalEntityData($post);
+        $this->originalPostData = $this->entityManager->getUnitOfWork()->getOriginalEntityData($post);
 
-        if ($this->isPostTitleChanged()) {
+        if ($this->isPostTitleChanged($post->getTitle())) {
             $post->setSlug($this->slugger->slug($post->getTitle()));
         }
 
@@ -100,20 +105,41 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
         }
 
         $post = &$entity;
+        $author = $post->getUser();
 
-        if ($this->isPostStatusChanged()) {
-            $this->processEmailAfterUpdate($post, $post->getUser());
+        if ($author !== null && $this->isPostStatusChanged($post->getStatus())) {
+            $this->processEmailAfterUpdate($post, $author);
         }
     }
 
-    private function isPostTitleChanged(): bool
+    public function postDelete(AfterEntityDeletedEvent $event): void
     {
-        return isset($this->postChangeSet) && array_key_exists('title', $this->postChangeSet);
+        $entity = $event->getEntityInstance();
+
+        if (!($entity instanceof Post)) {
+            return;
+        }
+
+        $post = &$entity;
+        $author = $post->getUser();
+
+        if ($author !== null) {
+            $this->processEmailAfterDelete($post, $author);
+        }
     }
 
-    private function isPostStatusChanged(): bool
+    private function isPostTitleChanged(string $postTitle): bool
     {
-        return isset($this->postChangeSet) && array_key_exists('status', $this->postChangeSet);
+        return isset($this->originalPostData) &&
+            array_key_exists('title', $this->originalPostData) &&
+            $this->originalPostData['title'] !== $postTitle;
+    }
+
+    private function isPostStatusChanged(PostStatus $postStatus): bool
+    {
+        return isset($this->originalPostData) &&
+            array_key_exists('status', $this->originalPostData) &&
+            $this->originalPostData['status'] !== $postStatus;
     }
 
     private function processEmailAfterPersist(Post $post, User $author): void
@@ -126,12 +152,12 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
                         $author->getUsername(),
                         'new_post_created.subject',
                         'post_created.html.twig',
-                        ['%post_author%' => $author->getUsername(), '%post_status%' => $post->getStatus()->label($this->translator)],
+                        ['%post_author%' => $author->getUsername()],
                         [
                             'post_author' => $author->getUsername(),
                             'post_title' => $post->getTitle(),
                             'post_status' => $post->getStatus()->label($this->translator),
-                            'post_created_at' => $post->getCreatedAt(),
+                            'post_created_at' => $post->getCreatedAt()->format('d/m/Y à H:i'),
                         ]
                     );
                 }
@@ -157,19 +183,20 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
     {
         try {
             switch ($post->getStatus()) {
-                case PostStatus::DRAFTED || PostStatus::READY_FOR_REVIEW:
+                case PostStatus::DRAFTED:
+                case PostStatus::READY_FOR_REVIEW:
                     if ($author->getRole() !== UserRole::SUPER_ADMIN) {
                         $this->emailService->sendEmailToAdmin(
                             $author->getEmail(),
                             $author->getUsername(),
-                            'post_edited.subject',
-                            'post_edited.html.twig',
-                            ['%post_author%' => $author->getUsername(), '%post_status%' => $post->getStatus()->label($this->translator)],
+                            'post_status_edited.subject',
+                            'post_status_edited.html.twig',
+                            ['%post_author%' => $author->getUsername()],
                             [
                                 'post_author' => $author->getUsername(),
                                 'post_title' => $post->getTitle(),
                                 'post_status' => $post->getStatus()->label($this->translator),
-                                'post_created_at' => $post->getCreatedAt(),
+                                'post_updated_at' => $post->getUpdatedAt()->format('d/m/Y à H:i'),
                             ]
                         );
 
@@ -193,7 +220,7 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
                             [
                                 'post_author' => $author->getUsername(),
                                 'post_title' => $post->getTitle(),
-                                'post_updated_at' => $post->getUpdatedAt(),
+                                'post_updated_at' => $post->getUpdatedAt()->format('d/m/Y à H:i'),
                             ]
                         );
                     }
@@ -230,6 +257,38 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
             $this->eventDispatcher->dispatch(
                 new EmailSendingFailedEvent(
                     "An error occurred while sending an email after updating a post."
+                )
+            );
+        }
+    }
+
+    private function processEmailAfterDelete(Post $post, User $author): void
+    {
+        try {
+            if ($author->getRole() !== UserRole::SUPER_ADMIN) {
+                $this->emailService->sendEmailToAdmin(
+                    $author->getEmail(),
+                    $author->getUsername(),
+                    'post_deleted.subject',
+                    'post_deleted.html.twig',
+                    ['%post_author%' => $author->getUsername()],
+                    [
+                        'post_author' => $author->getUsername(),
+                        'post_title' => $post->getTitle(),
+                        'post_deleted_at' => (new \DateTimeImmutable(timezone: new \DateTimeZone('Europe/Paris')))->format('d/m/Y à H:i'),
+                    ]
+                );
+            }
+
+            $this->eventDispatcher->dispatch(
+                new EmailSendingSuccessEvent(
+                    $this->translator->trans('author_post_deleted', [], 'flashes')
+                )
+            );
+        } catch (TransportExceptionInterface $e) {
+            $this->eventDispatcher->dispatch(
+                new EmailSendingFailedEvent(
+                    "An error occurred while sending an email after deleting a post."
                 )
             );
         }

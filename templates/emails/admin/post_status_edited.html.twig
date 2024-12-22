@@ -8,17 +8,17 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post_edited.text'|trans({'%post_author%': post_author, '%post_status%', post_status}, 'emails') }}
+			{{ 'post_status_edited.text'|trans({'%post_author%': post_author, '%post_status%': post_status}, 'emails') }}
 		</td>
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post.title'|trans({'%post_title%': post_title}, 'emails') }}
+			{{ 'post.title'|trans({'%post_title%': post_title}, 'emails')|raw }}
 		</td>
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'post.updated_at'|trans({'%post_updated_at%', post_updated_at}, 'emails') }}
+			{{ 'post.updated_at'|trans({'%post_updated_at%': post_updated_at}, 'emails')|raw }}
 		</td>
 	</tr>
 	<tr>

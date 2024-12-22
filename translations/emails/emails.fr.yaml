@@ -13,11 +13,12 @@ happy_to_see_you: "Heureux de vous voir à bord."
 please_confirm_your_email: "Pour commencer, veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant :"
 confirm_email: "Confirmer mon email"
 hello.admin: "Bonjour %admin% !"
-user.send_registration_request: "%username% a envoyé une demande d’inscription :"
+user.send_registration_request: "%username% a envoyé une demande d'adhésion en tant que rédacteur:"
+ensure_user_has_been_verified: "Veuillez vous assurer que l'utilisateur a bien été vérifié avant de valider sa demande d’adhésion."
 go_to.website: "Aller sur %app_name%"
 user_verified.subject: "%username% est désormais un utilisateur vérifié"
 user_verified.text: "Nous sommes heureux de vous informer que %username% est désormais un utilisateur vérifié."
-review_and_validate_user_application: "Vous pouvez à présent examiner et valider si nécessaire sa candidature en tant qu'éditeur sur le site web."
+review_and_validate_user_application: "Vous pouvez à présent examiner et valider si nécessaire sa candidature en tant que rédacteur sur le site web."
 
 # Reset password
 password_reset_request.subject: "Votre demande de réinitialisation de mot de passe"
@@ -27,26 +28,32 @@ reset_password: "Réinitialiser le mot de passe"
 if_not_send_request_ignore_or_contact: "Si vous n'avez pas demandé la réinitialisation du mot de passe, veuillez ignorer ce message ou nous contacter à %app_contact_link%."
 
 # New post created
-new_post_created.subject: "%post_author% a créé un nouvel article (statut: %post_status%)"
-new_post_created.text: "Un nouvel article a été créé par %post_author% et est actuellement en statut %post_status%."
+new_post_created.subject: "%post_author% a créé un nouvel article"
+new_post_created.text: "Un nouvel article a été créé par %post_author% et est actuellement en statut '%post_status%'."
 post.title: "Titre: <br/>%post_title%"
 post.created_at: "Créé le: <br/>%post_created_at%"
 review_if_necessary: "Vous pouvez le consulter et le valider si nécessaire."
 
 # Post edited
-post_edited.subject: "%post_author% a modifié un article (statut: %post_status%)"
-post_edited.text: "Un article a été modifié par %post_author% et est actuellement en statut %post_status%."
+post_status_edited.subject: "%post_author% a modifié le statut d'un article"
+post_status_edited.text: "Un article a été modifié par %post_author% et est actuellement en statut '%post_status%'."
 post.updated_at: "Mis à jour le: <br/>%post_updated_at%"
 
 # Post published
 post.published.subject: "Votre article a été validé et publié !"
-post_published.text: "L'article suivant a été validé et publié sur le blog, il est maintenant accessible aux visiteurs du site web.<br/>N'hésitez pas à le partager et à suivre les retours de la communauté."
+post_published.text: "L'article suivant a été validé et publié sur le blog, il est maintenant accessible aux visiteurs du site web."
+share_and_follow_community_feedback: "N'hésitez pas à le partager et à suivre les retours de la communauté."
 post_published_at: "Publié le: <br/>%post_updated_at%"
 
 # Post rejected
 post.rejected.subject: "Votre article nécessite des modifications"
 post_rejected.text: "L'article suivant a été examiné et nécessite des modifications avant sa publication."
-post_rejected.advice: "Nous vous invitons consulter l'article afin de prendre connaissance des ajustements nécessaires, d'appliquer les modifications, et à soumettre à nouveau l'article pour validation."
+post_rejected.advice: "Nous vous invitons à consulter l'article afin de prendre connaissance des modifications à effectuer, et à soumettre à nouveau l'article pour validation."
+
+# Post deleted
+post_deleted.subject: "%post_author% a supprimé un article"
+post_deleted.text: "L'article suivant a été supprimé par %post_author%."
+post.deleted_at: "Supprimé le: <br/>%post_deleted_at%"
 
 # Editor membership request accepted
 assigned_to_editor.subject: "Votre demande d'adhésion en tant que rédacteur a été accepté"
@@ -54,8 +61,8 @@ editor_accepted_announcement: "Nous avons le plaisir de vous annoncer que votre 
 access_your_space_and_share_your_passion: "Nous sommes ravis de vous compter parmi nous, vous pouvez désormais accéder à votre espace rédacteur et commencer à partager votre passion avec la communauté."
 next_steps: "Voici les prochaines étapes :"
 step_1: "1. Connectez-vous à votre compte via le lien suivant :"
-step_2: "2. Accédez à votre espace rédacteur pour commencer à écrire."
-step_3: "3. Lorsque vous aurez rédigé un article, soumettez-le pour validation. Une fois approuvé, il sera publié sur le site."
+step_2: "2. Une fois dans votre espace rédacteur, vous pouvez rédiger des articles depuis la section 'Blog' -> 'Articles'."
+step_3: "3. Après avoir rédigé un article, sélectionnez le statut 'Prêt pour relecture' pour faire valider votre article en vue d'une publication.<br/>Une fois approuvé, vous serez notifié et votre article sera publié sur le site."
 consult_our_editor_guide: "N'hésitez pas à consulter notre %app_editor_guide_link% pour vous familiariser avec nos attentes et le processus de publication."
 editor_guide: "guide du rédacteur"
 if_need_help: "Nous restons à votre disposition si vous avez des questions ou besoin d’aide."
@@ -79,7 +86,8 @@ thank_for_your_understanding: "Merci pour votre compréhension et pour votre con
 
 # User account deleted
 account_deleted.subject: "Votre compte a été supprimé"
+user_account_deleted.subject: "Un utilisateur a supprimé son compte"
 no_longer_member_announcement: "Nous vous confirmons que votre compte a été supprimé avec succès conformément à votre demande."
-thank_for_your_contribution_and_wish_you_all_the_best: "Nous tenons à vous remercier pour votre contribution et nous vous souhaitons une excellente continuation."
+thank_for_your_contribution_and_wish_you_all_the_best: "Nous tenons à vous remercier pour votre contribution, vos articles restent visibles sur le site si vous ne les avez pas supprimés, et nous vous souhaitons une excellente continuation."
 if_you_change_your_mind: "Si vous changez d'avis ou souhaitez créer un nouveau compte à l'avenir, vous serez toujours le bienvenu sur notre plateforme."
 user_deleted.text: "Nous vous informons que %username% a supprimé son compte le %user_deleted_at%."

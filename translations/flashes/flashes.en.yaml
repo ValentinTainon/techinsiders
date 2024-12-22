@@ -1,11 +1,11 @@
 # Access denied
 access_denied.user_has_email_not_verified: "You must validate your email to access this page."
-access_denied.user_has_not_permission: "You do not have permission to access this page."
+access_denied.user_has_not_permission: "You do not have permission to access the administration interface."
 access_denied: "Access denied."
 
 # Registration
 validate_email_after_subscribe: "In order to complete your registration request, please validate your email address by clicking on the link that was sent to you."
-email_verified_and_editor_membership_request_being_processed: "Your email address has been verified. Your application for membership as an editor is being validated."
+email_verified_and_editor_membership_request_being_processed: "Your email address has been verified. Your application for membership as an editor is currently under review."
 error_during_email_verification: "An error occurred during email verification."
 
 # Assign Editor
@@ -15,6 +15,7 @@ editor_promoted_to_admin: "The Editor has been promoted to Administrator"
 
 # Post Status
 author_post_drafted: "Your article is saved as a draft."
-author_post_ready_for_review: "Your article is saved and ready for review by the administrator."
+author_post_ready_for_review: "Your article will be reviewed by the administrator for publication."
 author_post_published: "The article of %author% has been published."
 author_post_rejected: "The article of %author% has been rejected."
+author_post_deleted: "The article has been deleted."

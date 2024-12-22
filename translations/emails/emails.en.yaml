@@ -13,7 +13,8 @@ happy_to_see_you: "Happy to see you on board."
 please_confirm_your_email: "To get started, please confirm your email address by clicking the following link:"
 confirm_email: "Confirm my email"
 hello.admin: "Hello %admin%!"
-user.send_registration_request: "%username% has sent a registration request:"
+user.send_registration_request: "%username% sent a request to join as an editor:"
+ensure_user_has_been_verified: "Please ensure that the user has been verified before validating their membership request."
 go_to.website: "Go to %app_name%"
 user_verified.subject: "%username% is now a verified user"
 user_verified.text: "We are pleased to inform you that %username% has been verified as a user."
@@ -27,26 +28,32 @@ reset_password: "Reset Password"
 if_not_send_request_ignore_or_contact: "If you didn’t request the password reset, please ignore this message or contact us at %app_contact_link%."
 
 # Post created
-new_post_created.subject: "%post_author% created a new article (status: %post_status%)"
-new_post_created.text: "A new article has been created by %post_author% and is currently in %post_status% status."
+new_post_created.subject: "%post_author% created a new article"
+new_post_created.text: "A new article has been created by %post_author% and is currently in '%post_status%' status."
 post.title: "Title: <br/>%post_title%"
 post.created_at: "Created at: <br/>%post_created_at%"
 review_if_necessary: "You can review and approve it if necessary."
 
 # Post edited
-post_edited.subject: "%post_author% edited an article (status: %post_status%)"
-post_edited.text: "An article has been edited by %post_author% and is currently in %post_status% status."
+post_status_edited.subject: "%post_author% changed the status of an article"
+post_status_edited.text: "An article has been edited by %post_author% and is currently in '%post_status%' status."
 post.updated_at: "Updated at: <br/>%post_updated_at%"
 
 # Post published
 post.published.subject: "Your article has been approved and published!"
-post_published.text: "The following article has been validated and published on the blog, it is now available for website visitors<br/>Feel free to share it and follow the community's feedback."
+post_published.text: "The following article has been validated and published on the blog, it is now available for website visitors."
+share_and_follow_community_feedback: "Feel free to share it and follow the community's feedback."
 post_published_at: "Published at: <br/>%post_updated_at%"
 
 # Post rejected
 post.rejected.subject: "Your article requires modifications"
 post_rejected.text: "The following article has been reviewed and requires some modifications before publication."
-post_rejected.advice: "We invite you to consult the article in order to take note of the necessary adjustments, to apply the modifications, and to resubmit the article for validation."
+post_rejected.advice: "We invite you to consult the article in order to be aware of the modifications to be made, and to resubmit the article for validation."
+
+# Post deleted
+post_deleted.subject: "%post_author% deleted a post"
+post_deleted.text: "The following article was deleted by %post_author%."
+post.deleted_at: "Deleted on: <br/>%post_deleted_at%"
 
 # Editor membership request accepted
 assigned_to_editor.subject: "Your request to join us as an editor has been accepted"
@@ -54,8 +61,8 @@ editor_accepted_announcement: "We are pleased to announce that your request to b
 access_your_space_and_share_your_passion: "We're delighted to have you on board, and now you can access your editor's area and start sharing your passion with the community."
 next_steps: "Here are the next steps:"
 step_1: "1. Log in to your account via the following link:"
-step_2: "2. Go to your editor's area to start writing."
-step_3: "3. Once you have written a post, submit it for validation. Once approved, it will be published on the site."
+step_2: "2. Once in your editor space, you can write articles from the 'Blog' -> 'Posts' section."
+step_3: "3. After writing an article, select the 'Ready for review' status to have your article approved for publication.<br/>Once approved, you will be notified and your article will be published on the site."
 consult_our_editor_guide: "Please feel free to check out our %app_editor_guide_link% to familiarize yourself with our expectations and the publishing process."
 editor_guide: "editor's guide"
 if_need_help: "We remain at your disposal if you have any questions or need assistance."
@@ -79,6 +86,7 @@ thank_for_your_understanding: "Thank you for your understanding and for your con
 
 # User account deleted
 account_deleted.subject: "Your account has been deleted"
+user_account_deleted.subject: "A user deleted his account"
 no_longer_member_announcement: "We confirm that your account has been successfully deleted as per your request."
-thank_for_your_contribution_and_wish_you_all_the_best: "We would like to thank you for your contribution and wish you all the best for the future."
+thank_for_your_contribution_and_wish_you_all_the_best: "We would like to thank you for your contribution, your articles remain visible on the site if you have not deleted them, and we wish you continued success."
 if_you_change_your_mind: "If you change your mind or wish to create a new account in the future, you will always be welcome on our platform."

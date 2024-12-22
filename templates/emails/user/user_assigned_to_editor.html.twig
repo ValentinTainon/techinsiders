@@ -40,15 +40,15 @@
 	</tr>
 	<tr>
 		<td class="row">
-			{{ 'step_3'|trans([], 'emails') }}
+			{{ 'step_3'|trans([], 'emails')|raw }}
 		</td>
 	</tr>
 	{# <tr>
-			<td class="row">
-				{% set editor_guide_link = '<a href="' ~ url('app_editor_guide') ~ '" title="' ~ 'editor_guide'|trans([], 'emails') ~ '">' ~ 'editor_guide'|trans([], 'emails') ~ '</a>' %}
-				{{ 'consult_our_editor_guide'|trans({'%app_editor_guide_link%': editor_guide_link}, 'emails')|raw }}
-			</td>
-		</tr> #}
+				<td class="row">
+					{% set editor_guide_link = '<a href="' ~ url('app_editor_guide') ~ '" title="' ~ 'editor_guide'|trans([], 'emails') ~ '">' ~ 'editor_guide'|trans([], 'emails') ~ '</a>' %}
+					{{ 'consult_our_editor_guide'|trans({'%app_editor_guide_link%': editor_guide_link}, 'emails')|raw }}
+				</td>
+			</tr> #}
 	<tr>
 		<td class="row">
 			{{ 'if_need_help'|trans([], 'emails') }}

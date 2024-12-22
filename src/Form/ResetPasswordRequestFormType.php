@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
 use function Symfony\Component\Translation\t;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

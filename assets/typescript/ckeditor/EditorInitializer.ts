@@ -32,7 +32,7 @@ class EditorInitializer {
         this.editorWordCounter
       ) {
         this.editorWordCounter.handlePostLengthValidation();
-        new EditorMediaCleaner(editorDataset).cleanUnusedImages();
+        // new EditorMediaCleaner(editorDataset).cleanUnusedImages();
       }
     } catch (error) {
       document
@@ -57,7 +57,7 @@ class EditorInitializer {
         ).getConfig();
       default:
         console.warn(
-          "Unknown editor config type, getting starter config instead."
+          "Unknown editor config type, getting default starter config instead."
         );
         return new EditorStarterConfig().getConfig();
     }
