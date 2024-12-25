@@ -9,12 +9,12 @@ use App\Config\UserAvatarConfig;
 use App\Security\Voter\UserVoter;
 use App\Form\Admin\Field\PasswordField;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Image;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
@@ -33,13 +33,11 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserCrudController extends AbstractCrudController
 {
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private RequestStack $requestStack,
+        private Security $security,
         private EmailService $emailService,
         private TranslatorInterface $translator,
         private RoleHierarchyInterface $roleHierarchy,
@@ -239,8 +237,7 @@ class UserCrudController extends AbstractCrudController
             $this->deleteUserAvatar($avatar);
         }
 
-        $this->tokenStorage->setToken(null);
-        $this->requestStack->getSession()->invalidate();
+        $this->security->logout(false);
 
         $this->addFlash('success', t('user_account_deleted', [], 'flashes'));
     }

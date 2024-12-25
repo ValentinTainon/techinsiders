@@ -44,6 +44,9 @@ security:
         allow_if: "is_granted('ROLE_EDITOR') and user.isVerified() === true",
       }
 
+  access_decision_manager:
+    strategy: unanimous
+
   role_hierarchy:
     ROLE_SUPER_ADMIN: ROLE_ADMIN
     ROLE_ADMIN: ROLE_EDITOR

@@ -2,28 +2,19 @@ export default class EditorMediaCleaner {
   private pageName: string | undefined;
   private postUuid: string | undefined;
   private eventType: string;
-  private postForm: HTMLFormElement | null;
   private editorInput: HTMLDivElement | null;
   private imgPathsOnLoad: (string | null)[];
 
   constructor(editorDataset: DOMStringMap) {
     this.pageName = editorDataset.pageName;
     this.postUuid = editorDataset.postUuid;
-    this.postForm = document.querySelector<HTMLFormElement>(
-      "form#new-Post-form, form#edit-Post-form"
-    );
     this.editorInput = document.querySelector<HTMLDivElement>(
       "div.ck-editor__editable"
     );
   }
 
   public cleanUnusedImages(): void {
-    if (
-      !this.pageName ||
-      !this.postUuid ||
-      !this.postForm ||
-      !this.editorInput
-    ) {
+    if (!this.pageName || !this.postUuid || !this.editorInput) {
       throw new Error(
         "Cannot initialize EditorImageCleaner due to missing page name or post UUID or form or editor input."
       );
@@ -37,13 +28,14 @@ export default class EditorMediaCleaner {
       });
     }
 
-    this.postForm.addEventListener("submit", (event: SubmitEvent) => {
-      event.preventDefault();
-      this.eventType = event.type;
+    document.addEventListener("ea.form.submit", (event: Event) => {
+      const customEvent = event as CustomEvent;
+      this.eventType = customEvent.type;
+
       this.cleanUnusedImagesOnSubmit(
         this.createRequestPayload(this.getAllImgPaths())
       );
-      this.postForm?.submit();
+
       isFormSubmitted = true;
     });
 
@@ -63,7 +55,6 @@ export default class EditorMediaCleaner {
       }
     });
   }
-
   private getAllImgPaths(): (string | null)[] {
     return Array.from(
       this.editorInput?.querySelectorAll<HTMLImageElement>("img") ?? []
