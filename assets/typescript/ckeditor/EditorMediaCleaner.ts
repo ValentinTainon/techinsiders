@@ -16,7 +16,7 @@ export default class EditorMediaCleaner {
   public cleanUnusedImages(): void {
     if (!this.pageName || !this.postUuid || !this.editorInput) {
       throw new Error(
-        "Cannot initialize EditorImageCleaner due to missing page name or post UUID or form or editor input."
+        "Cannot initialize EditorImageCleaner due to missing page name or post UUID or editor input."
       );
     }
 
@@ -72,13 +72,17 @@ export default class EditorMediaCleaner {
 
   private async cleanUnusedImagesOnSubmit(payload: string): Promise<void> {
     try {
-      await fetch("/handle-deleted-post-images", {
+      const response = await fetch("/handle-deleted-post-images", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: payload,
       });
+
+      const data = await response.json();
+
+      data.error ? console.error(data.error) : console.log(data.status);
     } catch (error) {
-      console.error("Error when cleaning unused images on submit: ", error);
+      console.error("Clean unused images on submit: ", error);
     }
   }
 
@@ -87,9 +91,19 @@ export default class EditorMediaCleaner {
       const data = new Blob([payload], {
         type: "application/json",
       });
-      navigator.sendBeacon("/handle-deleted-post-images", data);
-    } catch (error: any) {
-      console.error("Error when cleaning unused images before unload: ", error);
+
+      const sendBeaconAction = navigator.sendBeacon(
+        "/handle-deleted-post-images",
+        data
+      );
+
+      if (!sendBeaconAction) {
+        console.error(
+          "SendBeaconAction failed to launch cleaning images process."
+        );
+      }
+    } catch (error) {
+      console.error("Clean unused images before unload: ", error);
     }
   }
 }

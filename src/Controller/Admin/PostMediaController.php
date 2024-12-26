@@ -62,7 +62,7 @@ class PostMediaController extends AbstractController
         }
 
         if (!$finder->hasResults()) {
-            return new JsonResponse(['status' => 'No directories in Post content upload path'], 204);
+            return new JsonResponse(['status' => 'No directories in Post content upload path'], 200);
         }
 
         $requestPayload = $request->toArray();
@@ -76,14 +76,14 @@ class PostMediaController extends AbstractController
         $currentPostImgDir = "{$postContentUploadDir}/{$postUuid}";
 
         if (!$filesystem->exists($currentPostImgDir)) {
-            return new JsonResponse(['status' => 'No content directory'], 204);
+            return new JsonResponse(['status' => 'No content directory'], 200);
         }
 
         try {
             $finder = new Finder();
             $finder->files()->in($currentPostImgDir);
         } catch (\InvalidArgumentException $e) {
-            return new JsonResponse(['status' => 'No files in this content directory'], 204);
+            return new JsonResponse(['status' => 'No files in this content directory'], 200);
         }
 
         if (
@@ -92,9 +92,9 @@ class PostMediaController extends AbstractController
         ) {
             if ($filesystem->exists($currentPostImgDir)) {
                 $filesystem->remove($currentPostImgDir);
-                return new JsonResponse(['status' => 'Content directory removed while exit creation'], 204);
+                return new JsonResponse(['status' => 'Content directory removed while exit creation'], 200);
             }
-            return new JsonResponse(['status' => 'No content directory to remove while exit creation'], 204);
+            return new JsonResponse(['status' => 'No content directory to remove while exit creation'], 200);
         }
 
         $currentPostImgInApp = [];
@@ -109,7 +109,7 @@ class PostMediaController extends AbstractController
         $imagesToDelete = array_diff($currentPostImgInApp, $requestPayload['postImgPaths']);
 
         if (empty($imagesToDelete)) {
-            return new JsonResponse(['status' => 'No images to delete'], 204);
+            return new JsonResponse(['status' => 'No images to delete'], 200);
         }
 
         foreach ($imagesToDelete as $imagePath) {
@@ -125,6 +125,6 @@ class PostMediaController extends AbstractController
             $filesystem->remove($currentPostImgDir);
         }
 
-        return new JsonResponse(['status' => 'Cleanup complete'], 204);
+        return new JsonResponse(['status' => 'Cleanup complete'], 200);
     }
 }

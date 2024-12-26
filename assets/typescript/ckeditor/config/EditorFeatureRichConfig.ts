@@ -86,8 +86,7 @@ export default class EditorFeatureRichConfig {
   ) {
     this.postUuid = editorDataset.postUuid;
     this.editorWordCounter = editorWordCounter;
-    this.isDefaultLocale =
-      document.documentElement.getAttribute("lang") === "fr";
+    this.isDefaultLocale = document.documentElement.lang === "fr";
   }
 
   public getConfig(): FeatureRichConfigType {

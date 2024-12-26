@@ -37,11 +37,10 @@ class EditorInitializer {
         new EditorMediaCleaner(editorDataset).cleanUnusedImages();
       }
     } catch (error) {
-      document
-        .querySelector<HTMLDivElement>("div#tab-post-content-label")
-        ?.remove();
-      alert("Cannot initialize editor");
-      throw new Error(error);
+      alert(error);
+      window.location.replace(
+        window.location.href.split("/").slice(0, 6).join("/")
+      );
     }
   }
 
