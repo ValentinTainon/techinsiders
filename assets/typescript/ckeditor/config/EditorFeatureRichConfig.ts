@@ -207,6 +207,7 @@ export default class EditorFeatureRichConfig {
           },
         ],
       },
+      licenseKey: "GPL",
       link: {
         addTargetToExternalLinks: true,
         defaultProtocol: "https://",
@@ -432,6 +433,8 @@ export default class EditorFeatureRichConfig {
           "|",
           "sourceEditing",
           "showBlocks",
+          "|",
+          "accessibilityHelp",
         ],
         shouldNotGroupWhenFull: true,
       },

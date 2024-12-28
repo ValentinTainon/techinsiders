@@ -20,6 +20,7 @@ export default interface FeatureRichConfigType {
     content: string;
     textPartLanguage: { title: string; languageCode: string }[];
   };
+  licenseKey: string;
   link: {
     addTargetToExternalLinks: boolean;
     defaultProtocol: string;
