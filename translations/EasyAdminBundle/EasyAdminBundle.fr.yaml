@@ -1,47 +1,48 @@
 # User menu
-my.profile: 'Mon profil'
-edit.profile: 'Modifier le profil'
+my.profile: "Mon profil"
+edit.profile: "Modifier le profil"
 
 # Menu items sections
-website.label: 'Site web'
-community.label: 'Communauté'
-blog.label: 'Blog'
+website.label: "Site web"
+community.label: "Communauté"
+blog.label: "Blog"
 
 # Menu items links
-back.website.label: 'Retour au site web'
+back.website.label: "Retour au site web"
+contribute_or_report_bug: "Contribuer ou signaler un bug"
 
 # Entity labels
-category.label.singular: 'Catégorie'
-category.label.plural: 'Catégories'
-comment.label.singular: 'Commentaire'
-comment.label.plural: 'Commentaires'
-post.label.singular: 'Article'
-post.label.plural: 'Articles'
-user.label.singular: 'Utilisateur'
-user.label.plural: 'Utilisateurs'
+category.label.singular: "Catégorie"
+category.label.plural: "Catégories"
+comment.label.singular: "Commentaire"
+comment.label.plural: "Commentaires"
+post.label.singular: "Article"
+post.label.plural: "Articles"
+user.label.singular: "Utilisateur"
+user.label.plural: "Utilisateurs"
 
 # Pages titles
-create.category: 'Créer une catégorie'
-create.comment: 'Créer un commentaire'
-create.post: 'Créer un article'
-create.user: 'Créer un utilisateur'
-edit.category: 'Modifier une catégorie'
-edit.comment: 'Modifier un commentaire'
-edit.post: 'Modifier un article'
-edit.user: 'Modifier un utilisateur'
+create.category: "Créer une catégorie"
+create.comment: "Créer un commentaire"
+create.post: "Créer un article"
+create.user: "Créer un utilisateur"
+edit.category: "Modifier une catégorie"
+edit.comment: "Modifier un commentaire"
+edit.post: "Modifier un article"
+edit.user: "Modifier un utilisateur"
 
 # Action buttons
-create_and_add.category.label: 'Créer et ajouter une autre catégorie'
-create_and_add.comment: 'Créer et ajouter un autre commentaire'
-create_and_add.post.label: 'Créer et ajouter un autre article'
-create_and_add.user.label: 'Créer et ajouter un autre utilisateur'
-save_and_continue.editing.label: 'Enregistrer et continuer les modifications'
-save.label: 'Enregistrer'
-assign_to_editor_group.label: 'Affecter au groupe Rédacteur'
-remove_from_editor_group.label: 'Retirer du groupe Rédacteur'
+create_and_add.category.label: "Créer et ajouter une autre catégorie"
+create_and_add.comment: "Créer et ajouter un autre commentaire"
+create_and_add.post.label: "Créer et ajouter un autre article"
+create_and_add.user.label: "Créer et ajouter un autre utilisateur"
+save_and_continue.editing.label: "Enregistrer et continuer les modifications"
+save.label: "Enregistrer"
+assign_to_editor_group.label: "Affecter au groupe Rédacteur"
+remove_from_editor_group.label: "Retirer du groupe Rédacteur"
 promote_to_admin.label: "Promouvoir au rang d'Administrateur"
-reassign_to_editor_group.label: 'Réaffecter au groupe Rédacteur'
+reassign_to_editor_group.label: "Réaffecter au groupe Rédacteur"
 
 # Locales
-locale.french.label: 'Français'
-locale.english.label: 'Anglais'
+locale.french.label: "Français"
+locale.english.label: "Anglais"

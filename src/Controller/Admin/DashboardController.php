@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use function Symfony\Component\Translation\t;
+
+use App\Config\AppConfig;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Enum\UserRole;
@@ -84,6 +86,8 @@ class DashboardController extends AbstractDashboardController
             ->setPermission(UserRole::SUPER_ADMIN->value);
         yield MenuItem::linkToCrud(t('user.label.plural', [], 'EasyAdminBundle'), 'fas fa-user', User::class)
             ->setPermission(UserRole::SUPER_ADMIN->value);
+        yield MenuItem::linkToUrl(t('contribute_or_report_bug', [], 'EasyAdminBundle'), 'fa-brands fa-github', AppConfig::GITHUB_URL)
+            ->setLinkTarget('_blank');
 
         // Website
         yield MenuItem::section(t('website.label', [], 'EasyAdminBundle'));

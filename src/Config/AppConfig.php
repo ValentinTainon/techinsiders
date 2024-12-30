@@ -10,5 +10,5 @@ abstract class AppConfig
     public const string APP_BASE_URL = "https://techinsiders.xyz"; // SYMFONY_DEFAULT_ROUTE_URL(server)
     public const string APP_CONTACT_EMAIL = 'contact@techinsiders.xyz';
     public const string APP_AUTHOR = 'Val';
-    public const string APP_AUTHOR_GITHUB = 'https://github.com/ValentinTainon/techinsiders';
+    public const string GITHUB_URL = 'https://github.com/ValentinTainon/techinsiders';
 }
