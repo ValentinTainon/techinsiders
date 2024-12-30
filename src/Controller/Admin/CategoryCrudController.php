@@ -62,7 +62,7 @@ class CategoryCrudController extends AbstractCrudController
         yield TextField::new('name', t('name.label', [], 'forms'))
             ->setColumns('col-sm-6 col-md-5');
 
-        yield SlugField::new('slug', t('slug.label', [], 'forms'))
+        yield SlugField::new('nameSlug', t('name_slug.label', [], 'forms'))
             ->setTargetFieldName('name')
             ->setColumns('col-sm-6 col-md-5');
     }

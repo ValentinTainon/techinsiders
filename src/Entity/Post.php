@@ -40,9 +40,9 @@ class Post
     #[Assert\NoSuspiciousCharacters]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NoSuspiciousCharacters]
-    private ?string $slug = null;
+    private ?string $titleSlug = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
@@ -129,14 +129,14 @@ class Post
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getTitleSlug(): ?string
     {
-        return $this->slug;
+        return $this->titleSlug;
     }
 
-    public function setSlug(string $slug): static
+    public function setTitleSlug(string $titleSlug): static
     {
-        $this->slug = $slug;
+        $this->titleSlug = $titleSlug;
 
         return $this;
     }

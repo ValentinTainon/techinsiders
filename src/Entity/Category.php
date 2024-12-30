@@ -24,11 +24,11 @@ class Category
     #[Assert\NoSuspiciousCharacters]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
-    private ?string $slug = null;
+    private ?string $nameSlug = null;
 
     /**
      * @var Collection<int, Post>
@@ -63,14 +63,14 @@ class Category
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getNameSlug(): ?string
     {
-        return $this->slug;
+        return $this->nameSlug;
     }
 
-    public function setSlug(string $slug): static
+    public function setNameSlug(string $nameSlug): static
     {
-        $this->slug = $slug;
+        $this->nameSlug = $nameSlug;
 
         return $this;
     }
