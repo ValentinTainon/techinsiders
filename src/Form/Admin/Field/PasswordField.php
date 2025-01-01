@@ -3,7 +3,6 @@
 namespace App\Form\Admin\Field;
 
 use function Symfony\Component\Translation\t;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -32,6 +31,9 @@ final class PasswordField implements FieldInterface
                     'attr' => [
                         'autocomplete' => 'new-password'
                     ],
+                    'toggle' => true,
+                    'visible_label' => null,
+                    'hidden_label' => null,
                 ],
                 'first_options' => [
                     'label' => t('password.label', [], 'forms')
@@ -40,7 +42,6 @@ final class PasswordField implements FieldInterface
                     'label' => t('repeat.password.label', [], 'forms')
                 ]
             ])
-            ->addJsFiles(Asset::new('../assets/typescript/easyadmin/PasswordFieldCustomiser.ts'))
             ->onlyOnForms();
     }
 }

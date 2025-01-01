@@ -2,14 +2,15 @@
   max-width: 1000px;
 }
 
-.custom-badge {
+.custom-badge.custom-badge-danger {
   --bs-badge-font-size: var(--font-size-xs);
   --bs-badge-font-weight: 500;
   --bs-badge-color: var(--text-color);
   --bs-badge-border-radius: var(--bs-border-radius);
-  box-shadow: var(--badge-box-shadow);
+  box-shadow: var(--badge-danger-box-shadow);
   border-radius: var(--bs-badge-border-radius);
-  color: var(--bs-badge-color);
+  color: var(--badge-danger-color);
+  background-color: var(--badge-danger-bg);
   display: inline-block;
   font-size: var(--bs-badge-font-size);
   font-weight: var(--bs-badge-font-weight);
@@ -21,8 +22,18 @@
   padding: 3px 6px;
 }
 
-.custom-badge.custom-badge-danger {
-  background-color: var(--badge-danger-bg);
-  box-shadow: var(--badge-danger-box-shadow);
-  color: var(--badge-danger-color);
+.field-password {
+  & > .form-widget {
+    position: relative;
+
+    & > .toggle-password-button {
+      top: 0.45rem;
+      right: 0.4rem;
+    }
+  }
+
+  & > .toggle-password-container > .toggle-password-button {
+    top: 0.7rem;
+    right: 0.4rem;
+  }
 }

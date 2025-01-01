@@ -3,13 +3,12 @@
 namespace App\Controller\Admin;
 
 use function Symfony\Component\Translation\t;
-
-use App\Config\AppConfig;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Enum\UserRole;
 use App\Entity\Comment;
 use App\Entity\Category;
+use App\Config\AppConfig;
 use App\Config\UserAvatarConfig;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -96,8 +95,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureAssets(): Assets
     {
-        return parent::configureAssets()
-            ->addCssFile(Asset::new('../assets/styles/easyadmin/custom.css'));
+        return parent::configureAssets()->addAssetMapperEntry('admin');
     }
 
     public function configureActions(): Actions

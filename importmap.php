@@ -12,16 +12,16 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
+    'admin' => [
+        'path' => './assets/typescript/admin.ts',
+        'entrypoint' => true,
+    ],
     'app' => [
         'path' => './assets/typescript/app.ts',
         'entrypoint' => true,
     ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
-    ],
-    'ckeditor-init' => [
-        'path' => './assets/typescript/ckeditor/EditorInitializer.ts',
-        'entrypoint' => true,
     ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
@@ -232,5 +232,19 @@ return [
     ],
     '@ckeditor/ckeditor5-bookmark/dist/index.js' => [
         'version' => '44.1.0',
+    ],
+    'bootstrap' => [
+        'version' => '5.3.3',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.3',
+        'type' => 'css',
+    ],
+    'ckeditor5/dist/ckeditor5.css' => [
+        'version' => '44.1.0',
+        'type' => 'css',
     ],
 ];

@@ -2,18 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Post;
+use function Symfony\Component\Translation\t;
 use App\Enum\UserRole;
 use App\Entity\Comment;
 use App\Enum\EditorConfigType;
 use Doctrine\ORM\QueryBuilder;
 use App\Security\Voter\CommentVoter;
-use Symfony\Component\Form\FormEvent;
-use Doctrine\ORM\PersistentCollection;
-use Symfony\Component\Form\FormEvents;
 use App\Form\Admin\Field\CkeditorField;
-use Doctrine\ORM\EntityManagerInterface;
-use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -23,9 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
-use Symfony\Component\ExpressionLanguage\Expression;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -48,11 +41,6 @@ class CommentCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_NEW, t('create.comment', [], 'EasyAdminBundle'))
             ->setPageTitle(Crud::PAGE_EDIT, t('edit.comment', [], 'EasyAdminBundle'))
             ->setDefaultSort(['createdAt' => 'DESC']);
-    }
-
-    public function configureAssets(Assets $assets): Assets
-    {
-        return $assets->addAssetMapperEntry('ckeditor-init');
     }
 
     public function configureActions(Actions $actions): Actions

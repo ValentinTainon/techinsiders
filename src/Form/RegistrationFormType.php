@@ -7,13 +7,11 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,17 +23,30 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => t('username.label', [], 'forms')
+                'label' => t('username.label', [], 'forms'),
+                'attr' => [
+                    'class' => 'form-control'
+                ],
             ])
             ->add('email', EmailType::class, [
-                'label' => t('email.label', [], 'forms')
+                'label' => t('email.label', [], 'forms'),
+                'attr' => [
+                    'class' => 'form-control'
+                ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => [
-                    'attr' => [
-                        'autocomplete' => 'new-password'
+                    'row_attr' => [
+                        'class' => 'form-group field-password'
                     ],
+                    'attr' => [
+                        'autocomplete' => 'new-password',
+                        'class' => 'form-control'
+                    ],
+                    'toggle' => true,
+                    'visible_label' => null,
+                    'hidden_label' => null,
                 ],
                 'first_options' => [
                     'label' => t('password.label', [], 'forms')
@@ -47,6 +58,9 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('motivations', TextareaType::class, [
                 'label' => t('motivations.label', [], 'forms'),
+                'attr' => [
+                    'class' => 'form-control h-100'
+                ],
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
@@ -60,18 +74,6 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new NoSuspiciousCharacters()
                 ]
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => t('agree_terms.label', [], 'forms'),
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => t('agree_terms.constraint.is_true.message')
-                    ])
-                ]
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => t('sign_up.label', [], 'forms'),
             ])
         ;
     }

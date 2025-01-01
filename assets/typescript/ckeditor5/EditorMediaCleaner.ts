@@ -23,9 +23,7 @@ export default class EditorMediaCleaner {
     let isFormSubmitted = false;
 
     if (this.pageName === "edit") {
-      window.addEventListener("load", () => {
-        this.imgPathsOnLoad = this.getAllImgPaths();
-      });
+      this.imgPathsOnLoad = this.getAllImgPaths();
     }
 
     document.addEventListener("ea.form.submit", (event: Event) => {

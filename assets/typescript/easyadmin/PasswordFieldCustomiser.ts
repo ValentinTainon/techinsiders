@@ -1,8 +1,7 @@
-class PasswordFieldCustomiser {
-  public customiseFieldsLayout(): void {
-    const passwordFields: NodeListOf<HTMLDivElement> =
-      document.querySelectorAll<HTMLDivElement>(".field-password");
-
+export default class PasswordFieldCustomiser {
+  public customiseFieldsLayout(
+    passwordFields: NodeListOf<HTMLDivElement>
+  ): void {
     passwordFields.forEach((field) => {
       const fieldContainer: HTMLElement | null = field.parentElement;
 
@@ -25,7 +24,3 @@ class PasswordFieldCustomiser {
     }
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  new PasswordFieldCustomiser().customiseFieldsLayout();
-});

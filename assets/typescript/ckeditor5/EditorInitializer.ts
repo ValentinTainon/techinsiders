@@ -7,14 +7,12 @@ import EditorWordCounter from "./EditorWordCounter.ts";
 import EditorMediaCleaner from "./EditorMediaCleaner.ts";
 import StarterConfigType from "./interface/StarterConfigType.ts";
 import FeatureRichConfigType from "./interface/FeatureRichConfigType.ts";
+import "ckeditor5/dist/ckeditor5.css";
 
-const editorPlaceholder: HTMLTextAreaElement | null =
-  document.querySelector<HTMLTextAreaElement>("textarea#editor");
-
-class EditorInitializer {
+export default class EditorInitializer {
   private editorWordCounter: EditorWordCounter;
 
-  public async init(): Promise<void> {
+  public async init(editorPlaceholder: HTMLTextAreaElement): Promise<void> {
     try {
       if (!editorPlaceholder) {
         throw new Error(
@@ -65,8 +63,4 @@ class EditorInitializer {
         return new EditorStarterConfig().getConfig();
     }
   }
-}
-
-if (editorPlaceholder) {
-  new EditorInitializer().init();
 }

@@ -57,3 +57,14 @@ check.user.password.help.message: "Afin de valider vos modifications, veuillez s
 reset.password.request.help.message: "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe."
 post_content.help.message: "Le contenu de l'article doit faire au moins %min_post_length_limit% caractères."
 comment_content.help.message: "La longueur maximale d'un commentaire est de %max_comment_length_limit% caractères."
+
+# Login-Register page
+login_register_page.login: "Connexion"
+login_register_page.registration: "Inscription"
+login_register_page.username: "Nom d’utilisateur"
+login_register_page.email: "Email"
+login_register_page.motivations: "Vos motivations"
+login_register_page.sign_in: "Se connecter"
+login_register_page.sign_up: "S'inscrire"
+login_page.new_here: "Nouveau ici ?"
+register_page.already_registered: "Déjà inscrit ?"

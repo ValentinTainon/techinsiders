@@ -2,7 +2,6 @@
 
 namespace App\Form\Admin\Field;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,10 +22,6 @@ final class CkeditorField implements FieldInterface
             ->setFormType(TextareaType::class)
             ->setFormTypeOption('block_name', 'custom_content')
             ->addCssClass('field-ckeditor')
-            ->addCssFiles(
-                Asset::new('../assets/styles/ckeditor/default.css'),
-                Asset::new('../assets/styles/ckeditor/dark-mode.css'),
-            )
             ->setDefaultColumns(12)
             ->onlyOnForms()
         ;

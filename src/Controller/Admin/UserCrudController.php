@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use function Symfony\Component\Translation\t;
 use App\Entity\User;
 use App\Enum\UserRole;
 use App\Service\EmailService;
@@ -11,7 +12,6 @@ use App\Form\Admin\Field\PasswordField;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
-use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -193,17 +193,20 @@ class UserCrudController extends AbstractCrudController
             ->setFormType(PasswordType::class)
             ->setFormTypeOptions([
                 'mapped' => false,
+                'toggle' => true,
+                'visible_label' => null,
+                'hidden_label' => null,
                 'constraints' => [
                     new UserPassword([
                         'message' => t('check_user_password.constraint.message', [], 'validators'),
                     ])
                 ],
             ])
+            ->addCssClass('field-password')
             ->setHelp(t('check.user.password.help.message', [], 'forms'))
             ->onlyWhenUpdating()
             ->setRequired(true)
-            ->setColumns('col-sm-6 col-md-5')
-            ->setDisabled($this->isGranted(UserRole::SUPER_ADMIN->value));
+            ->setColumns('col-sm-6 col-md-5');
     }
 
     public function configureFilters(Filters $filters): Filters

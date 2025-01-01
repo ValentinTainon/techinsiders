@@ -1,8 +1,7 @@
-class PostCommentsCollectionCustomiser {
-  public removeAllowDeleteIfUnauthorizedUser(): void {
-    const postCommentsCollection: NodeListOf<HTMLDivElement> =
-      document.querySelectorAll<HTMLDivElement>("div.field-collection-item");
-
+export default class PostCommentsCollectionCustomiser {
+  public removeAllowDeleteIfUnauthorizedUser(
+    postCommentsCollection: NodeListOf<HTMLDivElement>
+  ): void {
     postCommentsCollection.forEach((item) => {
       const divWithDataAllowDeleteItem = item.querySelector<HTMLDivElement>(
         "div[data-allow-delete-item]"
@@ -22,7 +21,3 @@ class PostCommentsCollectionCustomiser {
     });
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  new PostCommentsCollectionCustomiser().removeAllowDeleteIfUnauthorizedUser();
-});

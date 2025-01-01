@@ -19,7 +19,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -53,11 +52,6 @@ class PostCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Post::class;
-    }
-
-    public function configureAssets(Assets $assets): Assets
-    {
-        return $assets->addAssetMapperEntry('ckeditor-init');
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -165,7 +159,6 @@ class PostCrudController extends AbstractCrudController
             ->addCssClass('custom-max-width');
         yield CkeditorField::new('content', false)
             ->addFormTheme('bundles/EasyAdminBundle/crud/field/post-editor-placeholder.html.twig')
-            ->addCssFiles(Asset::new('../assets/styles/ckeditor/word-count.css'))
             ->setFormTypeOption('attr', [
                 'page_name' => $pageName,
                 'editor_data' => [
@@ -184,10 +177,7 @@ class PostCrudController extends AbstractCrudController
         yield CollectionField::new('comments', false)
             ->setEntryType(PostCommentsFormType::class)
             ->onlyWhenUpdating()
-            ->setColumns(10)
-            ->addJsFiles(
-                Asset::new('../assets/typescript/easyadmin/PostCommentsCollectionCustomiser.ts')
-            );
+            ->setColumns(10);
 
         yield FormField::addTab(t('status.label', [], 'forms'));
         yield ChoiceField::new('status')

@@ -57,3 +57,14 @@ check.user.password.help.message: "In order to validate your changes, please ent
 reset.password.request.help.message: "Enter your email address and we will send you a link to reset your password."
 post_content.help.message: "The post content must be at least %min_post_length_limit% characters."
 comment_content.help.message: "The maximum length of a comment is %max_comment_length_limit% characters."
+
+# Login-Register page
+login_register_page.login: "Login"
+login_register_page.registration: "Registration"
+login_register_page.username: "Username"
+login_register_page.email: "Email"
+login_register_page.motivations: "Your motivations"
+login_register_page.sign_in: "Sign in"
+login_register_page.sign_up: "Sign up"
+login_page.new_here: "New here?"
+register_page.already_registered: "Already registered?"
