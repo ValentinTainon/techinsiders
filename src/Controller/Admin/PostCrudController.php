@@ -171,6 +171,10 @@ class PostCrudController extends AbstractCrudController
             ->onlyOnIndex()
             ->setTextAlign('center');
 
+        yield IntegerField::new('numberOfViews', t('number_of_views.label', [], 'forms'))
+            ->onlyOnIndex()
+            ->setTextAlign('center');
+
         yield FormField::addTab(t('comments.label', [], 'forms'))
             ->addCssClass('custom-max-width')
             ->onlyWhenUpdating();
@@ -180,7 +184,7 @@ class PostCrudController extends AbstractCrudController
             ->setColumns(10);
 
         yield FormField::addTab(t('status.label', [], 'forms'));
-        yield ChoiceField::new('status')
+        yield ChoiceField::new('status', t('status.label', [], 'forms'))
             ->setChoices([
                 PostStatus::DRAFTED->label($this->translator) => PostStatus::DRAFTED,
                 PostStatus::READY_FOR_REVIEW->label($this->translator) => PostStatus::READY_FOR_REVIEW,

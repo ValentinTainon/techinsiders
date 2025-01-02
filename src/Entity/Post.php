@@ -67,6 +67,9 @@ class Post
     #[Assert\NotNull]
     private PostStatus $status = PostStatus::DRAFTED;
 
+    #[ORM\Column]
+    private int $numberOfViews = 0;
+
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[Assert\NotNull]
     private Uuid $uuid;
@@ -197,6 +200,18 @@ class Post
     public function setStatus(PostStatus $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getNumberOfViews(): int
+    {
+        return $this->numberOfViews;
+    }
+
+    public function setNumberOfViews(int $numberOfViews): static
+    {
+        $this->numberOfViews = $numberOfViews;
 
         return $this;
     }

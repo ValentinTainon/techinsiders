@@ -151,9 +151,13 @@ class UserCrudController extends AbstractCrudController
 
         yield IntegerField::new('postsCount', t('posts.label', [], 'forms'))
             ->hideWhenCreating()
-            ->setDisabled()
-            ->setTextAlign('center')
-            ->setColumns('col-sm-6 col-md-5');
+            ->hideWhenUpdating()
+            ->setTextAlign('center');
+
+        yield IntegerField::new('commentsCount', t('comments.label', [], 'forms'))
+            ->hideWhenCreating()
+            ->hideWhenUpdating()
+            ->setTextAlign('center');
 
         yield FormField::addRow();
         yield ImageField::new('avatar', t('avatar.label', [], 'forms'))

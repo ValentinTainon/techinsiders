@@ -281,6 +281,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->comments;
     }
 
+    public function getCommentsCount(): int
+    {
+        return $this->comments->count();
+    }
+
     public function addComment(Comment $comment): static
     {
         if (!$this->comments->contains($comment)) {
