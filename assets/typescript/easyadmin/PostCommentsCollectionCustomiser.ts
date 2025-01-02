@@ -1,8 +1,8 @@
 export default class PostCommentsCollectionCustomiser {
   public removeAllowDeleteIfUnauthorizedUser(
-    postCommentsCollection: NodeListOf<HTMLDivElement>
+    postCommentsCollectionItems: NodeListOf<HTMLDivElement>
   ): void {
-    postCommentsCollection.forEach((item) => {
+    postCommentsCollectionItems.forEach((item) => {
       const divWithDataAllowDeleteItem = item.querySelector<HTMLDivElement>(
         "div[data-allow-delete-item]"
       );

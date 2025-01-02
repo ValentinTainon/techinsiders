@@ -45,6 +45,14 @@
 				</div>
 			{% endif %}
 
+			{% if app.user %}
+				<div class="mb-3">
+					{{ 'login_page.logged_as'|trans([], 'forms') }}
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}">{{ 'login_page.logout'|trans([], 'forms') }}</a>
+				</div>
+			{% endif %}
+
 			<form method="post" action="{{ action|default('') }}">
 				{% if csrf_token_intention|default(false) %}
 					<input type="hidden" name="_csrf_token" value="{{ csrf_token(csrf_token_intention) }}">
@@ -102,7 +110,7 @@
 
 	{% block javascripts %}
 		{% block importmap %}
-			{{ importmap('app') }}
+			{{ importmap('admin') }}
 		{% endblock %}
 		<script src="{{ asset('login.js', constant('EasyCorp\\Bundle\\EasyAdminBundle\\Asset\\AssetPackage::PACKAGE_NAME')) }}"></script>
 	{% endblock %}

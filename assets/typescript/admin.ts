@@ -7,9 +7,11 @@ import "../styles/admin.css";
 document.addEventListener("DOMContentLoaded", () => {
   // Password Fields
   const passwordFields: NodeListOf<HTMLDivElement> =
-    document.querySelectorAll<HTMLDivElement>("div.field-password");
+    document.querySelectorAll<HTMLDivElement>(
+      "form[name=User] div.field-password"
+    );
 
-  if (passwordFields) {
+  if (passwordFields.length > 0) {
     new PasswordFieldCustomiser().customiseFieldsLayout(passwordFields);
   }
 
@@ -22,12 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Collection Field
-  const postCommentsCollection: NodeListOf<HTMLDivElement> =
+  const postCommentsCollectionItems: NodeListOf<HTMLDivElement> =
     document.querySelectorAll<HTMLDivElement>("div.field-collection-item");
 
-  if (postCommentsCollection) {
+  if (postCommentsCollectionItems.length > 0) {
     new PostCommentsCollectionCustomiser().removeAllowDeleteIfUnauthorizedUser(
-      postCommentsCollection
+      postCommentsCollectionItems
     );
   }
 });
