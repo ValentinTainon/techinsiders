@@ -35,6 +35,6 @@ final class PostController extends AbstractController
 
     private function incrementNumberOfViews(Post $post): void
     {
-        $post->setNumberOfViews($post->getNumberOfViews() + 1);;
+        $post->setNumberOfViews($post->getNumberOfViews() + 1);
     }
 }

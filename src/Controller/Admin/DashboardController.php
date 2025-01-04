@@ -81,8 +81,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud(t('comment.label.plural', [], 'EasyAdminBundle'), 'fas fa-comments', Comment::class);
 
         // Community
-        yield MenuItem::section(t('community.label', [], 'EasyAdminBundle'))
-            ->setPermission(UserRole::SUPER_ADMIN->value);
+        yield MenuItem::section(t('community.label', [], 'EasyAdminBundle'));
         yield MenuItem::linkToCrud(t('user.label.plural', [], 'EasyAdminBundle'), 'fas fa-user', User::class)
             ->setPermission(UserRole::SUPER_ADMIN->value);
         yield MenuItem::linkToUrl(t('contribute_or_report_bug', [], 'EasyAdminBundle'), 'fa-brands fa-github', AppConfig::GITHUB_URL)

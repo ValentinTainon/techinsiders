@@ -149,15 +149,13 @@ class PostCrudController extends AbstractCrudController
             ->setRequired($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT && $this->isThumbnailEmpty())
             ->setColumns(10);
 
-        yield TextField::new('title', t('title.label', [], 'forms'))
-            ->setColumns(10);
-
         yield FormField::addTab(t('post_content.label', [], 'forms'))
-            ->setHelp(
-                t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
-            )
             ->addCssClass('custom-max-width');
-        yield CkeditorField::new('content', false)
+        yield TextField::new('title', t('title.label', [], 'forms'))
+            ->addCssClass('title-field')
+            ->setColumns(12);
+
+        yield CkeditorField::new('content', t('content.label', [], 'forms'))
             ->addFormTheme('bundles/EasyAdminBundle/crud/field/post-editor-placeholder.html.twig')
             ->setFormTypeOption('attr', [
                 'page_name' => $pageName,
@@ -165,7 +163,10 @@ class PostCrudController extends AbstractCrudController
                     'editor_config_type' => EditorConfigType::FEATURE_RICH->value,
                     'min_post_length_limit' => PostContentConfig::MIN_LENGTH_LIMIT,
                 ]
-            ]);
+            ])
+            ->setHelp(
+                t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
+            );
 
         yield IntegerField::new('commentsCount', t('comments.label', [], 'forms'))
             ->onlyOnIndex()

@@ -5,11 +5,12 @@ export default class EditorWordCounter {
   private wordsCountBox: HTMLSpanElement | null;
   private progressCircle: SVGCircleElement | null;
   private charactersBox: SVGTextElement | null;
-  private editorTabLink: HTMLAnchorElement | null;
-  private contentHeaderHelp: HTMLDivElement | null;
-  private eaBadgeDanger: HTMLSpanElement | null | undefined;
-  private customBadgeDanger: HTMLSpanElement;
-  private submitButtons: NodeListOf<HTMLButtonElement> | null;
+  private badgeDanger: HTMLSpanElement | null;
+  private postContentTabLink: HTMLAnchorElement | null;
+  private tabPostContent: HTMLDivElement | null;
+  private ckeditorField: HTMLDivElement | null | undefined;
+  private ckeditorFieldHelp: HTMLElement | null | undefined;
+  private submitButtons: NodeListOf<HTMLButtonElement>;
 
   constructor(minPostLengthLimit: number) {
     this.minPostLengthLimit = this.getMinPostLengthLimit(minPostLengthLimit);
@@ -25,16 +26,16 @@ export default class EditorWordCounter {
     this.charactersBox = document.querySelector<SVGTextElement>(
       ".ck-update__chart__characters"
     );
-    this.editorTabLink = document.querySelector<HTMLAnchorElement>(
-      "#tablist-tab-post-content-label"
+    this.postContentTabLink = document.querySelector<HTMLAnchorElement>(
+      "a#tablist-tab-post-content-label"
     );
-    this.contentHeaderHelp = document.querySelector<HTMLDivElement>(
-      "#tab-post-content-label .content-header-help"
+    this.tabPostContent = document.querySelector<HTMLDivElement>(
+      "div#tab-post-content-label"
     );
-    this.eaBadgeDanger = this.editorTabLink?.querySelector(
-      ".badge.badge-danger"
-    );
-    this.customBadgeDanger = this.createCustomBadgeDanger();
+    this.ckeditorField =
+      this.tabPostContent?.querySelector<HTMLDivElement>("div.field-ckeditor");
+    this.ckeditorFieldHelp =
+      this.ckeditorField?.querySelector<HTMLElement>("small.form-help");
     this.submitButtons = document.querySelectorAll<HTMLButtonElement>(
       "button.action-save[type=submit]"
     );
@@ -87,12 +88,15 @@ export default class EditorWordCounter {
   public handlePostLengthValidation(): void {
     this.submitButtons?.forEach((button) => {
       button.addEventListener("click", (event: MouseEvent) => {
-        if (this.isMinPostLengthConstraintViolated()) {
-          event.preventDefault();
-          event.stopPropagation();
-          this.addError();
-        } else {
-          this.removeError();
+        const isConstraintViolated = this.isMinPostLengthConstraintViolated();
+
+        if (isConstraintViolated) event.preventDefault();
+
+        this.handleClassErrorOnCkeditorField(isConstraintViolated);
+        const numberOfFieldsInError = this.getNumberOfFieldsInError();
+
+        if (isConstraintViolated || numberOfFieldsInError > 0) {
+          this.handleBadgeDanger(numberOfFieldsInError);
         }
       });
     });
@@ -115,62 +119,46 @@ export default class EditorWordCounter {
     }
   }
 
-  private createCustomBadgeDanger(): HTMLSpanElement {
-    const customBadgeDanger = document.createElement("span");
-    customBadgeDanger.classList.add("custom-badge", "custom-badge-danger");
-    customBadgeDanger.textContent = "1";
-
-    return customBadgeDanger;
+  private handleClassErrorOnCkeditorField(isConstraintViolated: boolean): void {
+    this.ckeditorField?.classList.toggle("has-error", isConstraintViolated);
+    this.ckeditorFieldHelp?.classList.toggle(
+      "help-error",
+      isConstraintViolated
+    );
   }
 
   private isMinPostLengthConstraintViolated(): boolean {
     return this.statCharacters < this.minPostLengthLimit;
   }
 
-  private addError(): void {
-    if (
-      !this.editorTabLink ||
-      (this.eaBadgeDanger && this.editorTabLink.contains(this.eaBadgeDanger))
-    ) {
-      return;
-    }
-
-    if (!this.editorTabLink.classList.contains("has-error")) {
-      this.editorTabLink.classList.add("has-error");
-    }
-
-    if (!this.editorTabLink.contains(this.customBadgeDanger)) {
-      this.editorTabLink.appendChild(this.customBadgeDanger);
-    }
-
-    if (
-      this.contentHeaderHelp &&
-      this.contentHeaderHelp.style.color !== "var(--color-danger)"
-    ) {
-      this.contentHeaderHelp.style.color = "var(--color-danger)";
+  private getNumberOfFieldsInError(): number {
+    if (this.tabPostContent) {
+      return this.tabPostContent.querySelectorAll<HTMLDivElement>(
+        "div.form-group.has-error"
+      ).length;
+    } else {
+      throw new Error("Post content tab not found");
     }
   }
 
-  private removeError(): void {
-    if (!this.editorTabLink) return;
+  private handleBadgeDanger(numberOfFieldsInError: number): void {
+    const badgeDanger: HTMLSpanElement | null | undefined =
+      this.postContentTabLink?.querySelector("span.badge-danger");
 
-    if (this.editorTabLink.classList.contains("has-error")) {
-      this.editorTabLink.classList.remove("has-error");
+    if (badgeDanger && numberOfFieldsInError > 0) {
+      badgeDanger.textContent = `${numberOfFieldsInError}`;
+    } else if (!badgeDanger && numberOfFieldsInError > 0) {
+      this.postContentTabLink?.appendChild(this.createBadgeDanger());
+    } else if (badgeDanger && numberOfFieldsInError <= 0) {
+      this.postContentTabLink?.removeChild(badgeDanger);
     }
+  }
 
-    if (this.eaBadgeDanger && this.editorTabLink.contains(this.eaBadgeDanger)) {
-      this.editorTabLink.removeChild(this.eaBadgeDanger);
-    }
+  private createBadgeDanger(): HTMLSpanElement {
+    const customBadgeDanger = document.createElement("span");
+    customBadgeDanger.classList.add("badge", "badge-danger");
+    customBadgeDanger.textContent = "1";
 
-    if (this.editorTabLink.contains(this.customBadgeDanger)) {
-      this.editorTabLink.removeChild(this.customBadgeDanger);
-    }
-
-    if (
-      this.contentHeaderHelp &&
-      this.contentHeaderHelp.style.color === "var(--color-danger)"
-    ) {
-      this.contentHeaderHelp.style.color = "var(--form-tabs-help-color)";
-    }
+    return customBadgeDanger;
   }
 }
