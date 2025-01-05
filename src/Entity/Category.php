@@ -83,6 +83,11 @@ class Category
         return $this->posts;
     }
 
+    public function getPostsCount(): int
+    {
+        return $this->posts->count();
+    }
+
     public function addPost(Post $post): static
     {
         if (!$this->posts->contains($post)) {

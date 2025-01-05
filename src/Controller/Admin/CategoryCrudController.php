@@ -2,10 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Category;
-use App\Enum\UserRole;
-
 use function Symfony\Component\Translation\t;
+use App\Enum\UserRole;
+use App\Entity\Category;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -13,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CategoryCrudController extends AbstractCrudController
@@ -36,7 +36,6 @@ class CategoryCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Crud::PAGE_DETAIL)
             ->remove(
                 Crud::PAGE_EDIT,
                 Action::SAVE_AND_CONTINUE
@@ -65,5 +64,10 @@ class CategoryCrudController extends AbstractCrudController
         yield SlugField::new('nameSlug', t('name_slug.label', [], 'forms'))
             ->setTargetFieldName('name')
             ->setColumns('col-sm-6 col-md-5');
+
+        yield IntegerField::new('postsCount', t('posts.label', [], 'forms'))
+            ->hideWhenCreating()
+            ->hideWhenUpdating()
+            ->setTextAlign('center');
     }
 }

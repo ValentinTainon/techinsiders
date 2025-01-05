@@ -25,6 +25,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
 class CommentCrudController extends AbstractCrudController
 {
@@ -65,7 +66,8 @@ class CommentCrudController extends AbstractCrudController
             ->hideOnForm()
             ->setPermission(UserRole::SUPER_ADMIN->value);
 
-        $createdAtField = DateTimeField::new('createdAt', t('created_at.label', [], 'forms'))
+        yield FormField::addFieldset()->addCssClass('custom-max-width');
+        yield DateTimeField::new('createdAt', t('created_at.label', [], 'forms'))
             ->setRequired(false)
             ->setDisabled()
             ->hideWhenCreating()
@@ -81,38 +83,21 @@ class CommentCrudController extends AbstractCrudController
             $updatedAtField->hideWhenUpdating();
         }
 
-        $userField = AssociationField::new('user', t('author.label', [], 'forms'))
+        yield $updatedAtField;
+
+        yield FormField::addRow();
+        yield AssociationField::new('user', t('author.label', [], 'forms'))
             ->setDisabled()
             ->hideWhenCreating()
             ->setColumns('col-sm-6 col-md-5');
 
-        $postField = AssociationField::new('post', t('post.label.singular', [], 'EasyAdminBundle'))
+        yield FormField::addRow();
+        yield AssociationField::new('post', t('post.label.singular', [], 'EasyAdminBundle'))
             ->setHtmlAttribute('required', true)
             ->setColumns(10);
 
-        $contentField = CkeditorField::new('content', t('content.label', [], 'forms'))
-            ->addFormTheme('bundles/EasyAdminBundle/crud/field/comment-editor-placeholder.html.twig')
-            ->setFormTypeOption('attr', [
-                'editor_data' => [
-                    'editor_config_type' => EditorConfigType::STARTER->value,
-                ]
-            ])
-            ->setHelp(
-                t('comment_content.help.message', ['%max_comment_length_limit%' => 500], 'forms')
-            )
+        yield TextareaField::new('content', t('content.label', [], 'forms'))
             ->setColumns(10);
-
-        yield FormField::addFieldset()->addCssClass('custom-max-width');
-        yield $createdAtField;
-        yield $updatedAtField;
-
-        yield FormField::addRow();
-        yield $userField;
-
-        yield FormField::addRow();
-        yield $postField;
-
-        yield $contentField;
     }
 
     private function isUpdatedAtNull(): bool
