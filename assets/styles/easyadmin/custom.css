@@ -5,19 +5,3 @@
 .help-error {
   color: var(--color-danger) !important;
 }
-
-.field-password {
-  & > .form-widget {
-    position: relative;
-
-    & > .toggle-password-button {
-      top: 0.45rem;
-      right: 0.4rem;
-    }
-  }
-
-  & > .toggle-password-container > .toggle-password-button {
-    top: 0.7rem;
-    right: 0.4rem;
-  }
-}

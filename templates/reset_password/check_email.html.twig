@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'reset.password.email.send.title'|trans }}{% endblock %}
+{% block page_title %}
+	{{ 'reset.password.email.send.title'|trans }}
+{% endblock %}
 
 {% block body %}
-    <p>
-        {{ 'reset.password.request.send.text'|trans }}
-        {% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
-        {{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
-    </p>
-    <p>{{ 'reset.password.request.mail.reception.fail.text'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'try.again.label'|trans }}</a>.</p>
+	<p>
+		{{ 'reset.password.request.send.text'|trans }}
+		{% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
+		{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
+	</p>
+	<p>{{ 'reset.password.request.mail.reception.fail.text'|trans }}
+		<a href="{{ path('app_forgot_password_request') }}">{{ 'try.again.label'|trans }}</a>.</p>
 {% endblock %}

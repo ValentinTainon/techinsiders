@@ -1312,16 +1312,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v4.20.5",
+            "version": "v4.20.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "4903938a90d08afb481d7f185f2e2666d6767ca5"
+                "reference": "d6dbcc77ff5aa7e8864923a67a02ebf6d0066ee6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/4903938a90d08afb481d7f185f2e2666d6767ca5",
-                "reference": "4903938a90d08afb481d7f185f2e2666d6767ca5",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/d6dbcc77ff5aa7e8864923a67a02ebf6d0066ee6",
+                "reference": "d6dbcc77ff5aa7e8864923a67a02ebf6d0066ee6",
                 "shasum": ""
             },
             "require": {
@@ -1350,6 +1350,8 @@
                 "symfony/uid": "^5.4|^6.0|^7.0",
                 "symfony/ux-twig-component": "^2.21",
                 "symfony/validator": "^5.4|^6.0|^7.0",
+                "twig/extra-bundle": "^3.17",
+                "twig/html-extra": "^3.17",
                 "twig/twig": "^3.15"
             },
             "require-dev": {
@@ -1398,7 +1400,7 @@
             ],
             "support": {
                 "issues": "https://github.com/EasyCorp/EasyAdminBundle/issues",
-                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.20.5"
+                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.20.6"
             },
             "funding": [
                 {
@@ -1406,7 +1408,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-03T19:17:42+00:00"
+            "time": "2025-01-05T11:24:43+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -8181,6 +8183,74 @@
                 }
             ],
             "time": "2024-09-26T19:22:23+00:00"
+        },
+        {
+            "name": "twig/html-extra",
+            "version": "v3.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/html-extra.git",
+                "reference": "c63b28e192c1b7c15bb60f81d2e48b140846239a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/html-extra/zipball/c63b28e192c1b7c15bb60f81d2e48b140846239a",
+                "reference": "c63b28e192c1b7c15bb60f81d2e48b140846239a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/mime": "^5.4|^6.4|^7.0",
+                "twig/twig": "^3.13|^4.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Resources/functions.php"
+                ],
+                "psr-4": {
+                    "Twig\\Extra\\Html\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "A Twig extension for HTML",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "html",
+                "twig"
+            ],
+            "support": {
+                "source": "https://github.com/twigphp/html-extra/tree/v3.18.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-12-29T10:29:59+00:00"
         },
         {
             "name": "twig/twig",

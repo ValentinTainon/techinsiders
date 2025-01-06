@@ -1,8 +1,8 @@
 body[data-bs-theme="dark"] {
   /* Helper variables to avoid duplication in the colors. */
   --ck-custom-background: #262626;
-  --ck-custom-foreground: #2d2d2f;
   --ck-custom-border: #393839;
+  --ck-custom-foreground: #2d2d2f;
   --ck-custom-white: #ffffff;
 
   /* -- Overrides generic colors. ------------------------------------------------------------- */
@@ -10,39 +10,39 @@ body[data-bs-theme="dark"] {
   --ck-color-base-border: #999999;
   --ck-color-base-foreground: var(--ck-custom-background);
   --ck-color-focus-border: #47a4f5;
-  --ck-color-text: #fafafa;
   --ck-color-shadow-drop: #00000033;
   --ck-color-shadow-inner: #0000001a;
+  --ck-color-text: #fafafa;
 
   /* -- Overrides the default .ck-button class colors. ---------------------------------------- */
 
-  --ck-color-button-default-background: var(--ck-custom-background);
-  --ck-color-button-default-hover-background: #383839;
   --ck-color-button-default-active-background: #333234;
   --ck-color-button-default-active-shadow: #3b393c;
+  --ck-color-button-default-background: var(--ck-custom-background);
   --ck-color-button-default-disabled-background: var(--ck-custom-background);
+  --ck-color-button-default-hover-background: #383839;
 
-  --ck-color-button-on-background: var(--ck-custom-foreground);
-  --ck-color-button-on-hover-background: #28272a;
   --ck-color-button-on-active-background: #232225;
   --ck-color-button-on-active-shadow: #2f2f32;
+  --ck-color-button-on-background: var(--ck-custom-foreground);
   --ck-color-button-on-disabled-background: var(--ck-custom-foreground);
+  --ck-color-button-on-hover-background: #28272a;
 
-  --ck-color-button-action-background: #1abc9c;
-  --ck-color-button-action-hover-background: #17ab8d;
   --ck-color-button-action-active-background: #16a286;
   --ck-color-button-action-active-shadow: #16987e;
+  --ck-color-button-action-background: #1abc9c;
   --ck-color-button-action-disabled-background: #1abc9c;
+  --ck-color-button-action-hover-background: #17ab8d;
   --ck-color-button-action-text: var(--ck-custom-white);
 
   --ck-color-list-button-hover-background: var(
     --ck-color-button-default-hover-background
   ) !important;
 
-  --ck-highlight-marker-yellow: #ffff00 !important;
-
-  --ck-color-button-save: #00eb00;
   --ck-color-button-cancel: #ff571f;
+  --ck-color-button-save: #00eb00;
+
+  --ck-highlight-marker-yellow: #ffff00 !important;
 
   /* -- Overrides the default .ck-dropdown class colors. -------------------------------------- */
 
@@ -65,10 +65,10 @@ body[data-bs-theme="dark"] {
 
   --ck-color-input-background: var(--ck-custom-background);
   --ck-color-input-border: #6c6a71;
-  --ck-color-input-text: #fafafa;
   --ck-color-input-disabled-background: #343338;
   --ck-color-input-disabled-border: #5f5e64;
   --ck-color-input-disabled-text: #c7c7c7;
+  --ck-color-input-text: #fafafa;
 
   /* -- Overrides the default .ck-labeled-field-view class colors. ---------------------------- */
 
@@ -100,8 +100,8 @@ body[data-bs-theme="dark"] {
   /* -- Overrides the default colors used by the ckeditor5-widget package. -------------------- */
 
   --ck-color-widget-blurred-border: #dedede;
-  --ck-color-widget-hover-border: #ffd15c;
   --ck-color-widget-editable-focus-background: var(--ck-custom-white);
+  --ck-color-widget-hover-border: #ffd15c;
 
   /* -- Overrides the default colors used by the ckeditor5-link package. ---------------------- */
 

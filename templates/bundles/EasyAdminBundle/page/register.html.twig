@@ -1,4 +1,4 @@
-{% extends ea.hasContext ? ea.templatePath('layout') : '@EasyAdmin/page/login_minimal.html.twig' %}
+{% extends 'base.html.twig' %}
 {% trans_default_domain ea.hasContext ? ea.i18n.translationDomain : (translation_domain is defined ? translation_domain ?? 'messages') %}
 
 {% block body_class 'page-login' %}
@@ -9,18 +9,20 @@
 {% block head_favicon %}
 	{% if favicon_path|default(false) %}
 		<link rel="shortcut icon" href="{{ favicon_path }}">
-	{% else %}
-		{{ parent() }}
 	{% endif %}
 {% endblock %}
 
-{% block wrapper_wrapper %}
+{% block body %}
+	{% block menu %}{% endblock %}
+
 	{% set page_title = block('page_title') %}
 	{% set _username_label = username_label is defined ? username_label|trans : 'login_page.username'|trans({}, 'EasyAdminBundle') %}
 	{% set _email_label = email_label is defined ? email_label|trans : 'login_page.email'|trans({}, 'EasyAdminBundle') %}
 	{% set _motivations_label = motivations_label is defined ? motivations_label|trans : 'login_page.motivations'|trans({}, 'EasyAdminBundle') %}
 	{% set _sign_in_label = sign_in_label is defined ? sign_in_label|trans : 'login_register_page.sign_in'|trans({}, 'forms') %}
 	{% set _sign_up_label = sign_up_label is defined ? sign_up_label|trans : 'login_register_page.sign_up'|trans({}, 'forms') %}
+	{% set _password_first_label = password_first_label is defined ? password_first_label|trans : 'password.label'|trans({}, 'forms') %}
+	{% set _password_second_label = password_second_label is defined ? password_second_label|trans : 'repeat.password.label'|trans({}, 'forms') %}
 
 	{% include '@EasyAdmin/flash_messages.html.twig' %}
 
@@ -39,7 +41,7 @@
 
 		<section class="content">
 			{% for flash_error in app.flashes('verify_email_error') %}
-				<div class="w-100 alert alert-danger rounded mb-3" role="alert">
+				<div class="alert alert-danger" role="alert">
 					{{ flash_error }}
 				</div>
 			{% endfor %}
@@ -61,7 +63,19 @@
 				</div>
 			</div>
 
-			{{ form_row(registrationForm.plainPassword) }}
+			<div class="form-group field-password">
+				<label class="form-control-label required" for="registration_form_plainPassword_first">{{ _password_first_label }}</label>
+				<div class="form-widget">
+					{{ form_widget(registrationForm.plainPassword.first) }}
+				</div>
+			</div>
+
+			<div class="form-group field-password">
+				<label class="form-control-label required" for="registration_form_plainPassword_second">{{ _password_second_label }}</label>
+				<div class="form-widget">
+					{{ form_widget(registrationForm.plainPassword.second) }}
+				</div>
+			</div>
 
 			<div class="form-group">
 				<label class="form-control-label required" for="registration_form_motivations">{{ _motivations_label }}</label>
@@ -80,7 +94,6 @@
 			</div>
 
 			{{ form_end(registrationForm) }}
-
 		</section>
 
 		<footer class="mt-4">
@@ -89,9 +102,6 @@
 			</a>
 		</footer>
 	</div>
-	{% block javascripts %}
-		{% block importmap %}
-			{{ importmap('app') }}
-		{% endblock %}
-	{% endblock %}
+
+	{% block footer %}{% endblock %}
 {% endblock %}

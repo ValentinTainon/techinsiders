@@ -1,44 +1,54 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{{ app_name }}{% endblock %}</title>
-        <meta name="description" content="Bienvenue, parcourez le blog pour y découvrir l'actu tech.">
-        <link rel="icon" href="">
-    </head>
-    <body>
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                <strong>Succès ! </strong><p>{{ message }}</p>
-            </div>
-        {% endfor %}
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block page_title %}
+				{{ app_name }}
+			{% endblock %}
+		</title>
+		<meta name="description" content="Bienvenue, parcourez le blog pour y découvrir l'actu tech.">
+		<link rel="icon" href="">
+	</head>
+	<body>
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				<strong>Succès !
+				</strong>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
 
 		{% for message in app.flashes('error') %}
-            <div class="alert alert-danger">
-                <strong>Erreur ! </strong><p>{{ message }}</p>
-            </div>
-        {% endfor %}
+			<div class="alert alert-danger">
+				<strong>Erreur !
+				</strong>
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
 
 		{% for message in app.flashes('note') %}
-            <div class="alert alert-info">
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
+			<div class="alert alert-info">
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
 
-        {% block menu %}
+		{% block menu %}
 			{% include "components/navbar.html.twig" %}
 		{% endblock %}
 
-        {% block body %}{% endblock %}
+		{% block body %}{% endblock %}
 
-        {% block footer %}
+		{% block footer %}
 			{% include "components/footer.html.twig" %}
 		{% endblock %}
-        
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </body>
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</body>
 </html>
