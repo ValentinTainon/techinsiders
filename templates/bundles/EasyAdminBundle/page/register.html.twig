@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
-{% trans_default_domain ea.hasContext ? ea.i18n.translationDomain : (translation_domain is defined ? translation_domain ?? 'messages') %}
+{# {% translation_domain is defined ? translation_domain : 'messages' %} #}
 
 {% block body_class 'page-login' %}
 {% block page_title %}
-	{{ page_title is defined ? page_title|trans : (ea.hasContext ? ea.dashboardTitle|raw : '') }}
+	{% if page_title is defined %}
+		{{ page_title|trans }}
+	{% endif %}
 {% endblock %}
 
 {% block head_favicon %}
@@ -23,8 +25,6 @@
 	{% set _sign_up_label = sign_up_label is defined ? sign_up_label|trans : 'login_register_page.sign_up'|trans({}, 'forms') %}
 	{% set _password_first_label = password_first_label is defined ? password_first_label|trans : 'password.label'|trans({}, 'forms') %}
 	{% set _password_second_label = password_second_label is defined ? password_second_label|trans : 'repeat.password.label'|trans({}, 'forms') %}
-
-	{% include '@EasyAdmin/flash_messages.html.twig' %}
 
 	<div class="login-wrapper" style="max-inline-size: 32rem;">
 		<header class="main-header">

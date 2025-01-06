@@ -13,26 +13,12 @@
 		<link rel="icon" href="">
 	</head>
 	<body>
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-success">
-				<strong>Succès !
-				</strong>
-				<p>{{ message }}</p>
-			</div>
-		{% endfor %}
-
-		{% for message in app.flashes('error') %}
-			<div class="alert alert-danger">
-				<strong>Erreur !
-				</strong>
-				<p>{{ message }}</p>
-			</div>
-		{% endfor %}
-
-		{% for message in app.flashes('note') %}
-			<div class="alert alert-info">
-				<p>{{ message }}</p>
-			</div>
+		{% for label, message in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }}">
+					<p>{{ message }}</p>
+				</div>
+			{% endfor %}
 		{% endfor %}
 
 		{% block menu %}
