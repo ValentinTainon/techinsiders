@@ -1,0 +1,41 @@
+@font-face {
+  font-family: "Hamon";
+  font-weight: 400;
+  src: url(../../fonts/hamon/hamon-regular.woff2) format("woff2"),
+    url(../../fonts/hamon/hamon-regular.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Lobster";
+  font-weight: 400;
+  src: url(../../fonts/lobster/lobster-regular.woff2) format("woff2"),
+    url(../../fonts/lobster/lobster-regular.woff2) format("woff");
+}
+
+@font-face {
+  font-family: "Mhtirogla";
+  font-weight: 400;
+  src: url(../../fonts/mhtirogla/mhtirogla-regular.woff2) format("woff2"),
+    url(../../fonts/mhtirogla/mhtirogla-regular.woff2) format("woff");
+}
+
+@font-face {
+  font-family: "Neopixel";
+  font-weight: 400;
+  src: url(../../fonts/neopixel/neopixel-regular.woff2) format("woff2"),
+    url(../../fonts/neopixel/neopixel-regular.woff2) format("woff");
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-weight: 400;
+  src: url(../../fonts/rubik/rubik-regular.woff2) format("woff2"),
+    url(../../fonts/rubik/rubik-regular.woff2) format("woff");
+}
+
+@font-face {
+  font-family: "Svart";
+  font-weight: 400;
+  src: url(../../fonts/svart/svart-regular.woff2) format("woff2"),
+    url(../../fonts/svart/svart-regular.woff2) format("woff");
+}

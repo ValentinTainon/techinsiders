@@ -28,7 +28,9 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setMotivations($form->get('motivations')->getData());
+            $user->setMotivations(
+                $form->get('motivations')->getData()
+            );
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -37,12 +39,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        return $this->render('bundles/EasyAdminBundle/page/register.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
-
-            // "as is" to the Twig asset() function:
-            // <link rel="shortcut icon" href="{{ asset('...') }}">
-            'favicon_path' => '/favicon-admin.svg',
             'page_title' => t('login_register_page.registration', [], 'forms'),
             'username_label' => t('login_register_page.username', [], 'forms'),
             'email_label' => t('login_register_page.email', [], 'forms'),

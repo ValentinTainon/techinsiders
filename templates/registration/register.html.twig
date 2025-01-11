@@ -1,38 +1,22 @@
 {% extends 'base.html.twig' %}
 {# {% translation_domain is defined ? translation_domain : 'messages' %} #}
 
-{% block body_class 'page-login' %}
 {% block page_title %}
 	{% if page_title is defined %}
 		{{ page_title|trans }}
 	{% endif %}
 {% endblock %}
 
-{% block head_favicon %}
-	{% if favicon_path|default(false) %}
-		<link rel="shortcut icon" href="{{ favicon_path }}">
-	{% endif %}
-{% endblock %}
-
 {% block body %}
 	{% block menu %}{% endblock %}
 
-	{% set page_title = block('page_title') %}
-	{% set _username_label = username_label is defined ? username_label|trans : 'login_page.username'|trans({}, 'EasyAdminBundle') %}
-	{% set _email_label = email_label is defined ? email_label|trans : 'login_page.email'|trans({}, 'EasyAdminBundle') %}
-	{% set _motivations_label = motivations_label is defined ? motivations_label|trans : 'login_page.motivations'|trans({}, 'EasyAdminBundle') %}
-	{% set _sign_in_label = sign_in_label is defined ? sign_in_label|trans : 'login_register_page.sign_in'|trans({}, 'forms') %}
-	{% set _sign_up_label = sign_up_label is defined ? sign_up_label|trans : 'login_register_page.sign_up'|trans({}, 'forms') %}
-	{% set _password_first_label = password_first_label is defined ? password_first_label|trans : 'password.label'|trans({}, 'forms') %}
-	{% set _password_second_label = password_second_label is defined ? password_second_label|trans : 'repeat.password.label'|trans({}, 'forms') %}
-
-	<div class="login-wrapper" style="max-inline-size: 32rem;">
+	<div class="form-wrapper">
 		<header class="main-header">
-			<div id="header-logo" class="mb-4">
+			<div id="header-logo">
 				{% block header_logo %}
 					{% if page_title %}
-						<h3 class="logo {{ page_title|length > 14 ? 'logo-long' }}">
-							{{ page_title|raw }}
+						<h3 class="logo">
+							{{ page_title }}
 						</h3>
 					{% endif %}
 				{% endblock header_logo %}
@@ -40,9 +24,9 @@
 		</header>
 
 		<section class="content">
-			{% for flash_error in app.flashes('verify_email_error') %}
+			{% for error in app.flashes('verify_email_error') %}
 				<div class="alert alert-danger" role="alert">
-					{{ flash_error }}
+					<p>{{ error }}</p>
 				</div>
 			{% endfor %}
 
@@ -79,7 +63,7 @@
 
 			<div class="form-group">
 				<label class="form-control-label required" for="registration_form_motivations">{{ _motivations_label }}</label>
-				<div class="form-widget" style="block-size: 100px;">
+				<div class="form-widget">
 					{{ form_widget(registrationForm.motivations) }}
 				</div>
 			</div>
@@ -88,7 +72,7 @@
 				{{ _sign_up_label }}
 			</button>
 
-			<div class="login form-text text-center mt-4">
+			<div class="login form-text">
 				{{ 'register_page.already_registered'|trans([], 'forms') }}
 				<a href="{{ path('app_login') }}">{{ _sign_in_label }}</a>
 			</div>
@@ -96,8 +80,8 @@
 			{{ form_end(registrationForm) }}
 		</section>
 
-		<footer class="mt-4">
-			<a class="logo {{ app_name|length > 14 ? 'logo-long' }}" title="{{ app_name }}" href="{{ path('app_homepage') }}">
+		<footer>
+			<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
 				{{ app_name }}
 			</a>
 		</footer>

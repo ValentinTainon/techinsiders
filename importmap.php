@@ -210,7 +210,7 @@ return [
         'version' => '2.0.5',
     ],
     'marked' => [
-        'version' => '15.0.4',
+        'version' => '15.0.6',
     ],
     'turndown' => [
         'version' => '7.2.0',

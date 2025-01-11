@@ -1,2 +1,33 @@
 @import url("./reset/reset.css");
-@import url("./form/default.css");
+@import url("./fonts/fonts.css");
+@import url("./alerts/alerts.css");
+@import url("./form/form.css");
+
+body {
+  background: #f1f5f9;
+  font-family: "Rubik", sans-serif;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--bs-heading-color);
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+h3 {
+  font-size: calc(1.3rem + 0.6vw);
+}
+
+a {
+  color: #5c70d6;
+  text-decoration: none;
+}

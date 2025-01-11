@@ -4,18 +4,24 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Bienvenue, parcourez le blog pour y découvrir l'actu tech.">
 		<title>
 			{% block page_title %}
 				{{ app_name }}
 			{% endblock %}
 		</title>
-		<meta name="description" content="Bienvenue, parcourez le blog pour y découvrir l'actu tech.">
+		{% block stylesheets %}{% endblock %}
 		<link rel="icon" href="">
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
 	</head>
 	<body>
 		{% for label, message in app.flashes %}
 			{% for message in messages %}
-				<div class="alert alert-{{ label }}">
+				<div class="alert alert-{{ label }}" role="alert">
 					<p>{{ message }}</p>
 				</div>
 			{% endfor %}
@@ -29,12 +35,6 @@
 
 		{% block footer %}
 			{% include "components/footer.html.twig" %}
-		{% endblock %}
-
-		{% block javascripts %}
-			{% block importmap %}
-				{{ importmap('app') }}
-			{% endblock %}
 		{% endblock %}
 	</body>
 </html>

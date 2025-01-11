@@ -1312,16 +1312,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v4.20.6",
+            "version": "v4.20.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "d6dbcc77ff5aa7e8864923a67a02ebf6d0066ee6"
+                "reference": "4fdc48db1c7a15ca8a27ecaeba9cce51c97f1965"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/d6dbcc77ff5aa7e8864923a67a02ebf6d0066ee6",
-                "reference": "d6dbcc77ff5aa7e8864923a67a02ebf6d0066ee6",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/4fdc48db1c7a15ca8a27ecaeba9cce51c97f1965",
+                "reference": "4fdc48db1c7a15ca8a27ecaeba9cce51c97f1965",
                 "shasum": ""
             },
             "require": {
@@ -1400,7 +1400,7 @@
             ],
             "support": {
                 "issues": "https://github.com/EasyCorp/EasyAdminBundle/issues",
-                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.20.6"
+                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.20.8"
             },
             "funding": [
                 {
@@ -1408,7 +1408,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-05T11:24:43+00:00"
+            "time": "2025-01-09T20:44:17+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -2110,16 +2110,16 @@
         },
         {
             "name": "sensiolabs/typescript-bundle",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/AssetMapperTypeScriptBundle.git",
-                "reference": "8d93eebbab418328cc00f11cf0d93420fc522b09"
+                "reference": "cc78238a1d11ded4ea27214c92531e184cac6129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/AssetMapperTypeScriptBundle/zipball/8d93eebbab418328cc00f11cf0d93420fc522b09",
-                "reference": "8d93eebbab418328cc00f11cf0d93420fc522b09",
+                "url": "https://api.github.com/repos/sensiolabs/AssetMapperTypeScriptBundle/zipball/cc78238a1d11ded4ea27214c92531e184cac6129",
+                "reference": "cc78238a1d11ded4ea27214c92531e184cac6129",
                 "shasum": ""
             },
             "require": {
@@ -2160,9 +2160,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sensiolabs/AssetMapperTypeScriptBundle/issues",
-                "source": "https://github.com/sensiolabs/AssetMapperTypeScriptBundle/tree/v0.2.0"
+                "source": "https://github.com/sensiolabs/AssetMapperTypeScriptBundle/tree/v0.2.1"
             },
-            "time": "2024-09-17T12:41:18+00:00"
+            "time": "2025-01-07T14:32:17+00:00"
         },
         {
             "name": "symfony/asset",
