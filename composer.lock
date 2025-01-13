@@ -1312,16 +1312,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v4.20.8",
+            "version": "v4.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "4fdc48db1c7a15ca8a27ecaeba9cce51c97f1965"
+                "reference": "7f9a74f6329d347737cdf75c3e89f8c3a088904e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/4fdc48db1c7a15ca8a27ecaeba9cce51c97f1965",
-                "reference": "4fdc48db1c7a15ca8a27ecaeba9cce51c97f1965",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/7f9a74f6329d347737cdf75c3e89f8c3a088904e",
+                "reference": "7f9a74f6329d347737cdf75c3e89f8c3a088904e",
                 "shasum": ""
             },
             "require": {
@@ -1368,7 +1368,8 @@
                 "symfony/dom-crawler": "^5.4|^6.0|^7.0",
                 "symfony/expression-language": "^5.4|^6.0|^7.0",
                 "symfony/phpunit-bridge": "^6.1|^7.0",
-                "symfony/process": "^5.4|^6.0|^7.0"
+                "symfony/process": "^5.4|^6.0|^7.0",
+                "symfony/web-link": "^5.4|^6.0|^7.0"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -1400,7 +1401,7 @@
             ],
             "support": {
                 "issues": "https://github.com/EasyCorp/EasyAdminBundle/issues",
-                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.20.8"
+                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.21.1"
             },
             "funding": [
                 {
@@ -1408,7 +1409,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-09T20:44:17+00:00"
+            "time": "2025-01-13T18:32:44+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -8696,6 +8697,58 @@
             "time": "2022-02-21T01:04:05+00:00"
         },
         {
+            "name": "php-cs-fixer/shim",
+            "version": "v3.68.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-CS-Fixer/shim.git",
+                "reference": "23acc692a99304559d4c94e9f299158ecd0ed7d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/23acc692a99304559d4c94e9f299158ecd0ed7d1",
+                "reference": "23acc692a99304559d4c94e9f299158ecd0ed7d1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "replace": {
+                "friendsofphp/php-cs-fixer": "self.version"
+            },
+            "suggest": {
+                "ext-dom": "For handling output formats in XML",
+                "ext-mbstring": "For handling non-UTF8 characters."
+            },
+            "bin": [
+                "php-cs-fixer",
+                "php-cs-fixer.phar"
+            ],
+            "type": "application",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Dariusz Rumiński",
+                    "email": "dariusz.ruminski@gmail.com"
+                }
+            ],
+            "description": "A tool to automatically fix PHP code style",
+            "support": {
+                "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.68.0"
+            },
+            "time": "2025-01-13T17:01:38+00:00"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "9.2.32",
             "source": {
@@ -10291,22 +10344,23 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.61.0",
+            "version": "v1.62.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "a3b7f14d349f8f44ed752d4dde2263f77510cc18"
+                "reference": "0624f13b1e0ff86df6f6646c711d806d9af12629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/a3b7f14d349f8f44ed752d4dde2263f77510cc18",
-                "reference": "a3b7f14d349f8f44ed752d4dde2263f77510cc18",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/0624f13b1e0ff86df6f6646c711d806d9af12629",
+                "reference": "0624f13b1e0ff86df6f6646c711d806d9af12629",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^2.0",
                 "nikic/php-parser": "^4.18|^5.0",
                 "php": ">=8.1",
+                "php-cs-fixer/shim": "^v3.64",
                 "symfony/config": "^6.4|^7.0",
                 "symfony/console": "^6.4|^7.0",
                 "symfony/dependency-injection": "^6.4|^7.0",
@@ -10363,7 +10417,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
-                "source": "https://github.com/symfony/maker-bundle/tree/v1.61.0"
+                "source": "https://github.com/symfony/maker-bundle/tree/v1.62.0"
             },
             "funding": [
                 {
@@ -10379,7 +10433,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-29T22:50:23+00:00"
+            "time": "2024-12-10T23:51:12+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",

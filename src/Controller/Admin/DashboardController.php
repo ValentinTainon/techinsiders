@@ -44,10 +44,10 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setFaviconPath('favicon.svg')
             ->setTitle($this->getParameter('app_name'))
-            // ->setLocales([
-            //     'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'),
-            //     'en' => $this->translator->trans('locale.english.label', [], 'EasyAdminBundle')
-            // ])
+            ->setLocales([
+                'fr' => $this->translator->trans('locale.french.label', [], 'EasyAdminBundle'),
+                'en' => $this->translator->trans('locale.english.label', [], 'EasyAdminBundle')
+            ])
             ->renderContentMaximized();
     }
 
