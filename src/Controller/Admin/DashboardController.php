@@ -10,6 +10,9 @@ use App\Entity\Comment;
 use App\Entity\Category;
 use App\Config\AppConfig;
 use App\Config\UserAvatarConfig;
+use App\Enum\PostStatus;
+use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -26,7 +29,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
-    public function __construct(private TranslatorInterface $translator) {}
+    public function __construct(
+        private TranslatorInterface $translator,
+        private PostRepository $postRepository,
+        private UserRepository $userRepository,
+    ) {}
 
     #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
@@ -77,13 +84,30 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section(t('blog.label', [], 'EasyAdminBundle'));
         yield MenuItem::linkToCrud(t('category.label.plural', [], 'EasyAdminBundle'), 'fas fa-list', Category::class)
             ->setPermission(UserRole::SUPER_ADMIN->value);
-        yield MenuItem::linkToCrud(t('post.label.plural', [], 'EasyAdminBundle'), 'fas fa-newspaper', Post::class);
+
+        $postMenuItem = MenuItem::linkToCrud(t('post.label.plural', [], 'EasyAdminBundle'), 'fas fa-newspaper', Post::class);
+        $numReadyForReviewPosts = $this->postRepository->getNumReadyForReview();
+
+        if ($this->isGranted(UserRole::SUPER_ADMIN->value) && $numReadyForReviewPosts > 0) {
+            $postMenuItem->setBadge($numReadyForReviewPosts);
+        }
+
+        yield $postMenuItem;
         yield MenuItem::linkToCrud(t('comment.label.plural', [], 'EasyAdminBundle'), 'fas fa-comments', Comment::class);
 
         // Community
         yield MenuItem::section(t('community.label', [], 'EasyAdminBundle'));
-        yield MenuItem::linkToCrud(t('user.label.plural', [], 'EasyAdminBundle'), 'fas fa-user', User::class)
+
+        $userMenuItem = MenuItem::linkToCrud(t('user.label.plural', [], 'EasyAdminBundle'), 'fas fa-user', User::class)
             ->setPermission(UserRole::SUPER_ADMIN->value);
+        $numRoleUserInUsers = $this->userRepository->getNumRoleUser();
+
+        if ($this->isGranted(UserRole::SUPER_ADMIN->value) && $numRoleUserInUsers > 0) {
+            $userMenuItem->setBadge($numRoleUserInUsers);
+        }
+
+        yield $userMenuItem;
+
         yield MenuItem::linkToUrl(t('contribute_or_report_bug', [], 'EasyAdminBundle'), 'fa-brands fa-github', AppConfig::GITHUB_URL)
             ->setLinkTarget('_blank');
 

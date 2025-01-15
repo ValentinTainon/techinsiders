@@ -51,4 +51,18 @@
   /* Colors */
   --clr-primary: #872911;
   --clr-secondary: #f8a270;
+
+  /* Dark mode */
+  --bg: #282a36;
+  --bg-lighter: #303346;
+  --action: #6f3840;
+  --font: #f0ebeb;
+  --border: #21222e;
+
+  /* Light mode */
+  --bg: #fff;
+  --bg-lighter: #eaeaeb;
+  --action: #db8090;
+  --font: #262833;
+  --border: #362c35;
 }
