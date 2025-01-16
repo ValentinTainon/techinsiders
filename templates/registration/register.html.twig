@@ -1,90 +1,59 @@
 {% extends 'base.html.twig' %}
-{# {% translation_domain is defined ? translation_domain : 'messages' %} #}
+{% trans_default_domain 'forms' %}
+
+{% set page_title = 'login_register_page.registration'|trans %}
 
 {% block page_title %}
-	{% if page_title is defined %}
-		{{ page_title|trans }}
-	{% endif %}
+	{{ page_title|trans }}
 {% endblock %}
 
 {% block body %}
 	{% block menu %}{% endblock %}
 
-	<div class="form-wrapper">
-		<header class="main-header">
-			<div id="header-logo">
-				{% block header_logo %}
-					{% if page_title %}
-						<h3 class="logo">
-							{{ page_title }}
-						</h3>
-					{% endif %}
-				{% endblock header_logo %}
-			</div>
-		</header>
-
-		<section class="content">
-			{% for error in app.flashes('verify_email_error') %}
-				<div class="alert alert-danger" role="alert">
-					<p>{{ error }}</p>
+	<div class="form-container">
+		<div class="form-wrapper registration">
+			<header class="main-header">
+				<div id="header-logo">
+					{% block header_logo %}
+						{% if page_title %}
+							<h3 class="logo">
+								{{ page_title|trans }}
+							</h3>
+						{% endif %}
+					{% endblock header_logo %}
 				</div>
-			{% endfor %}
+			</header>
 
-			{{ form_errors(registrationForm) }}
+			<section class="content">
+				{% for error in app.flashes('verify_email_error') %}
+					<div class="alert alert-danger" role="alert">
+						<p>{{ error }}</p>
+					</div>
+				{% endfor %}
 
-			{{ form_start(registrationForm) }}
-			<div class="form-group">
-				<label class="form-control-label required" for="registration_form_username">{{ _username_label }}</label>
-				<div class="form-widget">
-					{{ form_widget(registrationForm.username) }}
+				{{ form_errors(registrationForm) }}
+
+				{{ form_start(registrationForm) }}
+				{{ form_row(registrationForm.username) }}
+				{{ form_row(registrationForm.email) }}
+				{{ form_row(registrationForm.plainPassword) }}
+				{{ form_row(registrationForm.motivations) }}
+				{{ form_row(registrationForm.submit) }}
+
+				<div class="form-text already-registered">
+					{{ 'register_page.already_registered'|trans([], 'forms') }}
+					<a href="{{ path('app_login') }}">{{ 'login_register_page.sign_in'|trans }}</a>
 				</div>
-			</div>
 
-			<div class="form-group">
-				<label class="form-control-label required" for="registration_form_email">{{ _email_label }}</label>
-				<div class="form-widget">
-					{{ form_widget(registrationForm.email) }}
-				</div>
-			</div>
+				{{ form_end(registrationForm) }}
+			</section>
 
-			<div class="form-group field-password">
-				<label class="form-control-label required" for="registration_form_plainPassword_first">{{ _password_first_label }}</label>
-				<div class="form-widget">
-					{{ form_widget(registrationForm.plainPassword.first) }}
-				</div>
-			</div>
-
-			<div class="form-group field-password">
-				<label class="form-control-label required" for="registration_form_plainPassword_second">{{ _password_second_label }}</label>
-				<div class="form-widget">
-					{{ form_widget(registrationForm.plainPassword.second) }}
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="form-control-label required" for="registration_form_motivations">{{ _motivations_label }}</label>
-				<div class="form-widget">
-					{{ form_widget(registrationForm.motivations) }}
-				</div>
-			</div>
-
-			<button type="submit" class="btn btn-primary btn-block w-100" style="block-size: 38px;">
-				{{ _sign_up_label }}
-			</button>
-
-			<div class="login form-text">
-				{{ 'register_page.already_registered'|trans([], 'forms') }}
-				<a href="{{ path('app_login') }}">{{ _sign_in_label }}</a>
-			</div>
-
-			{{ form_end(registrationForm) }}
-		</section>
-
-		<footer>
-			<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
-				{{ app_name }}
-			</a>
-		</footer>
+			<footer>
+				<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
+					{{ app_name }}
+				</a>
+			</footer>
+		</div>
 	</div>
 
 	{% block footer %}{% endblock %}

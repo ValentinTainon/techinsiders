@@ -1,0 +1,27 @@
+.check-email-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  & > .check-email-wrapper {
+    width: 500px;
+    max-width: 95%;
+
+    & > .check-email-content {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 10px 15px -3px rgba(15, 23, 43, 0.1),
+        0 4px 6px -4px rgba(15, 23, 42, 0.1);
+      font-size: 14px;
+      padding: 25px;
+      gap: 10px;
+    }
+    & > footer {
+      padding-top: 20px;
+      text-align: center;
+    }
+  }
+}

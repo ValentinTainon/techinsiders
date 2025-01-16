@@ -2,15 +2,16 @@
 
 namespace App\Form\Front;
 
-use function Symfony\Component\Translation\t;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use function Symfony\Component\Translation\t;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,29 +24,16 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => t('username.label', [], 'forms'),
-                'attr' => [
-                    'class' => 'form-control'
-                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => t('email.label', [], 'forms'),
-                'attr' => [
-                    'class' => 'form-control'
-                ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => [
-                    'row_attr' => [
-                        'class' => 'form-group field-password'
-                    ],
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'class' => 'form-control'
                     ],
-                    'toggle' => true,
-                    'visible_label' => null,
-                    'hidden_label' => null,
                 ],
                 'first_options' => [
                     'label' => t('password.label', [], 'forms')
@@ -58,7 +46,7 @@ class RegistrationFormType extends AbstractType
             ->add('motivations', TextareaType::class, [
                 'label' => t('motivations.label', [], 'forms'),
                 'attr' => [
-                    'class' => 'form-control h-100'
+                    'class' => 'motivations'
                 ],
                 'mapped' => false,
                 'constraints' => [
@@ -73,6 +61,9 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new NoSuspiciousCharacters()
                 ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => t('login_register_page.sign_up', [], 'forms'),
             ])
         ;
     }

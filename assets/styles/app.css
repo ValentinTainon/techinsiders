@@ -3,6 +3,7 @@
 @import url("./fonts/fonts.css");
 @import url("./alerts/alerts.css");
 @import url("./form/form.css");
+@import url("./pages/check-email.css");
 
 body {
   background: #f1f5f9;

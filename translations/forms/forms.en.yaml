@@ -71,3 +71,11 @@ login_page.logged_as: "You are logged in as"
 login_page.logout: "Logout"
 login_page.new_here: "New here?"
 register_page.already_registered: "Already registered?"
+
+# Reset password
+try.again.label: "try again"
+reset.password.title: "Reset your password"
+request.password.title: "Password reset request"
+reset.password.email.send.title: "Password Reset Email Sent"
+reset.password.request.send.text: "If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password."
+reset.password.request.mail.reception.fail.text: "If you don't receive an email please check your spam folder or %try_again_link%."

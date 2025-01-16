@@ -1,15 +1,31 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'forms' %}
+
+{% set page_title = 'reset.password.email.send.title'|trans %}
+{% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
+{% set try_again_link = '<a href="' ~ path('app_forgot_password_request') ~ '">' ~ 'try.again.label'|trans ~ '</a>' %}
 
 {% block page_title %}
-	{{ 'reset.password.email.send.title'|trans }}
+	{{ page_title|trans }}
 {% endblock %}
 
 {% block body %}
-	<p>
-		{{ 'reset.password.request.send.text'|trans }}
-		{% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
-		{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}
-	</p>
-	<p>{{ 'reset.password.request.mail.reception.fail.text'|trans }}
-		<a href="{{ path('app_forgot_password_request') }}">{{ 'try.again.label'|trans }}</a>.</p>
+	{% block menu %}{% endblock %}
+
+	<div class="check-email-container">
+		<div class="check-email-wrapper">
+			<div class="check-email-content">
+				<p>{{ 'reset.password.request.send.text'|trans }}</p>
+				<p>{{ 'link_expire_in.message'|trans({'%expire_message%': expire_message}, 'emails') }}</p>
+				<p>{{ 'reset.password.request.mail.reception.fail.text'|trans({'%try_again_link%': try_again_link})|raw }}</p>
+			</div>
+			<footer>
+				<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
+					{{ app_name }}
+				</a>
+			</footer>
+		</div>
+	</div>
+
+	{% block footer %}{% endblock %}
 {% endblock %}

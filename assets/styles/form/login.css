@@ -1,17 +1,14 @@
-.form-wrapper {
-  & > .content {
-    & .toggle-password-button {
-      right: 0.7rem;
-      top: 0.7rem;
-    }
-    & .remember-me {
-      display: flex;
-      align-items: center;
-      column-gap: 5px;
-    }
-    & .new-here {
-      padding-top: 15px;
-      text-align: center;
-    }
+.form-wrapper.login > .content {
+  & .logged-as {
+    margin-bottom: 20px;
+  }
+  & .remember-me {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+  }
+  & .new-here {
+    padding-top: 15px;
+    text-align: center;
   }
 }

@@ -1,14 +1,43 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'forms' %}
+
+{% set page_title = 'reset.password.title'|trans %}
 
 {% block page_title %}
-	{{ 'reset.password.title'|trans }}
+	{{ page_title|trans }}
 {% endblock %}
 
 {% block body %}
-	<h1>{{ 'reset.password.title'|trans }}</h1>
+	{% block menu %}{% endblock %}
 
-	{{ form_start(resetForm) }}
-	{{ form_row(resetForm.plainPassword) }}
-	{{ form_row(resetForm.submit) }}
-	{{ form_end(resetForm) }}
+	<div class="form-container">
+		<div class="form-wrapper reset-password">
+			<header class="main-header">
+				<div id="header-logo">
+					{% block header_logo %}
+						{% if page_title %}
+							<h3 class="logo">
+								{{ page_title|trans }}
+							</h3>
+						{% endif %}
+					{% endblock header_logo %}
+				</div>
+			</header>
+
+			<section class="content">
+				{{ form_start(resetForm) }}
+				{{ form_row(resetForm.plainPassword) }}
+				{{ form_row(resetForm.submit) }}
+				{{ form_end(resetForm) }}
+			</section>
+
+			<footer>
+				<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
+					{{ app_name }}
+				</a>
+			</footer>
+		</div>
+	</div>
+
+	{% block footer %}{% endblock %}
 {% endblock %}

@@ -1,13 +1,14 @@
 .form-container {
-  height: 100vh;
-  padding-top: 250px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   & > .form-wrapper {
     align-items: center;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    width: 400px;
 
     & > header {
       padding-bottom: 20px;
@@ -20,6 +21,8 @@
       font-size: 14px;
       inline-size: 100%;
       padding: 25px;
+      width: 400px;
+      max-width: 95%;
 
       & .form-text {
         margin-block-start: 5px;
@@ -45,6 +48,8 @@
           z-index: 777;
         }
         & > .form-widget {
+          position: relative;
+
           & > .form-control {
             -moz-appearance: none;
             -webkit-appearance: none;
@@ -71,6 +76,7 @@
             line-height: 1.6;
             min-height: calc(1.5em + 0.75rem + 1px * 2);
             padding: 3px 7px 4px;
+            resize: vertical;
             white-space: pre-wrap;
           }
         }
@@ -115,4 +121,10 @@
       padding-top: 20px;
     }
   }
+}
+
+/* Toggle Password Button */
+.form-wrapper .toggle-password-button {
+  right: 0.7rem;
+  top: 0.7rem;
 }

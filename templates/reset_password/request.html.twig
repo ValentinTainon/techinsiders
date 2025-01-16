@@ -1,17 +1,47 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'forms' %}
+
+{% set page_title = 'request.password.title'|trans %}
 
 {% block page_title %}
-	{{ 'reset.password.title'|trans }}
+	{{ page_title|trans }}
 {% endblock %}
 
 {% block body %}
-	{% for flash_error in app.flashes('reset_password_error') %}
-		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-	{% endfor %}
-	<h1>{{ 'reset.password.title'|trans }}</h1>
+	{% block menu %}{% endblock %}
 
-	{{ form_start(requestForm) }}
-	{{ form_row(requestForm.email) }}
-	{{ form_row(requestForm.submit) }}
-	{{ form_end(requestForm) }}
+	<div class="form-container">
+		<div class="form-wrapper reset-password-request">
+			<header class="main-header">
+				<div id="header-logo">
+					{% block header_logo %}
+						{% if page_title %}
+							<h3 class="logo">
+								{{ page_title|trans }}
+							</h3>
+						{% endif %}
+					{% endblock header_logo %}
+				</div>
+			</header>
+
+			<section class="content">
+				{% for flash_error in app.flashes('reset_password_error') %}
+					<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+				{% endfor %}
+
+				{{ form_start(requestForm) }}
+				{{ form_row(requestForm.email) }}
+				{{ form_row(requestForm.submit) }}
+				{{ form_end(requestForm) }}
+			</section>
+
+			<footer>
+				<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
+					{{ app_name }}
+				</a>
+			</footer>
+		</div>
+	</div>
+
+	{% block footer %}{% endblock %}
 {% endblock %}

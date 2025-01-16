@@ -6,6 +6,8 @@ twig:
     app_contact_email: !php/const App\Config\AppConfig::APP_CONTACT_EMAIL
   paths:
     "%kernel.project_dir%/assets/styles": styles
+  form_themes:
+    - "form/form_theme.html.twig"
 
 when@test:
   twig:

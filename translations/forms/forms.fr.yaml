@@ -71,3 +71,11 @@ login_page.logged_as: "Vous êtes connecté en tant que"
 login_page.logout: "Déconnexion"
 login_page.new_here: "Nouveau ici ?"
 register_page.already_registered: "Déjà inscrit ?"
+
+# Reset password
+try.again.label: "essayer à nouveau"
+reset.password.title: "Réinitialiser votre mot de passe"
+request.password.title: "Demande de réinitialisation du mot de passe"
+reset.password.email.send.title: "E-mail de réinitialisation du mot de passe envoyé"
+reset.password.request.send.text: "Si un compte correspondant à votre e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe."
+reset.password.request.mail.reception.fail.text: "Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou %try_again_link%."

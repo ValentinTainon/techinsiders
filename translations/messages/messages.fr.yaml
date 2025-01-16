@@ -1,12 +1,1 @@
-# Registration
-registration.title: "Inscription"
 
-# Reset password
-try.again.label: "Essayer à nouveau"
-reset.password.title: "Réinitialiser votre mot de passe"
-reset.password.email.send.title: "E-mail de réinitialisation du mot de passe envoyé"
-reset.password.request.send.text: "Si un compte correspondant à votre e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe."
-reset.password.request.mail.reception.fail.text: "Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou"
-
-# User deleted
-user_deleted: "Utilisateur supprimé"

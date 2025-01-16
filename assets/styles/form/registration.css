@@ -1,0 +1,13 @@
+.form-wrapper.registration {
+  width: 500px;
+
+  & > .content {
+    & textarea.motivations {
+      min-height: 120px !important;
+    }
+    & .already-registered {
+      padding-top: 15px;
+      text-align: center;
+    }
+  }
+}

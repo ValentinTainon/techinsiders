@@ -19,7 +19,7 @@
 		{% endblock %}
 	</head>
 	<body>
-		{% for label, message in app.flashes %}
+		{% for label, messages in app.flashes %}
 			{% for message in messages %}
 				<div class="alert alert-{{ label }}" role="alert">
 					<p>{{ message }}</p>

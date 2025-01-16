@@ -1,0 +1,19 @@
+{% block form_row %}
+	<div class="form-group {{ row_attr.class|default('') }}">
+		{{ form_label(form, label|default(null), {'label_attr': {'class': 'form-control-label ' ~ label_attr.class|default('')}}) }}
+		<div class="form-widget {{ 'password' in form.vars.block_prefixes ? 'toggle-password-container' : '' }}">
+			{{ form_widget(form, {'attr': {'class': 'form-control ' ~ attr.class|default('')}}) }}
+		</div>
+		{{ form_errors(form) }}
+	</div>
+{% endblock %}
+
+{% block password_widget %}
+	<input type="password" {{ block('widget_attributes') }} class="form-control {{ attr.class|default('') }}" {% if attr.toggle_password_enabled|default(false) %} {{ stimulus_controller('symfony/ux-toggle-password/toggle-password', { visibleLabel: '', hiddenLabel: '', buttonClasses: ['toggle-password-button'] } ) }} {% endif %}>
+{% endblock %}
+
+{% block button_widget %}
+	<button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="btn {{ attr.class|default('') }}">
+		{{ label|default('Valider')|trans }}
+	</button>
+{% endblock %}

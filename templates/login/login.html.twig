@@ -11,7 +11,7 @@
 	{% block menu %}{% endblock %}
 
 	<div class="form-container">
-		<div class="form-wrapper">
+		<div class="form-wrapper login">
 			<header class="main-header">
 				<div id="header-logo">
 					{% block header_logo %}
@@ -45,7 +45,7 @@
 						</div>
 					</div>
 
-					<div class="form-group field-password">
+					<div class="form-group">
 						<label class="form-control-label required" for="password">{{ 'password.label'|trans }}</label>
 						<div class="form-widget toggle-password-container">
 							<input type="password" id="password" class="form-control" name="_password" autocomplete="current-password" {% if toggle_password_enabled|default(false) %} {{ stimulus_controller('symfony/ux-toggle-password/toggle-password', { visibleLabel: '', hiddenLabel: '', buttonClasses: ['toggle-password-button'] } ) }} {% endif %} required>

@@ -41,12 +41,6 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
-            'page_title' => t('login_register_page.registration', [], 'forms'),
-            'username_label' => t('login_register_page.username', [], 'forms'),
-            'email_label' => t('login_register_page.email', [], 'forms'),
-            'motivations_label' => t('login_register_page.motivations', [], 'forms'),
-            'sign_in_label' => t('login_register_page.sign_in', [], 'forms'),
-            'sign_up_label' => t('login_register_page.sign_up', [], 'forms'),
         ]);
     }
 
