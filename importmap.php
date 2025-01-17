@@ -23,6 +23,15 @@ return [
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
+    '@symfony/ux-translator' => [
+        'path' => './vendor/symfony/ux-translator/assets/dist/translator_controller.js',
+    ],
+    '@app/translations' => [
+        'path' => './var/translations/index.js',
+    ],
+    '@app/translations/configuration' => [
+        'path' => './var/translations/configuration.js',
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
@@ -239,5 +248,20 @@ return [
     'ckeditor5/dist/ckeditor5.css' => [
         'version' => '44.1.0',
         'type' => 'css',
+    ],
+    'intl-messageformat' => [
+        'version' => '10.7.12',
+    ],
+    'tslib' => [
+        'version' => '2.8.1',
+    ],
+    '@formatjs/fast-memoize' => [
+        'version' => '2.2.6',
+    ],
+    '@formatjs/icu-messageformat-parser' => [
+        'version' => '2.10.0',
+    ],
+    '@formatjs/icu-skeleton-parser' => [
+        'version' => '1.8.12',
     ],
 ];

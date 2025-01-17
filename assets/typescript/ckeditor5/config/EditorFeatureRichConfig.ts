@@ -74,6 +74,8 @@ import {
 import frTranslations from "ckeditor5/translations/fr.js";
 import EditorWordCounter from "../EditorWordCounter.ts";
 import FeatureRichConfigType from "../interface/FeatureRichConfigType.ts";
+// @ts-ignore
+import { trans, FRENCH, ENGLISH, PLACEHOLDER } from "../../translator.ts";
 
 export default class EditorFeatureRichConfig {
   private postUuid: string | undefined;
@@ -198,11 +200,11 @@ export default class EditorFeatureRichConfig {
         content: this.isDefaultLocale ? "fr" : "en",
         textPartLanguage: [
           {
-            title: this.isDefaultLocale ? "Français" : "French",
+            title: trans(FRENCH, {}, "ckeditor5"),
             languageCode: "fr",
           },
           {
-            title: this.isDefaultLocale ? "Anglais" : "English",
+            title: trans(ENGLISH, {}, "ckeditor5"),
             languageCode: "en",
           },
         ],
@@ -241,9 +243,7 @@ export default class EditorFeatureRichConfig {
       menuBar: {
         isVisible: true,
       },
-      placeholder: this.isDefaultLocale
-        ? "Tapez votre contenu ici !"
-        : "Type your content here!",
+      placeholder: trans(PLACEHOLDER, {}, "ckeditor5"),
       plugins: [
         AccessibilityHelp,
         Alignment,
