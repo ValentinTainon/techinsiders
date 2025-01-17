@@ -19,13 +19,9 @@
 		{% endblock %}
 	</head>
 	<body>
-		{% for label, messages in app.flashes %}
-			{% for message in messages %}
-				<div class="alert alert-{{ label }}" role="alert">
-					<p>{{ message }}</p>
-				</div>
-			{% endfor %}
-		{% endfor %}
+		{% block alerts %}
+			{% include "components/alerts.html.twig" %}
+		{% endblock %}
 
 		{% block menu %}
 			{% include "components/navbar.html.twig" %}

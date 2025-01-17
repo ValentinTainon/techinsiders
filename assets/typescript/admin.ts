@@ -2,7 +2,7 @@ import "./bootstrap.ts";
 import EditorInitializer from "./ckeditor5/EditorInitializer.ts";
 import PasswordFieldCustomiser from "./easyadmin/PasswordFieldCustomiser.ts";
 import PostCommentsCollectionCustomiser from "./easyadmin/PostCommentsCollectionCustomiser.ts";
-import "../styles/admin.css";
+import "../styles/admin/admin.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Password Fields
