@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use function Symfony\Component\Translation\t;
+use App\Entity\Tag;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Enum\UserRole;
@@ -10,13 +11,11 @@ use App\Entity\Comment;
 use App\Entity\Category;
 use App\Config\AppConfig;
 use App\Config\UserAvatarConfig;
-use App\Enum\PostStatus;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -82,8 +81,6 @@ class DashboardController extends AbstractDashboardController
     {
         // Blog
         yield MenuItem::section(t('blog.label', [], 'EasyAdminBundle'));
-        yield MenuItem::linkToCrud(t('category.label.plural', [], 'EasyAdminBundle'), 'fas fa-list', Category::class)
-            ->setPermission(UserRole::SUPER_ADMIN->value);
 
         $postMenuItem = MenuItem::linkToCrud(t('post.label.plural', [], 'EasyAdminBundle'), 'fas fa-newspaper', Post::class);
         $numReadyForReviewPosts = $this->postRepository->getNumReadyForReview();
@@ -93,6 +90,10 @@ class DashboardController extends AbstractDashboardController
         }
 
         yield $postMenuItem;
+        yield MenuItem::linkToCrud(t('category.label.plural', [], 'EasyAdminBundle'), 'fas fa-list', Category::class)
+            ->setPermission(UserRole::SUPER_ADMIN->value);
+        yield MenuItem::linkToCrud(t('tag.label.plural', [], 'EasyAdminBundle'), 'fas fa-tags', Tag::class)
+            ->setPermission(UserRole::SUPER_ADMIN->value);
         yield MenuItem::linkToCrud(t('comment.label.plural', [], 'EasyAdminBundle'), 'fas fa-comments', Comment::class);
 
         // Community

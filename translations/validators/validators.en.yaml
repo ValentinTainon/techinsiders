@@ -1,11 +1,12 @@
-category.unique.entity.constraint.name.message: 'There is already a category with this name'
-post.unique.entity.constraint.title.message: 'There is already a post with this title'
-user.unique.entity.constraint.username.message: 'There is already an account with this username'
-user.unique.entity.constraint.email.message: 'There is already an account with this email'
-password.constraint.regex.message: 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.'
-field.constraint.length.min_message: 'Field must be at least {{ limit }} characters long.'
-field.constraint.length.max_message: 'Field cannot be longer than {{ limit }} characters.'
-password.constraint.repeat.invalid_message: 'Password fields must match.'
-check_user_password.constraint.message: 'Your current password does not match.'
-agree_terms.constraint.is_true.message: 'You must agree to our terms before proceeding.'
-field.constraint.not_blank.message: 'Please do not leave this field blank.'
+category.unique.entity.constraint.name.message: "There is already a category with this name"
+tag.unique.entity.constraint.name.message: "There is already a tag with this name"
+post.unique.entity.constraint.title.message: "There is already a post with this title"
+user.unique.entity.constraint.username.message: "There is already an account with this username"
+user.unique.entity.constraint.email.message: "There is already an account with this email"
+password.constraint.regex.message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character."
+field.constraint.length.min_message: "Field must be at least {{ limit }} characters long."
+field.constraint.length.max_message: "Field cannot be longer than {{ limit }} characters."
+password.constraint.repeat.invalid_message: "Password fields must match."
+check_user_password.constraint.message: "Your current password does not match."
+agree_terms.constraint.is_true.message: "You must agree to our terms before proceeding."
+field.constraint.not_blank.message: "Please do not leave this field blank."

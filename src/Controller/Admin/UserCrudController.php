@@ -25,10 +25,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -149,12 +149,12 @@ class UserCrudController extends AbstractCrudController
             ->setColumns('col-sm-6 col-md-5')
             ->setDisabled(!$this->isGranted(UserRole::SUPER_ADMIN->value));
 
-        yield IntegerField::new('postsCount', t('posts.label', [], 'forms'))
+        yield AssociationField::new('posts', t('posts.label', [], 'forms'))
             ->hideWhenCreating()
             ->hideWhenUpdating()
             ->setTextAlign('center');
 
-        yield IntegerField::new('commentsCount', t('comments.label', [], 'forms'))
+        yield AssociationField::new('comments', t('comments.label', [], 'forms'))
             ->hideWhenCreating()
             ->hideWhenUpdating()
             ->setTextAlign('center');
@@ -189,8 +189,8 @@ class UserCrudController extends AbstractCrudController
             ->setColumns(10);
 
         yield BooleanField::new('isVerified', t('is_verified.label', [], 'forms'))
-            ->renderAsSwitch(false)
             ->onlyOnIndex()
+            ->renderAsSwitch(false)
             ->setPermission(UserRole::SUPER_ADMIN->value);
 
         yield TextField::new('userPassword', t('password.label', [], 'forms'))

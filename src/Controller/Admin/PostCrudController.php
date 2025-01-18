@@ -11,7 +11,6 @@ use Doctrine\ORM\QueryBuilder;
 use App\Security\Voter\PostVoter;
 use App\Config\PostContentConfig;
 use App\Form\Admin\PostCommentsFormType;
-use App\Repository\PostRepository;
 use App\Config\PostThumbnailConfig;
 use App\Form\Admin\Field\CkeditorField;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,7 +43,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 class PostCrudController extends AbstractCrudController
 {
     public function __construct(
-        private PostRepository $postRepository,
         private TranslatorInterface $translator,
     ) {}
 
@@ -123,6 +121,10 @@ class PostCrudController extends AbstractCrudController
             ->setHtmlAttribute('required', true)
             ->setColumns('col-sm-6 col-md-5');
 
+        yield AssociationField::new('tags', t('tag.label.plural', [], 'EasyAdminBundle'))
+            ->setColumns('col-sm-6 col-md-5')
+            ->setTextAlign('center');
+
         yield ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
             ->setBasePath($postThumbnailConfig->basePath())
             ->setUploadDir($postThumbnailConfig->uploadDir())
@@ -167,10 +169,6 @@ class PostCrudController extends AbstractCrudController
                 t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
             );
 
-        yield IntegerField::new('commentsCount', t('comments.label', [], 'forms'))
-            ->onlyOnIndex()
-            ->setTextAlign('center');
-
         yield IntegerField::new('numberOfViews', t('number_of_views.label', [], 'forms'))
             ->onlyOnIndex()
             ->setTextAlign('center');
@@ -182,6 +180,9 @@ class PostCrudController extends AbstractCrudController
             ->setEntryType(PostCommentsFormType::class)
             ->onlyWhenUpdating()
             ->setColumns(10);
+        yield AssociationField::new('comments', t('comments.label', [], 'forms'))
+            ->onlyOnIndex()
+            ->setTextAlign('center');
 
         yield FormField::addTab(t('status.label', [], 'forms'));
         yield ChoiceField::new('status', t('status.label', [], 'forms'))

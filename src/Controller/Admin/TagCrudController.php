@@ -3,33 +3,32 @@
 namespace App\Controller\Admin;
 
 use function Symfony\Component\Translation\t;
+use App\Entity\Tag;
 use App\Enum\UserRole;
-use App\Entity\Category;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class CategoryCrudController extends AbstractCrudController
+class TagCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Category::class;
+        return Tag::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setEntityPermission(UserRole::SUPER_ADMIN->value)
-            ->setEntityLabelInSingular(t('category.label.singular', [], 'EasyAdminBundle'))
-            ->setEntityLabelInPlural(t('category.label.plural', [], 'EasyAdminBundle'))
-            ->setPageTitle(Crud::PAGE_NEW, t('create.category', [], 'EasyAdminBundle'))
-            ->setPageTitle(Crud::PAGE_EDIT, t('edit.category', [], 'EasyAdminBundle'))
+            ->setEntityLabelInSingular(t('tag.label.singular', [], 'EasyAdminBundle'))
+            ->setEntityLabelInPlural(t('tag.label.plural', [], 'EasyAdminBundle'))
+            ->setPageTitle(Crud::PAGE_NEW, t('create.tag', [], 'EasyAdminBundle'))
+            ->setPageTitle(Crud::PAGE_EDIT, t('edit.tag', [], 'EasyAdminBundle'))
             ->setDefaultSort(['name' => 'ASC']);
     }
 
@@ -43,12 +42,12 @@ class CategoryCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel(t('create.category', [], 'EasyAdminBundle'))
+                fn(Action $action) => $action->setLabel(t('create.tag', [], 'EasyAdminBundle'))
             )
             ->update(
                 Crud::PAGE_NEW,
                 Action::SAVE_AND_ADD_ANOTHER,
-                fn(Action $action) => $action->setLabel(t('create_and_add.category.label', [], 'EasyAdminBundle'))
+                fn(Action $action) => $action->setLabel(t('create_and_add.tag.label', [], 'EasyAdminBundle'))
             );
     }
 
@@ -61,11 +60,7 @@ class CategoryCrudController extends AbstractCrudController
         yield TextField::new('name', t('name.label', [], 'forms'))
             ->setColumns('col-sm-6 col-md-5');
 
-        yield SlugField::new('nameSlug', t('name_slug.label', [], 'forms'))
-            ->setTargetFieldName('name')
-            ->setColumns('col-sm-6 col-md-5');
-
-        yield AssociationField::new('posts', t('posts.label', [], 'forms'))
+        yield IntegerField::new('postsCount', t('posts.label', [], 'forms'))
             ->hideWhenCreating()
             ->hideWhenUpdating()
             ->setTextAlign('center');

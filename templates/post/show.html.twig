@@ -31,8 +31,10 @@
 				<td>{{ post.content|raw }}</td>
 			</tr>
 			<tr>
-				<th>Nombre de vues</th>
-				<td>{{ post.numberOfViews }}</td>
+				<th>Étiquettes</th>
+				{% for tag in post.tags %}
+					<td>{{ tag }}</td>
+				{% endfor %}
 			</tr>
 		</tbody>
 	</table>

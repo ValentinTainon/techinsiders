@@ -80,10 +80,17 @@ class Post
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true, cascade: ['persist'])]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts', cascade: ['persist'])]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
         $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -236,11 +243,6 @@ class Post
         return $this->comments;
     }
 
-    public function getCommentsCount(): int
-    {
-        return $this->comments->count();
-    }
-
     public function addComment(Comment $comment): static
     {
         if (!$this->comments->contains($comment)) {
@@ -258,6 +260,33 @@ class Post
             if ($comment->getPost() === $this) {
                 $comment->setPost(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+            $tag->addPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removePost($this);
         }
 
         return $this;

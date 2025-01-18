@@ -3,37 +3,31 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CategoryRepository;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[UniqueEntity(fields: ['name'], message: 'category.unique.entity.constraint.name.message')]
-class Category
+#[ORM\Entity(repositoryClass: TagRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'tag.unique.entity.constraint.name.message')]
+class Tag
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 30, unique: true)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, unique: true)]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
-    #[Assert\NoSuspiciousCharacters]
-    private ?string $nameSlug = null;
-
     /**
      * @var Collection<int, Post>
      */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'category')]
+    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'tags', cascade: ['persist'])]
     private Collection $posts;
 
     public function __construct()
@@ -63,31 +57,23 @@ class Category
         return $this;
     }
 
-    public function getNameSlug(): ?string
-    {
-        return $this->nameSlug;
-    }
-
-    public function setNameSlug(string $nameSlug): static
-    {
-        $this->nameSlug = $nameSlug;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Post>
      */
-    public function getPosts(): Collection
+    public function getPost(): Collection
     {
         return $this->posts;
+    }
+
+    public function getPostsCount(): int
+    {
+        return $this->posts->count();
     }
 
     public function addPost(Post $post): static
     {
         if (!$this->posts->contains($post)) {
             $this->posts->add($post);
-            $post->setCategory($this);
         }
 
         return $this;
@@ -95,12 +81,7 @@ class Category
 
     public function removePost(Post $post): static
     {
-        if ($this->posts->removeElement($post)) {
-            // set the owning side to null (unless already changed)
-            if ($post->getCategory() === $this) {
-                $post->setCategory(null);
-            }
-        }
+        $this->posts->removeElement($post);
 
         return $this;
     }

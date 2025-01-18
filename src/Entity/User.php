@@ -245,11 +245,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->posts;
     }
 
-    public function getPostsCount(): int
-    {
-        return $this->posts->count();
-    }
-
     public function addPost(Post $post): static
     {
         if (!$this->posts->contains($post)) {
@@ -278,11 +273,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getComments(): Collection
     {
         return $this->comments;
-    }
-
-    public function getCommentsCount(): int
-    {
-        return $this->comments->count();
     }
 
     public function addComment(Comment $comment): static
