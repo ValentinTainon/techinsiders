@@ -1,3 +1,16 @@
-french: "Français"
-english: "Anglais"
 placeholder: "Tapez votre contenu ici !"
+plugin:
+  language:
+    french: "Français"
+    english: "Anglais"
+  style:
+    title: "Titre"
+    category: "Catégorie"
+    subtitle: "Sous-titre"
+    code:
+      bright: "Code (clair)"
+      dark: "Code (sombre)"
+    info_box: "Boîte d'info"
+    side_quote: "Citation"
+    marker: "Marqueur"
+    spoiler: "Spoiler"

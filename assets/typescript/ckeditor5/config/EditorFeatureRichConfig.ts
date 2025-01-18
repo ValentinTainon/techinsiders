@@ -70,12 +70,25 @@ import {
   WordCount,
   // @ts-ignore
 } from "ckeditor5";
-// @ts-ignore
-import frTranslations from "ckeditor5/translations/fr.js";
 import EditorWordCounter from "../EditorWordCounter.ts";
 import FeatureRichConfigType from "../interface/FeatureRichConfigType.ts";
 // @ts-ignore
-import { trans, FRENCH, ENGLISH, PLACEHOLDER } from "../../translator.ts";
+import frTranslations from "ckeditor5/translations/fr.js";
+import {
+  trans,
+  PLACEHOLDER,
+  PLUGIN_LANGUAGE_FRENCH,
+  PLUGIN_LANGUAGE_ENGLISH,
+  PLUGIN_STYLE_CATEGORY,
+  PLUGIN_STYLE_TITLE,
+  PLUGIN_STYLE_SUBTITLE,
+  PLUGIN_STYLE_CODE_BRIGHT,
+  PLUGIN_STYLE_CODE_DARK,
+  PLUGIN_STYLE_INFO_BOX,
+  PLUGIN_STYLE_SIDE_QUOTE,
+  PLUGIN_STYLE_MARKER,
+  PLUGIN_STYLE_SPOILER,
+} from "../../translator.ts";
 
 export default class EditorFeatureRichConfig {
   private postUuid: string | undefined;
@@ -200,11 +213,11 @@ export default class EditorFeatureRichConfig {
         content: this.isDefaultLocale ? "fr" : "en",
         textPartLanguage: [
           {
-            title: trans(FRENCH, {}, "ckeditor5"),
+            title: trans(PLUGIN_LANGUAGE_FRENCH, {}, "ckeditor5"),
             languageCode: "fr",
           },
           {
-            title: trans(ENGLISH, {}, "ckeditor5"),
+            title: trans(PLUGIN_LANGUAGE_ENGLISH, {}, "ckeditor5"),
             languageCode: "en",
           },
         ],
@@ -328,47 +341,47 @@ export default class EditorFeatureRichConfig {
       style: {
         definitions: [
           {
-            name: "Article category",
-            element: "h3",
-            classes: ["category"],
-          },
-          {
-            name: "Title",
+            name: trans(PLUGIN_STYLE_TITLE, {}, "ckeditor5"),
             element: "h2",
             classes: ["document-title"],
           },
           {
-            name: "Subtitle",
+            name: trans(PLUGIN_STYLE_CATEGORY, {}, "ckeditor5"),
+            element: "h3",
+            classes: ["category"],
+          },
+          {
+            name: trans(PLUGIN_STYLE_SUBTITLE, {}, "ckeditor5"),
             element: "h3",
             classes: ["document-subtitle"],
           },
           {
-            name: "Code (bright)",
+            name: trans(PLUGIN_STYLE_CODE_BRIGHT, {}, "ckeditor5"),
             element: "pre",
             classes: ["fancy-code", "fancy-code-bright"],
           },
           {
-            name: "Code (dark)",
+            name: trans(PLUGIN_STYLE_CODE_DARK, {}, "ckeditor5"),
             element: "pre",
             classes: ["fancy-code", "fancy-code-dark"],
           },
           {
-            name: "Info box",
+            name: trans(PLUGIN_STYLE_INFO_BOX, {}, "ckeditor5"),
             element: "p",
             classes: ["info-box"],
           },
           {
-            name: "Side quote",
+            name: trans(PLUGIN_STYLE_SIDE_QUOTE, {}, "ckeditor5"),
             element: "blockquote",
             classes: ["side-quote"],
           },
           {
-            name: "Marker",
+            name: trans(PLUGIN_STYLE_MARKER, {}, "ckeditor5"),
             element: "span",
             classes: ["marker"],
           },
           {
-            name: "Spoiler",
+            name: trans(PLUGIN_STYLE_SPOILER, {}, "ckeditor5"),
             element: "span",
             classes: ["spoiler"],
           },

@@ -1,3 +1,16 @@
-french: "French"
-english: "English"
 placeholder: "Type your content here!"
+plugin:
+  language:
+    french: "French"
+    english: "English"
+  style:
+    title: "Title"
+    category: "Category"
+    subtitle: "Subtitle"
+    code:
+      bright: "Code (bright)"
+      dark: "Code (dark)"
+    info_box: "Info box"
+    side_quote: "Side quote"
+    marker: "Marker"
+    spoiler: "Spoiler"
