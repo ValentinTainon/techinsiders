@@ -1,6 +1,7 @@
 # Tech Insiders (Work In Progress)
 
 TechInsiders is a tech blog platform designed to share knowledge, tutorials, tips, and personal experiences on a wide range of tech topics, including hardware, software, coding, Linux, Windows, gaming, and more.  
+
 Created with passion and a desire to make technology accessible to everyone, TechInsiders aims to foster a community of curious minds eager to explore, learn, and share.
 
 ## 🌟 Project Vision
