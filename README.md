@@ -23,7 +23,7 @@ The goal of TechInsiders is to:
 
 ## 🛠️ Technologies Used
 - **Backend**: Symfony 7.2 / PHP 8.3
-- **Frontend**: HTML/Twig, CSS, TypeScript.
+- **Frontend**: HTML / Twig, CSS, TypeScript.
 - **Database**: MySQL.
 - **Admin Panel**: EasyAdmin with CKEditor5 for content management (latest versions).
 
