@@ -268,11 +268,4 @@ return [
     '@formatjs/icu-skeleton-parser' => [
         'version' => '1.8.12',
     ],
-    'sanitize.css' => [
-        'version' => '13.0.0',
-    ],
-    'sanitize.css/sanitize.min.css' => [
-        'version' => '13.0.0',
-        'type' => 'css',
-    ],
 ];
