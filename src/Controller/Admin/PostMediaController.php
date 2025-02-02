@@ -37,12 +37,12 @@ class PostMediaController extends AbstractController
 
         try {
             $file->move(
-                "{$this->getParameter('kernel.project_dir')}/public/uploads/images/posts/contents/{$postUuid}",
+                "{$this->getParameter('kernel.project_dir')}/public/images/uploads/posts/contents/{$postUuid}",
                 $newFilename
             );
 
             return new JsonResponse([
-                'url' => "/uploads/images/posts/contents/{$postUuid}/{$newFilename}"
+                'url' => "/images/uploads/posts/contents/{$postUuid}/{$newFilename}"
             ]);
         } catch (FileException $e) {
             return new JsonResponse(['error' => ['message' => $e->getMessage()]], 500);
@@ -52,7 +52,7 @@ class PostMediaController extends AbstractController
     #[Route('/handle-deleted-post-images', name: 'handle_deleted_post_images', methods: ['POST'])]
     public function handleDeletedPostImages(Request $request): JsonResponse
     {
-        $postContentUploadDir = "{$this->getParameter('kernel.project_dir')}/public/uploads/images/posts/contents";
+        $postContentUploadDir = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/posts/contents";
 
         try {
             $finder = new Finder();

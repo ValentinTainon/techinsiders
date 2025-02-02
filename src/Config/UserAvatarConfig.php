@@ -7,7 +7,7 @@ use App\Service\ImageConfigurator;
 
 abstract class UserAvatarConfig
 {
-    public const string BASE_PATH = '/uploads/images/users/avatars/';
+    public const string BASE_PATH = '/images/uploads/users/avatars/';
     public const string DEFAULT_FILE_NAME = 'avatar.svg';
     public const int MAX_FILE_SIZE = 500;
     public const array ALLOWED_MIME_TYPES = [

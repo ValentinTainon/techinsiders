@@ -9,9 +9,11 @@
 			<header></header>
 			<section class="content">
 				{% for post in posts %}
+					{% set thumbnail_path = post.thumbnail ? 'images/uploads/posts/thumbnails/' ~ post.thumbnail : 'images/default/thumbnail.svg' %}
+
 					<article class="card {{ loop.first ? 'first' : '' }}">
 						<a href="{{ path('show', {'slug': post.slug}) }}" class="post-link">
-							<img src="{{ asset('uploads/images/posts/thumbnails/' ~ post.thumbnail) }}" loading="lazy">
+							<img src="{{ asset(thumbnail_path) }}" loading="lazy">
 						</a>
 						<div class="card-content">
 							<h3>{{ post.title }}</h3>

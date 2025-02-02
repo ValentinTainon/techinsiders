@@ -7,7 +7,7 @@ use App\Service\ImageConfigurator;
 
 abstract class PostThumbnailConfig
 {
-    private const string BASE_PATH = '/uploads/images/posts/thumbnails/';
+    private const string BASE_PATH = '/images/uploads/posts/thumbnails/';
     private const string DEFAULT_FILE_NAME = 'thumbnail.svg';
     private const int MAX_FILE_SIZE = 400;
     private const array ALLOWED_MIME_TYPES = [

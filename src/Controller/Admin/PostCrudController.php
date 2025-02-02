@@ -284,8 +284,8 @@ class PostCrudController extends AbstractCrudController
     private function deletePostMedia(?string $thumbnail, ?string $uuid): void
     {
         $filesystem = new Filesystem();
-        $postThumbnailPath = "{$this->getParameter('kernel.project_dir')}/public/uploads/images/posts/thumbnails/{$thumbnail}";
-        $postMediaDir = "{$this->getParameter('kernel.project_dir')}/public/uploads/images/posts/contents/{$uuid}";
+        $postThumbnailPath = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/posts/thumbnails/{$thumbnail}";
+        $postMediaDir = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/posts/contents/{$uuid}";
 
         if ($thumbnail !== null && $filesystem->exists($postThumbnailPath)) {
             $filesystem->remove($postThumbnailPath);

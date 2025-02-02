@@ -8,6 +8,9 @@
 	data-controller="view-increment"
 {% endblock %}
 
+{% set avatar_path = post.user ? post.user.avatar ? 'images/uploads/posts/thumbnails/' ~ post.user.avatar : 'images/default/avatar.svg' %}
+{% set thumbnail_path = post.thumbnail ? 'images/uploads/posts/thumbnails/' ~ post.thumbnail : 'images/default/thumbnail.svg' %}
+
 {% block body %}
 	<h1>Post</h1>
 
@@ -19,7 +22,15 @@
 			</tr>
 			<tr>
 				<th>Author</th>
-				<td>{{ post.user ? post.user.username : 'Utilisateur supprimé' }}</td>
+				<td>{{ post.user ? post.user.username ?? 'Utilisateur supprimé' }}</td>
+			</tr>
+			<tr>
+				<th>Avatar</th>
+				<td><img src="{{ asset(avatar_path) }}" loading="lazy"></td>
+			</tr>
+			<tr>
+				<th>A propos</th>
+				<td>{{ post.user ? post.user.about ?? 'vide' }}</td>
 			</tr>
 			<tr>
 				<th>CreatedAt</th>
@@ -32,7 +43,7 @@
 			<tr>
 				<th>Thumbnail</th>
 				<td>
-					<img src="{{ asset('uploads/images/posts/thumbnails/' ~ post.thumbnail) }}" loading="lazy">
+					<img src="{{ asset(thumbnail_path) }}" loading="lazy">
 				</td>
 			</tr>
 			<tr>
