@@ -1,3 +1,5 @@
+import "ckeditor5/dist/ckeditor5.css";
+import "../../styles/admin/ckeditor5/custom.css";
 // @ts-ignore
 import { ClassicEditor } from "ckeditor5";
 import EditorConfigType from "./enum/EditorConfigType.ts";
@@ -7,7 +9,6 @@ import EditorWordCounter from "./EditorWordCounter.ts";
 import EditorMediaCleaner from "./EditorMediaCleaner.ts";
 import StarterConfigType from "./interface/StarterConfigType.ts";
 import FeatureRichConfigType from "./interface/FeatureRichConfigType.ts";
-import "ckeditor5/dist/ckeditor5.css";
 
 export default class EditorInitializer {
   private editorWordCounter: EditorWordCounter;

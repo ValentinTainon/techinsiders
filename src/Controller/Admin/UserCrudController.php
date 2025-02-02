@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use function Symfony\Component\Translation\t;
 use App\Entity\User;
 use App\Enum\UserRole;
 use App\Service\EmailService;
@@ -12,8 +11,11 @@ use App\Form\Admin\Field\PasswordField;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
+use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use Symfony\Component\Validator\Constraints\Image;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -56,6 +58,11 @@ class UserCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_NEW, t('create.user', [], 'EasyAdminBundle'))
             ->setPageTitle(Crud::PAGE_EDIT, t('edit.user', [], 'EasyAdminBundle'))
             ->setDefaultSort(['id' => 'ASC']);
+    }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets->addCssFile(Asset::new('../assets/styles/admin/toggle-password.css'));
     }
 
     public function configureActions(Actions $actions): Actions

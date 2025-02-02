@@ -1,7 +1,9 @@
+/* Fix default color and height - start patches */
 .ck-editor__editable_inline:not(.ck-comment__input *) {
   color: #0a0a0a;
   min-height: 300px;
 }
+/* Fix default color and height - end patches */
 
 /* Fix css of Ckeditor Styles plugin - start patches */
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap");

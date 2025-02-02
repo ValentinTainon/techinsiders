@@ -1,5 +1,19 @@
-export default class PasswordFieldCustomiser {
-  public customiseFieldsLayout(
+// @ts-ignore
+import { Controller } from "@hotwired/stimulus";
+
+export default class extends Controller {
+  connect(): void {
+    const passwordFields: NodeListOf<HTMLDivElement> =
+      document.querySelectorAll<HTMLDivElement>(
+        "form[name=User] div.field-password"
+      );
+
+    if (passwordFields.length > 0) {
+      this.customiseFieldsLayout(passwordFields);
+    }
+  }
+
+  private customiseFieldsLayout(
     passwordFields: NodeListOf<HTMLDivElement>
   ): void {
     passwordFields.forEach((field) => {

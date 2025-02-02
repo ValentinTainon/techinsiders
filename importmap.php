@@ -20,10 +20,6 @@ return [
         'path' => './assets/typescript/app.ts',
         'entrypoint' => true,
     ],
-    'view-increment' => [
-        'path' => './assets/typescript/blog/ViewIncrementor.ts',
-        'entrypoint' => true,
-    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],

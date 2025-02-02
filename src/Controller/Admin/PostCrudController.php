@@ -12,7 +12,7 @@ use App\Security\Voter\PostVoter;
 use App\Config\PostContentConfig;
 use App\Form\Admin\PostCommentsFormType;
 use App\Config\PostThumbnailConfig;
-use App\Form\Admin\Field\CkeditorField;
+use App\Form\Admin\Field\Ckeditor5Field;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -156,7 +156,7 @@ class PostCrudController extends AbstractCrudController
             ->addCssClass('title-field')
             ->setColumns(12);
 
-        yield CkeditorField::new('content', t('content.label', [], 'forms'))
+        yield Ckeditor5Field::new('content', t('content.label', [], 'forms'))
             ->addFormTheme('bundles/EasyAdminBundle/crud/field/post-editor-placeholder.html.twig')
             ->setFormTypeOption('attr', [
                 'page_name' => $pageName,
@@ -177,6 +177,7 @@ class PostCrudController extends AbstractCrudController
             ->addCssClass('custom-max-width')
             ->onlyWhenUpdating();
         yield CollectionField::new('comments', false)
+            ->setFormTypeOption('row_attr', ['data-controller' => 'post-comments-collection-field'])
             ->setEntryType(PostCommentsFormType::class)
             ->onlyWhenUpdating()
             ->setColumns(10);

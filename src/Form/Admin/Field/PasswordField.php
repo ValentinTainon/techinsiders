@@ -26,10 +26,11 @@ final class PasswordField implements FieldInterface
                 'type' => PasswordType::class,
                 'options' => [
                     'row_attr' => [
-                        'class' => 'field-password'
+                        'class' => 'field-password',
+                        'data-controller' => 'password-field-layout',
                     ],
                     'attr' => [
-                        'autocomplete' => 'new-password'
+                        'autocomplete' => 'new-password',
                     ],
                     'toggle' => true,
                     'visible_label' => null,

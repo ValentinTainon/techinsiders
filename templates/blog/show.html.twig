@@ -4,9 +4,8 @@
 	Post
 {% endblock %}
 
-{% block importmap %}
-	{{ importmap('app') }}
-	{{ importmap('view-increment') }}
+{% block body_attr %}
+	data-controller="view-increment"
 {% endblock %}
 
 {% block body %}

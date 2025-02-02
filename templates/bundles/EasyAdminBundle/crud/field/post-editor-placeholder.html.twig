@@ -4,7 +4,7 @@
 	{% set min_post_length_limit = form.vars.attr.editor_data.min_post_length_limit|default('') %}
 	{% set post_uuid = form.vars.ea_crud_form.ea_entity.instance.uuid|default('') %}
 
-	<textarea id="editor" {% if full_name is defined and full_name is not null %} name={{ full_name }} {% endif %} {% if page_name is not null %} data-page-name={{ page_name }} {% endif %} {% if editor_config_type is not null %} data-editor-config-type={{ editor_config_type }} {% endif %} {% if min_post_length_limit is not null %} data-min-post-length-limit={{ min_post_length_limit }} {% endif %} {% if post_uuid is not null %} data-post-uuid={{ post_uuid }} {% endif %} required="required">
+	<textarea id="editor" data-controller="ckeditor5" {% if full_name is defined and full_name is not null %} name={{ full_name }} {% endif %} {% if page_name is not null %} data-page-name={{ page_name }} {% endif %} {% if editor_config_type is not null %} data-editor-config-type={{ editor_config_type }} {% endif %} {% if min_post_length_limit is not null %} data-min-post-length-limit={{ min_post_length_limit }} {% endif %} {% if post_uuid is not null %} data-post-uuid={{ post_uuid }} {% endif %} required="required">
 		{% if value is defined and value is not null %}
 			{{ value }}
 		{% endif %}

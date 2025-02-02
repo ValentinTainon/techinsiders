@@ -7,7 +7,7 @@ use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 
-final class CkeditorField implements FieldInterface
+final class Ckeditor5Field implements FieldInterface
 {
     use FieldTrait;
 
