@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use function Symfony\Component\Translation\t;
 use App\Entity\Tag;
 use App\Entity\Post;
 use App\Entity\User;
@@ -13,6 +12,7 @@ use App\Config\AppConfig;
 use App\Config\UserAvatarConfig;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -24,8 +24,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
+#[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
@@ -34,7 +36,6 @@ class DashboardController extends AbstractDashboardController
         private UserRepository $userRepository,
     ) {}
 
-    #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
         return $this->redirectToRoute('admin_post_index');

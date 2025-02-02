@@ -1079,24 +1079,4 @@
     array (
     ),
   ),
-  'sanitize.css' => 
-  array (
-    'version' => '13.0.0',
-    'dependencies' => 
-    array (
-    ),
-    'extraFiles' => 
-    array (
-    ),
-  ),
-  'sanitize.css/sanitize.min.css' => 
-  array (
-    'version' => '13.0.0',
-    'dependencies' => 
-    array (
-    ),
-    'extraFiles' => 
-    array (
-    ),
-  ),
 );
