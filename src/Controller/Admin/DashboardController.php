@@ -114,7 +114,7 @@ class DashboardController extends AbstractDashboardController
 
         // Website
         yield MenuItem::section(t('website.label', [], 'EasyAdminBundle'));
-        yield MenuItem::linkToRoute(t('back.website.label', [], 'EasyAdminBundle'), 'fas fa-home', 'app_homepage');
+        yield MenuItem::linkToRoute(t('back.website.label', [], 'EasyAdminBundle'), 'fas fa-home', 'homepage');
     }
 
     public function configureAssets(): Assets

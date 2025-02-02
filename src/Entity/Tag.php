@@ -24,6 +24,12 @@ class Tag
     #[Assert\NoSuspiciousCharacters]
     private ?string $name = null;
 
+    #[ORM\Column(length: 30, unique: true)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    #[Assert\NoSuspiciousCharacters]
+    private ?string $slug = null;
+
     /**
      * @var Collection<int, Post>
      */
@@ -57,10 +63,22 @@ class Tag
         return $this;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Post>
      */
-    public function getPost(): Collection
+    public function getPosts(): Collection
     {
         return $this->posts;
     }

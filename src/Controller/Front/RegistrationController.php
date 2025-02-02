@@ -17,7 +17,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'register')]
     public function register(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -36,7 +36,7 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', $translator->trans('validate_email_after_registration', [], 'flashes'));
 
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -44,19 +44,19 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
+    #[Route('/verify/email', name: 'verify_email')]
     public function verifyUserEmail(Request $request, UserRepository $userRepository, TranslatorInterface $translator, EmailVerifier $emailVerifier): Response
     {
         $id = $request->query->get('id');
 
         if (null === $id) {
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('register');
         }
 
         $user = $userRepository->find($id);
 
         if (null === $user) {
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('register');
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
@@ -65,7 +65,7 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('register');
         }
 
         if (!$user->isVerified()) {
@@ -74,6 +74,6 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', $translator->trans('email_verified_and_editor_membership_request_being_processed', [], 'flashes'));
 
-        return $this->redirectToRoute('app_homepage');
+        return $this->redirectToRoute('homepage');
     }
 }

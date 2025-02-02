@@ -28,7 +28,7 @@ class Category
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\NoSuspiciousCharacters]
-    private ?string $nameSlug = null;
+    private ?string $slug = null;
 
     /**
      * @var Collection<int, Post>
@@ -63,14 +63,14 @@ class Category
         return $this;
     }
 
-    public function getNameSlug(): ?string
+    public function getSlug(): ?string
     {
-        return $this->nameSlug;
+        return $this->slug;
     }
 
-    public function setNameSlug(string $nameSlug): static
+    public function setSlug(string $slug): static
     {
-        $this->nameSlug = $nameSlug;
+        $this->slug = $slug;
 
         return $this;
     }

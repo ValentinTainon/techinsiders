@@ -1,0 +1,5 @@
+<nav>
+	{% for category in categories %}
+		<a class="nav-btn category" href="{{ path('category', {'slug': category.slug}) }}">{{ category.name }}</a>
+	{% endfor %}
+</nav>

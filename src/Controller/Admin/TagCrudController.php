@@ -2,14 +2,15 @@
 
 namespace App\Controller\Admin;
 
-use function Symfony\Component\Translation\t;
 use App\Entity\Tag;
 use App\Enum\UserRole;
+use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -58,6 +59,10 @@ class TagCrudController extends AbstractCrudController
             ->hideOnForm();
 
         yield TextField::new('name', t('name.label', [], 'forms'))
+            ->setColumns('col-sm-6 col-md-5');
+
+        yield SlugField::new('slug', t('name_slug.label', [], 'forms'))
+            ->setTargetFieldName('name')
             ->setColumns('col-sm-6 col-md-5');
 
         yield IntegerField::new('postsCount', t('posts.label', [], 'forms'))

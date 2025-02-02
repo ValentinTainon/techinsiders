@@ -1,0 +1,36 @@
+.homepage-container {
+  background-color: blueviolet;
+
+  & .homepage-wrapper {
+    margin: 0 auto;
+    max-width: var(--max-width-desktop);
+    background-color: aquamarine;
+
+    section.content {
+      display: flex;
+      flex-wrap: wrap;
+
+      & .card.first {
+        position: relative;
+
+        & img {
+          width: 100%;
+        }
+        & .card-content {
+          position: absolute;
+          bottom: 0;
+          background-color: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(3px);
+          gap: 10px;
+          color: white;
+          padding: 0 20px;
+        }
+      }
+      & .card {
+        & img {
+          width: 350px;
+        }
+      }
+    }
+  }
+}

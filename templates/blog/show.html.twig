@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block page_title %}Post
+{% block page_title %}
+	Post
+{% endblock %}
+
+{% block importmap %}
+	{{ importmap('app') }}
+	{{ importmap('view-increment') }}
 {% endblock %}
 
 {% block body %}
@@ -11,6 +17,10 @@
 			<tr>
 				<th>Title</th>
 				<td>{{ post.title }}</td>
+			</tr>
+			<tr>
+				<th>Author</th>
+				<td>{{ post.user ? post.user.username : 'Utilisateur supprimé' }}</td>
 			</tr>
 			<tr>
 				<th>CreatedAt</th>
@@ -32,12 +42,14 @@
 			</tr>
 			<tr>
 				<th>Étiquettes</th>
-				{% for tag in post.tags %}
-					<td>{{ tag }}</td>
+				{% for tag in post.tags|sort((a, b) => a.name <=> b.name) %}
+					<td>
+						<a href="{{ path('tag', {'slug': tag.slug}) }}">{{ tag.name }}</a>
+					</td>
 				{% endfor %}
 			</tr>
 		</tbody>
 	</table>
 
-	<a href="{{ path('app_post_index') }}">back to list</a>
+	<a href="{{ path('homepage') }}">back to list</a>
 {% endblock %}

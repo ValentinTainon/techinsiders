@@ -30,6 +30,6 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 
         $request->getSession()->getFlashBag()->add('danger', $message);
 
-        return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        return new RedirectResponse($this->urlGenerator->generate('login'));
     }
 }

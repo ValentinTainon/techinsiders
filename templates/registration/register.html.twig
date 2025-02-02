@@ -16,9 +16,9 @@
 				<div id="header-logo">
 					{% block header_logo %}
 						{% if page_title %}
-							<h3 class="logo">
+							<h2 class="logo">
 								{{ page_title|trans }}
-							</h3>
+							</h2>
 						{% endif %}
 					{% endblock header_logo %}
 				</div>
@@ -42,14 +42,14 @@
 
 				<div class="form-text already-registered">
 					{{ 'register_page.already_registered'|trans([], 'forms') }}
-					<a href="{{ path('app_login') }}">{{ 'login_register_page.sign_in'|trans }}</a>
+					<a href="{{ path('login') }}">{{ 'login_register_page.sign_in'|trans }}</a>
 				</div>
 
 				{{ form_end(registrationForm) }}
 			</section>
 
 			<footer>
-				<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
+				<a class="logo" title="{{ app_name }}" href="{{ path('homepage') }}">
 					{{ app_name }}
 				</a>
 			</footer>

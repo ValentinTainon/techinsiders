@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td style="text-align: center;">
-			<a class="button" href="{{ url('app_login') }}" title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}">
+			<a class="button" href="{{ url('login') }}" title="{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}">
 				{{ 'go_to.website'|trans({'%app_name%': app_name}, 'emails') }}
 			</a>
 		</td>
@@ -44,11 +44,11 @@
 		</td>
 	</tr>
 	{# <tr>
-				<td class="row">
-					{% set editor_guide_link = '<a href="' ~ url('app_editor_guide') ~ '" title="' ~ 'editor_guide'|trans([], 'emails') ~ '">' ~ 'editor_guide'|trans([], 'emails') ~ '</a>' %}
-					{{ 'consult_our_editor_guide'|trans({'%app_editor_guide_link%': editor_guide_link}, 'emails')|raw }}
-				</td>
-			</tr> #}
+					<td class="row">
+						{% set editor_guide_link = '<a href="' ~ url('app_editor_guide') ~ '" title="' ~ 'editor_guide'|trans([], 'emails') ~ '">' ~ 'editor_guide'|trans([], 'emails') ~ '</a>' %}
+						{{ 'consult_our_editor_guide'|trans({'%app_editor_guide_link%': editor_guide_link}, 'emails')|raw }}
+					</td>
+				</tr> #}
 	<tr>
 		<td class="row">
 			{{ 'if_need_help'|trans([], 'emails') }}

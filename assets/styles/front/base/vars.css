@@ -65,4 +65,7 @@
   --action: #db8090;
   --font: #262833;
   --border: #362c35;
+
+  /* Max width */
+  --max-width-desktop: 1200px;
 }

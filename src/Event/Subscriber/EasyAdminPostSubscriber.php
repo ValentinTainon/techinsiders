@@ -57,7 +57,7 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
         $post = &$entity;
 
         $post->setUser($this->security->getUser())
-            ->setTitleSlug($this->slugger->slug($post->getTitle()))
+            ->setSlug($this->slugger->slug($post->getTitle()))
             ->setCreatedAt(new \DateTimeImmutable(timezone: new \DateTimeZone('Europe/Paris')));
     }
 
@@ -90,7 +90,7 @@ class EasyAdminPostSubscriber implements EventSubscriberInterface
         $this->originalPostData = $this->entityManager->getUnitOfWork()->getOriginalEntityData($post);
 
         if ($this->isPostTitleChanged($post->getTitle())) {
-            $post->setTitleSlug($this->slugger->slug($post->getTitle()));
+            $post->setSlug($this->slugger->slug($post->getTitle()));
         }
 
         $post->setUpdatedAt(new \DateTimeImmutable(timezone: new \DateTimeZone('Europe/Paris')));

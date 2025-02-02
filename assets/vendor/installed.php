@@ -1025,7 +1025,7 @@
   ),
   'intl-messageformat' => 
   array (
-    'version' => '10.7.12',
+    'version' => '10.7.14',
     'dependencies' => 
     array (
       0 => 'tslib',
@@ -1058,7 +1058,7 @@
   ),
   '@formatjs/icu-messageformat-parser' => 
   array (
-    'version' => '2.10.0',
+    'version' => '2.11.0',
     'dependencies' => 
     array (
       0 => 'tslib',
@@ -1074,6 +1074,26 @@
     'dependencies' => 
     array (
       0 => 'tslib',
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  'sanitize.css' => 
+  array (
+    'version' => '13.0.0',
+    'dependencies' => 
+    array (
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  'sanitize.css/sanitize.min.css' => 
+  array (
+    'version' => '13.0.0',
+    'dependencies' => 
+    array (
     ),
     'extraFiles' => 
     array (

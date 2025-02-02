@@ -89,7 +89,7 @@ class EmailService
     ): void {
         try {
             $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
+                'verify_email',
                 $user,
                 (new TemplatedEmail())
                     ->to(new Address($emailTo, $usernameTo))

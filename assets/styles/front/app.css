@@ -1,9 +1,17 @@
-@import url("./base/reset.css");
 @import url("./base/fonts.css");
 @import url("./base/vars.css");
 @import url("./components/alerts.css");
 @import url("./forms/forms.css");
 @import url("./pages/check-email.css");
+@import url("./pages/homepage.css");
+@import url("./layout/main-navbar.css");
+@import url("./layout/categories-navbar.css");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 body {
   background: #f1f5f9;

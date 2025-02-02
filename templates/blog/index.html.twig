@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'forms' %}
+
+{% block page_title %}{% endblock %}
+
+{% block body %}
+	<div class="homepage-container">
+		<div class="homepage-wrapper">
+			<h1>Post index</h1>
+			<header></header>
+			<section class="content">
+				{% for post in posts %}
+					<article class="card {{ loop.first ? 'first' : '' }}">
+						<a href="{{ path('show', {'slug': post.slug}) }}" class="post-link">
+							<img src="{{ asset('uploads/images/posts/thumbnails/' ~ post.thumbnail) }}" loading="lazy">
+						</a>
+						<div class="card-content">
+							<h3>{{ post.title }}</h3>
+							<time>{{ post.createdAt ? post.createdAt|date('Y/m/d H:i') : '' }}</time>
+							<div class="tags">
+								{% for tag in post.tags|sort((a, b) => a.name <=> b.name) %}
+									<a href="{{ path('tag', {'slug': tag.slug}) }}">{{ tag.name }}</a>
+								{% endfor %}
+							</div>
+						</div>
+					</article>
+				{% else %}
+					<p>no records found</p>
+				{% endfor %}
+			</section>
+		</div>
+	</div>
+{% endblock %}

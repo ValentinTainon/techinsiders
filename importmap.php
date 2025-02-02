@@ -20,6 +20,10 @@ return [
         'path' => './assets/typescript/app.ts',
         'entrypoint' => true,
     ],
+    'view-increment' => [
+        'path' => './assets/typescript/blog/ViewIncrementor.ts',
+        'entrypoint' => true,
+    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
@@ -250,7 +254,7 @@ return [
         'type' => 'css',
     ],
     'intl-messageformat' => [
-        'version' => '10.7.12',
+        'version' => '10.7.14',
     ],
     'tslib' => [
         'version' => '2.8.1',
@@ -259,9 +263,16 @@ return [
         'version' => '2.2.6',
     ],
     '@formatjs/icu-messageformat-parser' => [
-        'version' => '2.10.0',
+        'version' => '2.11.0',
     ],
     '@formatjs/icu-skeleton-parser' => [
         'version' => '1.8.12',
+    ],
+    'sanitize.css' => [
+        'version' => '13.0.0',
+    ],
+    'sanitize.css/sanitize.min.css' => [
+        'version' => '13.0.0',
+        'type' => 'css',
     ],
 ];

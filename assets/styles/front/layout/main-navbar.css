@@ -1,0 +1,13 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  max-width: var(--max-width-desktop);
+  height: 50px;
+  background-color: aqua;
+
+  & .nav-btn-container {
+    gap: 10px;
+  }
+}

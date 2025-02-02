@@ -1,0 +1,14 @@
+<nav>
+	<div class="logo-container">
+		<a class="logo" href="{{ path('homepage') }}"><img class="logo" src="#" alt="Logo Tech Insiders"></a>
+	</div>
+	<div class="nav-btn-container">
+		{% if app.user and is_granted(enum('App\\Enum\\UserRole').EDITOR.value) %}
+			<a class="nav-btn admin" href="{{ path('admin') }}">Admin</a>
+			<a class="nav-btn sign-up" href="{{ path('app_logout') }}">{{ 'logout.label'|trans([], 'forms') }}</a>
+		{% else %}
+			<a class="nav-btn sign-in" href="{{ path('login') }}">{{ 'sign_in.label'|trans([], 'forms') }}</a>
+			<a class="nav-btn sign-up" href="{{ path('register') }}">{{ 'sign_up.label'|trans([], 'forms') }}</a>
+		{% endif %}
+	</div>
+</nav>

@@ -15,9 +15,9 @@
 			<header class="main-header">
 				<div id="header-logo">
 					{% block header_logo %}
-						<h3 class="logo">
+						<h2 class="logo">
 							{{ page_title|trans }}
-						</h3>
+						</h2>
 					{% endblock header_logo %}
 				</div>
 			</header>
@@ -75,13 +75,13 @@
 
 					<div class="form-text new-here">
 						{{ 'login_page.new_here'|trans }}
-						<a href="{{ path('app_register') }}">{{ 'login_register_page.sign_up'|trans }}</a>
+						<a href="{{ path('register') }}">{{ 'login_register_page.sign_up'|trans }}</a>
 					</div>
 				</form>
 			</section>
 
 			<footer>
-				<a class="logo" title="{{ app_name }}" href="{{ path('app_homepage') }}">
+				<a class="logo" title="{{ app_name }}" href="{{ path('homepage') }}">
 					{{ app_name }}
 				</a>
 			</footer>
