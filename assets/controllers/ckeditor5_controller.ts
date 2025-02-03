@@ -2,6 +2,7 @@
 import { Controller } from "@hotwired/stimulus";
 import EditorInitializer from "../typescript/ckeditor5/EditorInitializer.ts";
 
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
   connect(): void {
     const editorPlaceholder: HTMLTextAreaElement | null =

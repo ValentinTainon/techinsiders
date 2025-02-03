@@ -14,7 +14,6 @@ use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use function Symfony\Component\Translation\t;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -27,7 +26,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
-#[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
+#[AdminDashboard(
+    routePath: '/admin/{_locale}',
+    routeName: 'admin',
+    routeOptions: ['requirements' => ['_locale' => 'fr|en']]
+)]
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(

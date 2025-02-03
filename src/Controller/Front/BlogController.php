@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route(path: '/{_locale}', requirements: ['_locale' => 'fr|en'])]
 final class BlogController extends AbstractController
 {
     private const string SLUG_REGEX = '[a-z0-9A-Z\-]+';
@@ -22,7 +23,7 @@ final class BlogController extends AbstractController
         private readonly PostRepository $postRepository
     ) {}
 
-    #[Route('/', name: 'homepage')]
+    #[Route(path: '', name: 'homepage')]
     public function homepage(): Response
     {
         $posts = $this->postRepository->findAllPublished();
@@ -30,7 +31,10 @@ final class BlogController extends AbstractController
         return $this->renderPostsListing($posts);
     }
 
-    #[Route('/category/{slug:category}', name: 'category', requirements: ['slug' => self::SLUG_REGEX])]
+    #[Route(path: [
+        'fr' => '/categorie/{slug:category}',
+        'en' => '/category/{slug:category}',
+    ], name: 'category', requirements: ['slug' => self::SLUG_REGEX])]
     public function category(Category $category): Response
     {
         $posts = $this->postRepository->findAllPublished($category);
@@ -38,7 +42,10 @@ final class BlogController extends AbstractController
         return $this->renderPostsListing($posts, ['category' => $category]);
     }
 
-    #[Route('/tag/{slug:tag}', name: 'tag', requirements: ['slug' => self::SLUG_REGEX])]
+    #[Route(path: [
+        'fr' => '/mot-cle/{slug:tag}',
+        'en' => '/tag/{slug:tag}',
+    ], name: 'tag', requirements: ['slug' => self::SLUG_REGEX])]
     public function tag(Tag $tag): Response
     {
         $posts = $this->postRepository->findAllPublished(tag: $tag);
@@ -46,7 +53,10 @@ final class BlogController extends AbstractController
         return $this->renderPostsListing($posts, ['tag' => $tag]);
     }
 
-    #[Route('/post/{slug:post}', name: 'show', methods: ['GET'], requirements: ['slug' => self::SLUG_REGEX])]
+    #[Route(path: [
+        'fr' => '/article/{slug:post}',
+        'en' => '/post/{slug:post}',
+    ], name: 'show', methods: ['GET'], requirements: ['slug' => self::SLUG_REGEX])]
     public function show(Post $post): Response
     {
         return $this->render('blog/show.html.twig', [
@@ -55,8 +65,11 @@ final class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/post/{slug:post}/view-increment', name: 'view_increment', methods: ['POST'], requirements: ['slug' => self::SLUG_REGEX])]
-    public function incrementView(Post $post, PostStatistics $postStatistics): JsonResponse
+    #[Route(path: [
+        'fr' => '/article/{slug:post}/incrementer-nombre-de-vues',
+        'en' => '/post/{slug:post}/increment-number-of-views',
+    ], name: 'increment_number_of_views', methods: ['POST'], requirements: ['slug' => self::SLUG_REGEX])]
+    public function incrementViews(Post $post, PostStatistics $postStatistics): JsonResponse
     {
         try {
             $postStatistics->incrementNumberOfViews($post);
