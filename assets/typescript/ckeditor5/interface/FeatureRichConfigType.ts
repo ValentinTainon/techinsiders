@@ -1,6 +1,4 @@
 export default interface FeatureRichConfigType {
-  balloonToolbar: string[];
-  codeBlock: { languages: { language: string; label: string }[] };
   fontFamily: { supportAllValues: boolean };
   fontSize: { options: (number | string)[]; supportAllValues: boolean };
   heading: {
