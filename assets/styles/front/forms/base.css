@@ -1,0 +1,129 @@
+.form-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > .form-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+
+    & > .content {
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 10px 15px -3px rgba(15, 23, 43, 0.1),
+        0 4px 6px -4px rgba(15, 23, 42, 0.1);
+      font-size: 14px;
+      padding: 25px;
+      width: 400px;
+      max-width: 100%;
+
+      & .form-text {
+        margin-top: 5px;
+      }
+      & .form-group {
+        padding: 0 0 24px;
+
+        & > label {
+          display: block;
+          color: var(--form-label-color);
+        }
+        & > label.required:after {
+          --color-danger: #dc2626;
+          background: var(--color-danger);
+          block-size: 4px;
+          border-radius: 50%;
+          content: "";
+          display: inline-block;
+          filter: opacity(75%);
+          inline-size: 4px;
+          inset-block-start: -8px;
+          inset-inline-end: -2px;
+          position: relative;
+          z-index: 777;
+        }
+        & > .form-control-label {
+          padding-bottom: 5px;
+        }
+        & > .form-widget {
+          position: relative;
+
+          & > .form-control {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-clip: padding-box;
+            background-color: #fff;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px 0 #f8fafc;
+            color: #334155;
+            display: block;
+            font-size: 0.875rem;
+            height: 38px;
+            padding: 0 7px;
+            transition: box-shadow 0.08s ease-in, color 0.08s ease-in;
+            white-space: nowrap;
+            width: 100%;
+            word-break: keep-all;
+          }
+          & > textarea.form-control {
+            block-size: 100%;
+            line-height: 1.6;
+            min-height: calc(1.5em + 0.75rem + 1px * 2);
+            padding: 3px 7px 4px;
+            white-space: pre-wrap;
+            resize: vertical;
+          }
+        }
+        & .form-select:focus,
+        & .form-check-input:focus,
+        & .form-control:focus {
+          border-color: #94a3b8;
+          box-shadow: 0 0 0 4px #f1f5f9;
+          outline: 0;
+        }
+      }
+      & .btn {
+        background-color: #5368d5;
+        height: 38px;
+        border: 0;
+        border-radius: 4px;
+        box-shadow: 0 0 0 1px #cbd5e1, 0 1px 1px 0 rgba(15, 23, 41, 0.1),
+          0 2px 5px 0 rgba(52, 66, 86, 0.1);
+        color: #fff;
+        cursor: pointer;
+        text-decoration: none;
+        transition: box-shadow 80ms cubic-bezier(0.33, 1, 0.68, 1);
+        width: 100%;
+        white-space: nowrap;
+      }
+      &
+        .btn:not(:disabled):not(.disabled):not(.btn-link):not(
+          .btn-danger
+        ):hover {
+        border: 0;
+        box-shadow: 0 0 0 1px #cbd5e1, 0 1px 1px 0 rgba(15, 23, 41, 0.1),
+          0 2px 5px 0 rgba(52, 66, 86, 0.1), 0 3px 9px 0 rgba(52, 66, 86, 0.1);
+      }
+      &
+        .btn:not(:disabled):not(.disabled):not(.btn-link):not(
+          .btn-danger
+        ):focus {
+        box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+      }
+    }
+    & > footer {
+      padding-top: 20px;
+    }
+  }
+}
+
+/* Toggle Password Button */
+.form-wrapper .toggle-password-button {
+  right: 0.4rem;
+  top: 0.7rem;
+}

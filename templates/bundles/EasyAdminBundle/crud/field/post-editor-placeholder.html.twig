@@ -10,5 +10,7 @@
 		{% endif %}
 	</textarea>
 
-	{% include "components/editor-word-count.html.twig" %}
+	{% if editor_config_type is same as('feature-rich') %}
+		{% include "components/editor-word-count.html.twig" %}
+	{% endif %}
 {% endblock %}
