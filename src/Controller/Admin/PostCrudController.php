@@ -6,7 +6,7 @@ use function Symfony\Component\Translation\t;
 use App\Entity\Post;
 use App\Enum\UserRole;
 use App\Enum\PostStatus;
-use App\Enum\EditorConfigType;
+use App\Enum\EditorType;
 use Doctrine\ORM\QueryBuilder;
 use App\Security\Voter\PostVoter;
 use App\Config\PostContentConfig;
@@ -158,13 +158,9 @@ class PostCrudController extends AbstractCrudController
 
         yield Ckeditor5Field::new('content', t('content.label', [], 'forms'))
             ->addFormTheme('bundles/EasyAdminBundle/crud/field/post-editor-placeholder.html.twig')
-            ->setFormTypeOption('attr', [
-                'page_name' => $pageName,
-                'editor_data' => [
-                    'editor_config_type' => EditorConfigType::FEATURE_RICH->value,
-                    'min_post_length_limit' => PostContentConfig::MIN_LENGTH_LIMIT,
-                ]
-            ])
+            ->setEditorType(EditorType::FEATURE_RICH->value)
+            ->setPageName($pageName)
+            ->setMinPostLengthLimit(PostContentConfig::MIN_LENGTH_LIMIT)
             ->setHelp(
                 t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
             );

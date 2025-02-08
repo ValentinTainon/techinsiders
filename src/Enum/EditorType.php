@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum EditorConfigType: string
+enum EditorType: string
 {
     case STARTER = 'starter';
     case FEATURE_RICH = 'feature-rich';

@@ -13,7 +13,6 @@ import {
   FindAndReplace,
   FontBackgroundColor,
   FontColor,
-  FontFamily,
   FontSize,
   FullPage,
   GeneralHtmlSupport,
@@ -79,7 +78,6 @@ import "../../../styles/admin/ckeditor5/custom.css";
 // Properties
 import { BalloonToolbarProperty } from "./../editor-config/properties/balloon-toolbar/BalloonToolbarProperty.ts";
 import { CodeBlockProperty } from "../editor-config/properties/code-block/CodeBlockProperty.ts";
-import { FontFamilyProperty } from "./../editor-config/properties/font-family/FontFamilyProperty.ts";
 import { FontSizeProperty } from "./../editor-config/properties/font-size/FontSizeProperty.ts";
 import { HeadingProperty } from "./../editor-config/properties/heading/HeadingProperty.ts";
 import { HtmlSupportProperty } from "./../editor-config/properties/html-support/HtmlSupportProperty.ts";
@@ -117,7 +115,6 @@ export class FeatureRichClassicEditor extends ClassicEditor {
     "horizontalLine",
     "|",
     "fontSize",
-    "fontFamily",
     "fontColor",
     "fontBackgroundColor",
     "highlight",
@@ -170,7 +167,6 @@ export class FeatureRichClassicEditor extends ClassicEditor {
     FindAndReplace,
     FontBackgroundColor,
     FontColor,
-    FontFamily,
     FontSize,
     FullPage,
     GeneralHtmlSupport,
@@ -236,7 +232,6 @@ export class FeatureRichClassicEditor extends ClassicEditor {
     return {
       ...BalloonToolbarProperty.getConfig(),
       ...CodeBlockProperty.getConfig(),
-      ...FontFamilyProperty.getConfig(),
       ...FontSizeProperty.getConfig(),
       ...HeadingProperty.getConfig(),
       ...HtmlSupportProperty.getConfig(),
