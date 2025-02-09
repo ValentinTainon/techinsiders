@@ -12,8 +12,10 @@
 					{% set thumbnail_path = post.thumbnail ? 'images/uploads/posts/thumbnails/' ~ post.thumbnail : 'images/default/thumbnail.svg' %}
 
 					<article class="card {{ loop.first ? 'first' : '' }}">
-						<a href="{{ path('show', {'slug': post.slug}) }}" class="post-link">
-							<img src="{{ asset(thumbnail_path) }}" loading="lazy">
+						<a
+							href="{{ path('show', {'slug': post.slug}) }}" class="post-link">
+							{# <img src="{{ asset(thumbnail_path) }}" loading="lazy"> #}
+							<img src="{{ post.thumbnail }}" loading="lazy">
 						</a>
 						<div class="card-content">
 							<h3>{{ post.title }}</h3>
