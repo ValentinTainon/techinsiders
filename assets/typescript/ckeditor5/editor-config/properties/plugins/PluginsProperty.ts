@@ -13,7 +13,6 @@ import {
   FindAndReplace,
   FontBackgroundColor,
   FontColor,
-  FontFamily,
   FontSize,
   FullPage,
   GeneralHtmlSupport,
@@ -73,7 +72,7 @@ import {
 } from "ckeditor5";
 
 export class PluginsProperty {
-  getConfig(): PluginsConfig {
+  static getConfig(): PluginsConfig {
     return {
       plugins: [
         AccessibilityHelp,
@@ -89,7 +88,6 @@ export class PluginsProperty {
         FindAndReplace,
         FontBackgroundColor,
         FontColor,
-        FontFamily,
         FontSize,
         FullPage,
         GeneralHtmlSupport,

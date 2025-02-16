@@ -228,6 +228,11 @@ class Post
         return $this->uuid;
     }
 
+    public function getStringifyUuid(): string
+    {
+        return $this->uuid->toRfc4122();
+    }
+
     public function setUuid(Uuid $uuid): static
     {
         $this->uuid = $uuid;

@@ -9,7 +9,7 @@
 			<header></header>
 			<section class="content">
 				{% for post in posts %}
-					{% set thumbnail_path = post.thumbnail ? 'images/uploads/posts/thumbnails/' ~ post.thumbnail : 'images/default/thumbnail.svg' %}
+					{% set thumbnail_path = post.thumbnail ? 'images/uploads/post/' ~ post.uuid ~ '/thumbnail/' ~ post.thumbnail : 'images/default/thumbnail.svg' %}
 
 					<article class="card {{ loop.first ? 'first' : '' }}">
 						<a

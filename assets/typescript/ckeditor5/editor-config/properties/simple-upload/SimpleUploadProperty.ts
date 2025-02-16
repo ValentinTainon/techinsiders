@@ -1,15 +1,15 @@
 import { SimpleUploadConfig } from "./types/SimpleUploadConfig";
 
 export class SimpleUploadProperty {
-  static getConfig(postUuid: string | undefined): SimpleUploadConfig {
+  static getConfig(uploadDir: string): SimpleUploadConfig {
     return {
       simpleUpload: {
         headers: {
           "X-CSRF-TOKEN": "CSRF-Token",
           Authorization: "Bearer <JSON Web Token>",
-          "Post-Uuid": postUuid,
+          "Upload-Directory": uploadDir,
         },
-        uploadUrl: "/upload-post-image",
+        uploadUrl: "/ckeditor5-simple-upload",
         withCredentials: true,
       },
     };

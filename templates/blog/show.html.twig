@@ -8,8 +8,8 @@
 	data-controller="increment-views"
 {% endblock %}
 
-{% set avatar_path = post.user ? post.user.avatar ? 'images/uploads/posts/thumbnails/' ~ post.user.avatar : 'images/default/avatar.svg' %}
-{% set thumbnail_path = post.thumbnail ? 'images/uploads/posts/thumbnails/' ~ post.thumbnail : 'images/default/thumbnail.svg' %}
+{% set avatar_path = post.user ? post.user.avatar ? 'images/uploads/user/avatar/' ~ post.user.avatar : 'images/default/avatar.svg' %}
+{% set thumbnail_path = post.thumbnail ? 'images/uploads/post/' ~ post.uuid ~ '/thumbnail/' ~ post.thumbnail : 'images/default/thumbnail.svg' %}
 
 {% block body %}
 	<h1>Post</h1>

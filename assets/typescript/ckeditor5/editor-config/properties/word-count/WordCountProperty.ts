@@ -1,5 +1,5 @@
 import { WordCountConfig } from "./types/WordCountConfig";
-import EditorWordCounter from "../../../utils/EditorWordCounter";
+import { EditorWordCounter } from "../../../utils/EditorWordCounter";
 
 export class WordCountProperty {
   static getConfig(editorWordCounter: EditorWordCounter): WordCountConfig {

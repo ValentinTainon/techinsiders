@@ -1,5 +1,5 @@
 export class EditorWordCounter {
-  private minPostLengthLimit: number;
+  private minLengthLimit: number;
   private statCharacters: number;
   private wordCountContainer: HTMLDivElement | null;
   private wordsCountBox: HTMLSpanElement | null;
@@ -11,8 +11,8 @@ export class EditorWordCounter {
   private ckeditorFieldHelp: HTMLElement | null | undefined;
   private submitButtons: NodeListOf<HTMLButtonElement>;
 
-  constructor(minPostLengthLimit: number) {
-    this.minPostLengthLimit = this.getMinPostLengthLimit(minPostLengthLimit);
+  constructor(minLengthLimit: number) {
+    this.minLengthLimit = this.getMinLengthLimit(minLengthLimit);
     this.wordCountContainer = document.querySelector<HTMLDivElement>(
       "#ck-word-count .ck-update"
     );
@@ -31,8 +31,9 @@ export class EditorWordCounter {
     this.tabPostContent = document.querySelector<HTMLDivElement>(
       "div#tab-post-content-label"
     );
-    this.ckeditorField =
-      this.tabPostContent?.querySelector<HTMLDivElement>("div.field-ckeditor");
+    this.ckeditorField = this.tabPostContent?.querySelector<HTMLDivElement>(
+      "div.field-ckeditor5"
+    );
     this.ckeditorFieldHelp =
       this.ckeditorField?.querySelector<HTMLElement>("small.form-help");
     this.submitButtons = document.querySelectorAll<HTMLButtonElement>(
@@ -45,15 +46,14 @@ export class EditorWordCounter {
     const circleRadius: number = Number(this.progressCircle?.getAttribute("r"));
     const circleCircumference: number = Math.floor(2 * Math.PI * circleRadius);
     const charactersProgress: number =
-      (stats.characters / this.minPostLengthLimit) * circleCircumference;
+      (stats.characters / this.minLengthLimit) * circleCircumference;
     const circleDashArray: number = Math.min(
       charactersProgress,
       circleCircumference
     );
-    const isMinLimitReached: boolean =
-      stats.characters >= this.minPostLengthLimit;
+    const isMinLimitReached: boolean = stats.characters >= this.minLengthLimit;
     const isCloseToMinLimit: boolean =
-      !isMinLimitReached && stats.characters > this.minPostLengthLimit * 0.8;
+      !isMinLimitReached && stats.characters > this.minLengthLimit * 0.8;
 
     if (this.progressCircle) {
       this.progressCircle.setAttribute(
@@ -64,7 +64,7 @@ export class EditorWordCounter {
 
     if (this.charactersBox) {
       this.charactersBox.textContent = !isMinLimitReached
-        ? `${stats.characters - this.minPostLengthLimit}`
+        ? `${stats.characters - this.minLengthLimit}`
         : `${stats.characters}`;
     }
 
@@ -84,50 +84,52 @@ export class EditorWordCounter {
     }
   }
 
-  public handlePostLengthValidation(): void {
+  public handleContentLengthValidation(): void {
     this.submitButtons?.forEach((button) => {
       button.addEventListener("click", (event: MouseEvent) => {
-        const isConstraintViolated = this.isMinPostLengthConstraintViolated();
+        const isMinConstraintViolated = this.isMinLengthConstraintViolated();
 
-        if (isConstraintViolated) event.preventDefault();
+        if (isMinConstraintViolated) event.preventDefault();
 
-        this.handleClassErrorOnCkeditorField(isConstraintViolated);
+        this.handleClassErrorOnCkeditorField(isMinConstraintViolated);
         const numberOfFieldsInError = this.getNumberOfFieldsInError();
 
-        if (isConstraintViolated || numberOfFieldsInError > 0) {
+        if (isMinConstraintViolated || numberOfFieldsInError > 0) {
           this.handleBadgeDanger(numberOfFieldsInError);
         }
       });
     });
   }
 
-  private getMinPostLengthLimit(minPostLengthLimit: number): number {
-    const defaultMinPostLengthLimit = 500;
+  private getMinLengthLimit(minLengthLimit: number): number {
+    const defaultMinLengthLimit = 500;
 
     try {
-      if (minPostLengthLimit < defaultMinPostLengthLimit) {
+      if (minLengthLimit < defaultMinLengthLimit) {
         throw new Error(
-          `Minimum post length limit is not set correctly, so it is set to ${defaultMinPostLengthLimit} characters by default.`
+          `Minimum post length limit is not set correctly, so it is set to ${defaultMinLengthLimit} characters by default.`
         );
       }
 
-      return minPostLengthLimit;
+      return minLengthLimit;
     } catch (error) {
       console.warn(error);
-      return defaultMinPostLengthLimit;
+      return defaultMinLengthLimit;
     }
   }
 
-  private handleClassErrorOnCkeditorField(isConstraintViolated: boolean): void {
-    this.ckeditorField?.classList.toggle("has-error", isConstraintViolated);
+  private handleClassErrorOnCkeditorField(
+    isMinConstraintViolated: boolean
+  ): void {
+    this.ckeditorField?.classList.toggle("has-error", isMinConstraintViolated);
     this.ckeditorFieldHelp?.classList.toggle(
       "help-error",
-      isConstraintViolated
+      isMinConstraintViolated
     );
   }
 
-  private isMinPostLengthConstraintViolated(): boolean {
-    return this.statCharacters < this.minPostLengthLimit;
+  private isMinLengthConstraintViolated(): boolean {
+    return this.statCharacters < this.minLengthLimit;
   }
 
   private getNumberOfFieldsInError(): number {

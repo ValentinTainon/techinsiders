@@ -259,7 +259,7 @@ class UserCrudController extends AbstractCrudController
     private function deleteUserAvatar(string $avatar): void
     {
         $filesystem = new Filesystem();
-        $userAvatarPath = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/users/avatars/{$avatar}";
+        $userAvatarPath = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/user/avatar/{$avatar}";
 
         if ($filesystem->exists($userAvatarPath)) {
             $filesystem->remove($userAvatarPath);

@@ -6,13 +6,12 @@ use function Symfony\Component\Translation\t;
 use App\Entity\Post;
 use App\Enum\UserRole;
 use App\Enum\PostStatus;
-use App\Enum\EditorType;
 use Doctrine\ORM\QueryBuilder;
 use App\Security\Voter\PostVoter;
 use App\Config\PostContentConfig;
 use App\Config\PostThumbnailConfig;
 use App\Form\Admin\PostCommentsFormType;
-use App\Form\Admin\Field\Ckeditor5Field;
+use App\Form\Admin\Field\CKEditor5Field;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -84,8 +83,6 @@ class PostCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $postThumbnailConfig = PostThumbnailConfig::getConfig();
-
         yield FormField::addTab(t('general_information.label', [], 'forms'))
             ->addCssClass('custom-max-width');
         yield IdField::new('id', t('id.label', [], 'forms'))
@@ -125,30 +122,45 @@ class PostCrudController extends AbstractCrudController
             ->setColumns('col-sm-6 col-md-5')
             ->setTextAlign('center');
 
-        yield ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
-            ->setBasePath($postThumbnailConfig->basePath())
-            ->setUploadDir($postThumbnailConfig->uploadDir())
-            ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
-            ->setFormTypeOption('allow_delete', false)
-            ->setFileConstraints(
-                new Image(
-                    detectCorrupted: true,
-                    maxSize: $postThumbnailConfig->maxFileSize(),
-                    mimeTypes: $postThumbnailConfig->allowedMimeTypes()
+        if (Crud::PAGE_INDEX === $pageName) {
+            yield ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
+                ->formatValue(function ($value, $entity) {
+                    if (str_starts_with($entity->getThumbnail(), 'https://')) {
+                        return $entity->getThumbnail();
+                    } else {
+                        return PostThumbnailConfig::getConfig($entity->getStringifyUuid())->basePath() . $entity->getThumbnail();
+                    }
+                });
+        }
+
+        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName && !str_starts_with($this->getEntityThumbnail(), 'https://')) {
+            $this->createThumbnailUploadDirIfNotExist($this->getEntityUuid());
+            $postThumbnailConfig = PostThumbnailConfig::getConfig($this->getEntityUuid());
+
+            yield ImageField::new('thumbnail', t('thumbnail.label', [], 'forms'))
+                ->setBasePath($postThumbnailConfig->basePath())
+                ->setUploadDir($postThumbnailConfig->uploadDir())
+                ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
+                ->setFormTypeOption('allow_delete', false)
+                ->setFileConstraints(
+                    new Image(
+                        detectCorrupted: true,
+                        maxSize: $postThumbnailConfig->maxFileSize(),
+                        mimeTypes: $postThumbnailConfig->allowedMimeTypes()
+                    )
+                )->setHelp(
+                    t(
+                        'image.field.help.message',
+                        [
+                            '%formats%' => $postThumbnailConfig->allowedMimeTypesExtensions(),
+                            '%size%' => $postThumbnailConfig->maxFileSize()
+                        ],
+                        'forms'
+                    )
                 )
-            )
-            ->setHelp(
-                t(
-                    'image.field.help.message',
-                    [
-                        '%formats%' => $postThumbnailConfig->allowedMimeTypesExtensions(),
-                        '%size%' => $postThumbnailConfig->maxFileSize()
-                    ],
-                    'forms'
-                )
-            )
-            ->setRequired($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT && $this->isThumbnailEmpty())
-            ->setColumns(10);
+                ->setRequired(Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName && empty($this->getEntityThumbnail()))
+                ->setColumns(10);
+        }
 
         yield FormField::addTab(t('post_content.label', [], 'forms'))
             ->addCssClass('custom-max-width');
@@ -156,14 +168,17 @@ class PostCrudController extends AbstractCrudController
             ->addCssClass('title-field')
             ->setColumns(12);
 
-        yield Ckeditor5Field::new('content', t('content.label', [], 'forms'))
-            ->addFormTheme('bundles/EasyAdminBundle/crud/field/post-editor-placeholder.html.twig')
-            ->setEditorType(EditorType::FEATURE_RICH->value)
-            ->setPageName($pageName)
-            ->setMinPostLengthLimit(PostContentConfig::MIN_LENGTH_LIMIT)
-            ->setHelp(
-                t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
-            );
+        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
+            yield CKEditor5Field::new('content', t('content.label', [], 'forms'))
+                ->useFeatureRichEditor(
+                    pageName: $pageName,
+                    minLengthLimit: PostContentConfig::MIN_LENGTH_LIMIT,
+                    uploadDir: "images/uploads/post/{$this->getEntityUuid()}/content"
+                )
+                ->setHelp(
+                    t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
+                );
+        }
 
         yield IntegerField::new('numberOfViews', t('number_of_views.label', [], 'forms'))
             ->onlyOnIndex()
@@ -219,7 +234,7 @@ class PostCrudController extends AbstractCrudController
         return $entityInstance->getUpdatedAt() === null;
     }
 
-    private function isThumbnailEmpty(): bool
+    private function getEntityThumbnail(): ?string
     {
         $entityInstance = $this->getContext()->getEntity()->getInstance();
 
@@ -227,7 +242,41 @@ class PostCrudController extends AbstractCrudController
             return false;
         }
 
-        return empty($entityInstance->getThumbnail());
+        return $entityInstance->getThumbnail();
+    }
+
+    private function getEntityUuid(): string
+    {
+        try {
+            $entityInstance = $this->getContext()->getEntity()->getInstance();
+
+            if (!$entityInstance instanceof Post) {
+                throw new \RuntimeException('Entity instance is not an instance of Post');
+            }
+
+            return $entityInstance->getStringifyUuid();
+        } catch (\Throwable $th) {
+            throw new \RuntimeException('Failed to get entity UUID', 0, $th);
+        }
+    }
+
+    private function createThumbnailUploadDirIfNotExist(string $entityUuid): void
+    {
+        try {
+            if (empty($entityUuid)) {
+                throw new \RuntimeException('Entity UUID is empty');
+            }
+
+            $thumbnailUploadDir = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/post/{$entityUuid}/thumbnail";
+
+            $filesystem = new Filesystem();
+
+            if (!$filesystem->exists($thumbnailUploadDir)) {
+                $filesystem->mkdir($thumbnailUploadDir, 0775);
+            }
+        } catch (\Throwable $th) {
+            throw new \RuntimeException('Failed to create thumbnail upload directory', 0, $th);
+        }
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -254,40 +303,33 @@ class PostCrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
         if (!$this->isGranted(UserRole::SUPER_ADMIN->value)) {
-            $queryBuilder
-                ->where('entity.user = :user')
+            $qb->where('entity.user = :user')
                 ->setParameter('user', $this->getUser());
         }
 
-        return $queryBuilder;
+        return $qb;
     }
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if (!$entityInstance instanceof Post) return;
 
-        $thumbnail = $entityInstance->getThumbnail();
-        $uuid = $entityInstance->getUuid()->toString();
+        $uuid = $entityInstance->getStringifyUuid();
 
         parent::deleteEntity($entityManager, $entityInstance);
 
-        $this->deletePostMedia($thumbnail, $uuid);
+        $this->deletePostMedia($uuid);
     }
 
-    private function deletePostMedia(?string $thumbnail, ?string $uuid): void
+    private function deletePostMedia(?string $uuid): void
     {
         $filesystem = new Filesystem();
-        $postThumbnailPath = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/posts/thumbnails/{$thumbnail}";
-        $postMediaDir = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/posts/contents/{$uuid}";
+        $postMediaDir = "{$this->getParameter('kernel.project_dir')}/public/images/uploads/post/{$uuid}";
 
-        if ($thumbnail !== null && $filesystem->exists($postThumbnailPath)) {
-            $filesystem->remove($postThumbnailPath);
-        }
-
-        if ($uuid !== null && $filesystem->exists($postMediaDir)) {
+        if (null !== $uuid && $filesystem->exists($postMediaDir)) {
             $filesystem->remove($postMediaDir);
         }
     }
