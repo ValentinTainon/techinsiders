@@ -20,7 +20,6 @@ export class EditorFactory {
         );
       case EditorType.FeatureRich:
         const uploadDir = String(sourceElement.dataset.uploadDir);
-        const pageName = String(sourceElement.dataset.pageName);
 
         if (!uploadDir) {
           throw new Error("Missing media upload path parameter");
@@ -29,11 +28,7 @@ export class EditorFactory {
         // @ts-ignore
         return FeatureRichClassicEditor.create(
           sourceElement,
-          FeatureRichClassicEditor.getDefaultConfig(
-            isFrLocale,
-            uploadDir,
-            pageName
-          )
+          FeatureRichClassicEditor.getDefaultConfig(isFrLocale, uploadDir)
         );
       default:
         throw new Error("Invalid editor type");

@@ -71,6 +71,10 @@ import {
   // @ts-ignore
 } from "ckeditor5";
 
+// Custom Plugins
+import { SimpleUploadCleaner } from "../editor-config/custom-plugins/SimpleUploadCleaner.ts";
+import { EditorWordCounter } from "../utils/EditorWordCounter.ts";
+
 // Styles
 import "ckeditor5/dist/ckeditor5.css";
 import "../../../styles/admin/ckeditor5/custom.css";
@@ -97,10 +101,6 @@ import { TableProperty } from "../editor-config/properties/table/TableProperty.t
 import { ToolbarProperty } from "../editor-config/properties/toolbar/ToolbarProperty.ts";
 import { TranslationsProperty } from "../editor-config/properties/translations/TranslationsProperty.ts";
 import { WordCountProperty } from "../editor-config/properties/word-count/WordCountProperty.ts";
-
-// Custom Plugins
-import { SimpleUploadCleaner } from "../editor-config/custom-plugins/SimpleUploadCleaner.ts";
-import { EditorWordCounter } from "../utils/EditorWordCounter.ts";
 
 export class FeatureRichClassicEditor extends ClassicEditor {
   public static editorWordCounter: EditorWordCounter;
@@ -231,8 +231,7 @@ export class FeatureRichClassicEditor extends ClassicEditor {
 
   public static getDefaultConfig(
     isFrLocale: boolean,
-    uploadDir: string,
-    pageName: string
+    uploadDir: string
   ): object {
     return {
       ...BalloonToolbarProperty.getConfig(),
@@ -250,7 +249,7 @@ export class FeatureRichClassicEditor extends ClassicEditor {
       ...PlaceholderProperty.getConfig(),
       ...RemovePluginsProperty.getConfig(),
       ...SimpleUploadProperty.getConfig(uploadDir),
-      ...SimpleUploadCleanerProperty.getConfig(uploadDir, pageName),
+      ...SimpleUploadCleanerProperty.getConfig(uploadDir),
       ...StyleProperty.getConfig(),
       ...TableProperty.getConfig(),
       ...ToolbarProperty.getConfig(FeatureRichClassicEditor.toolbarItems),

@@ -173,7 +173,6 @@ class PostCrudController extends AbstractCrudController
             yield CKEditor5Field::new('content', t('content.label', [], 'forms'))
                 ->setFormTypeOptions([
                     CKEditor5Type::USE_FEATURE_RICH_EDITOR_OPTION => true,
-                    CKEditor5Type::PAGE_NAME_OPTION               => $pageName,
                     CKEditor5Type::MIN_LENGTH_LIMIT_OPTION        => PostContentConfig::MIN_LENGTH_LIMIT,
                     CKEditor5Type::UPLOAD_DIR_OPTION              => "images/uploads/post/{$this->getEntityUuid()}/content"
                 ])

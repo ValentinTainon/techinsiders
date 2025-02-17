@@ -1,33 +1,33 @@
 // @ts-ignore
-import { Plugin } from "ckeditor5";
+import { Plugin, SimpleUploadAdapter } from "ckeditor5";
 
 export class SimpleUploadCleaner extends Plugin {
   public static get pluginName() {
     return "SimpleUploadCleaner" as const;
   }
 
+  public static get requires() {
+    return [SimpleUploadAdapter];
+  }
+
   public init() {
     // @ts-ignore
     const editor = this.editor;
     const simpleUploadCleanerConfig = editor.config.get("simpleUploadCleaner");
-    const pageName: string = simpleUploadCleanerConfig.pageName;
     const cleanUrl: string = simpleUploadCleanerConfig.cleanUrl;
     const uploadDir: string = simpleUploadCleanerConfig.uploadDir;
 
     let isFormSubmitted = false;
     let initialEditorImages: Array<string | null | undefined> = [];
 
-    if (pageName === "edit") {
-      editor.once("ready", () => {
-        initialEditorImages = this.getEditorImages(editor.getData());
-      });
-    }
+    editor.once("ready", () => {
+      initialEditorImages = this.getEditorImages(editor.getData());
+    });
 
     document.addEventListener("ea.form.submit", (event: Event) => {
       this.cleanUnusedImagesOnSubmit(
         cleanUrl,
         this.createRequestPayload(
-          pageName,
           event.type,
           uploadDir,
           this.getEditorImages(editor.getData())
@@ -40,22 +40,10 @@ export class SimpleUploadCleaner extends Plugin {
     window.addEventListener("beforeunload", (event: BeforeUnloadEvent) => {
       if (isFormSubmitted) return;
 
-      if (pageName === "new") {
-        this.cleanUnusedImagesBeforeUnload(
-          cleanUrl,
-          this.createRequestPayload(pageName, event.type, uploadDir)
-        );
-      } else if (pageName === "edit") {
-        this.cleanUnusedImagesBeforeUnload(
-          cleanUrl,
-          this.createRequestPayload(
-            pageName,
-            event.type,
-            uploadDir,
-            initialEditorImages
-          )
-        );
-      }
+      this.cleanUnusedImagesBeforeUnload(
+        cleanUrl,
+        this.createRequestPayload(event.type, uploadDir, initialEditorImages)
+      );
     });
   }
 
@@ -67,24 +55,22 @@ export class SimpleUploadCleaner extends Plugin {
       const editorImagesSrc = Array.from(editorImages).map((img) =>
         img.getAttribute("src")
       );
-      const editorImagesName = editorImagesSrc.map((src) => {
+      const editorImagesFileName = editorImagesSrc.map((src) => {
         if (src !== null) return src.split("/").at(-1);
       });
 
-      return editorImagesName;
+      return editorImagesFileName;
     } catch (error) {
       throw new Error("Failed to get editor images name: ", error);
     }
   }
 
   private createRequestPayload(
-    pageName: string,
     eventType: string,
     uploadDir: string,
-    editorImages: Array<string | null | undefined> = []
+    editorImages: Array<string | null | undefined>
   ): string {
     return JSON.stringify({
-      pageName: pageName,
       eventType: eventType,
       uploadDir: uploadDir,
       editorImages: editorImages,

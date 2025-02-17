@@ -57,29 +57,23 @@ class CKEditor5SimpleUploadController extends AbstractController
             return new JsonResponse(['error' => 'Invalid upload directory'], 500);
         }
 
-        $appUploadDir = "{$this->getParameter('kernel.project_dir')}/public/{$uploadDir}";
         $filesystem = new Filesystem();
+        $appUploadDir = "{$this->getParameter('kernel.project_dir')}/public/{$uploadDir}";
 
         if (!$filesystem->exists($appUploadDir)) {
-            return new JsonResponse(['status' => 'No content directory'], 200);
+            return new JsonResponse(['status' => 'No upload directory'], 200);
         }
 
         try {
             $finder = new Finder();
             $finder->files()->in($appUploadDir);
         } catch (\InvalidArgumentException $e) {
-            return new JsonResponse(['status' => 'No files in this content directory'], 200);
+            return new JsonResponse(['status' => 'No files in this upload directory'], 200);
         }
 
-        if (
-            !$finder->hasResults() ||
-            (Crud::PAGE_NEW === $requestPayload['pageName'] && 'beforeunload' === $requestPayload['eventType'])
-        ) {
-            if ($filesystem->exists($appUploadDir)) {
-                $filesystem->remove($appUploadDir);
-                return new JsonResponse(['status' => 'Content directory removed while exit creation'], 200);
-            }
-            return new JsonResponse(['status' => 'No content directory to remove while exit creation'], 200);
+        if (!$finder->hasResults()) {
+            $filesystem->remove($appUploadDir);
+            return new JsonResponse(['status' => 'Remove empty upload directory'], 200);
         }
 
         $imagesInAppUploadDir = [];
