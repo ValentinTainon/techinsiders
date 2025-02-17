@@ -28,7 +28,6 @@ export class SimpleUploadCleaner extends Plugin {
       this.cleanUnusedImagesOnSubmit(
         cleanUrl,
         this.createRequestPayload(
-          event.type,
           uploadDir,
           this.getEditorImages(editor.getData())
         )
@@ -42,7 +41,7 @@ export class SimpleUploadCleaner extends Plugin {
 
       this.cleanUnusedImagesBeforeUnload(
         cleanUrl,
-        this.createRequestPayload(event.type, uploadDir, initialEditorImages)
+        this.createRequestPayload(uploadDir, initialEditorImages)
       );
     });
   }
@@ -66,12 +65,10 @@ export class SimpleUploadCleaner extends Plugin {
   }
 
   private createRequestPayload(
-    eventType: string,
     uploadDir: string,
     editorImages: Array<string | null | undefined>
   ): string {
     return JSON.stringify({
-      eventType: eventType,
       uploadDir: uploadDir,
       editorImages: editorImages,
     });
