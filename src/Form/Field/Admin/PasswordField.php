@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin\Field;
+namespace App\Form\Field\Admin;
 
 use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;

@@ -2,18 +2,19 @@
 
 namespace App\Controller\Admin;
 
-use function Symfony\Component\Translation\t;
 use App\Entity\Post;
 use App\Enum\UserRole;
 use App\Enum\PostStatus;
 use Doctrine\ORM\QueryBuilder;
-use App\Security\Voter\PostVoter;
 use App\Config\PostContentConfig;
+use App\Form\Field\CKEditor5Type;
+use App\Security\Voter\PostVoter;
+use App\Form\PostCommentsFormType;
 use App\Config\PostThumbnailConfig;
-use App\Form\Admin\PostCommentsFormType;
-use App\Form\Admin\Field\CKEditor5Field;
+use App\Form\Field\Admin\CKEditor5Field;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use function Symfony\Component\Translation\t;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -170,11 +171,12 @@ class PostCrudController extends AbstractCrudController
 
         if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
             yield CKEditor5Field::new('content', t('content.label', [], 'forms'))
-                ->useFeatureRichEditor(
-                    pageName: $pageName,
-                    minLengthLimit: PostContentConfig::MIN_LENGTH_LIMIT,
-                    uploadDir: "images/uploads/post/{$this->getEntityUuid()}/content"
-                )
+                ->setFormTypeOptions([
+                    CKEditor5Type::USE_FEATURE_RICH_EDITOR_OPTION => true,
+                    CKEditor5Type::PAGE_NAME_OPTION               => $pageName,
+                    CKEditor5Type::MIN_LENGTH_LIMIT_OPTION        => PostContentConfig::MIN_LENGTH_LIMIT,
+                    CKEditor5Type::UPLOAD_DIR_OPTION              => "images/uploads/post/{$this->getEntityUuid()}/content"
+                ])
                 ->setHelp(
                     t('post_content.help.message', ['%min_post_length_limit%' => PostContentConfig::MIN_LENGTH_LIMIT], 'forms')
                 );

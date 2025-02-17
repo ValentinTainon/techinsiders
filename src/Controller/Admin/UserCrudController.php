@@ -7,7 +7,7 @@ use App\Enum\UserRole;
 use App\Service\EmailService;
 use App\Config\UserAvatarConfig;
 use App\Security\Voter\UserVoter;
-use App\Form\Admin\Field\PasswordField;
+use App\Form\Field\Admin\PasswordField;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;

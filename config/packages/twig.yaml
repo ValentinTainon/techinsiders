@@ -8,6 +8,7 @@ twig:
     "%kernel.project_dir%/assets/styles": styles
   form_themes:
     - "form/form_theme.html.twig"
+    - "ckeditor5/ckeditor5_theme.html.twig"
 
 when@test:
   twig:

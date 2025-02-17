@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Front;
+namespace App\Form;
 
 use function Symfony\Component\Translation\t;
 use App\Entity\User;

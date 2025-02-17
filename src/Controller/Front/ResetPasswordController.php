@@ -4,9 +4,9 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Service\EmailService;
-use App\Form\Front\ChangePasswordFormType;
+use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\Front\ResetPasswordRequestFormType;
+use App\Form\ResetPasswordRequestFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

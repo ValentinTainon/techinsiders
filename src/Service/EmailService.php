@@ -21,7 +21,7 @@ class EmailService
     public function __construct(
         private MailerInterface $mailer,
         private EmailVerifier $emailVerifier,
-        private ParameterBagInterface $params,
+        private ParameterBagInterface $parameterBag,
         private TranslatorInterface $translator,
         private EventDispatcherInterface $eventDispatcher
     ) {}
@@ -40,8 +40,8 @@ class EmailService
                     ->from(new Address($emailFrom, $usernameFrom))
                     ->to(
                         new Address(
-                            $this->params->get('app_contact_email'),
-                            $this->params->get('app_name')
+                            $this->parameterBag->get('app_contact_email'),
+                            $this->parameterBag->get('app_name')
                         )
                     )
                     ->subject($this->translator->trans($subject, $subjectTransParams, 'emails'))

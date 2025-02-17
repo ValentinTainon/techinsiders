@@ -2,10 +2,9 @@
 
 namespace App\Controller\Front;
 
-use function Symfony\Component\Translation\t;
 use App\Entity\User;
 use App\Security\EmailVerifier;
-use App\Form\Front\RegistrationFormType;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
