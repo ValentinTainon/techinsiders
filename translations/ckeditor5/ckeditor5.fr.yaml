@@ -14,3 +14,6 @@ plugin:
     side_quote: "Citation"
     marker: "Marqueur"
     spoiler: "Spoiler"
+wordcount:
+  stats:
+    words: "Nombre de mots: %stats_words%"

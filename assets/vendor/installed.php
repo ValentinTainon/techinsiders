@@ -21,7 +21,7 @@
   ),
   'ckeditor5' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-adapter-ckfinder/dist/index.js',
@@ -43,44 +43,45 @@
       16 => '@ckeditor/ckeditor5-editor-decoupled/dist/index.js',
       17 => '@ckeditor/ckeditor5-editor-inline/dist/index.js',
       18 => '@ckeditor/ckeditor5-editor-multi-root/dist/index.js',
-      19 => '@ckeditor/ckeditor5-engine/dist/index.js',
-      20 => '@ckeditor/ckeditor5-enter/dist/index.js',
-      21 => '@ckeditor/ckeditor5-essentials/dist/index.js',
-      22 => '@ckeditor/ckeditor5-find-and-replace/dist/index.js',
-      23 => '@ckeditor/ckeditor5-font/dist/index.js',
-      24 => '@ckeditor/ckeditor5-heading/dist/index.js',
-      25 => '@ckeditor/ckeditor5-highlight/dist/index.js',
-      26 => '@ckeditor/ckeditor5-horizontal-line/dist/index.js',
-      27 => '@ckeditor/ckeditor5-html-embed/dist/index.js',
-      28 => '@ckeditor/ckeditor5-html-support/dist/index.js',
-      29 => '@ckeditor/ckeditor5-image/dist/index.js',
-      30 => '@ckeditor/ckeditor5-indent/dist/index.js',
-      31 => '@ckeditor/ckeditor5-language/dist/index.js',
-      32 => '@ckeditor/ckeditor5-link/dist/index.js',
-      33 => '@ckeditor/ckeditor5-list/dist/index.js',
-      34 => '@ckeditor/ckeditor5-markdown-gfm/dist/index.js',
-      35 => '@ckeditor/ckeditor5-media-embed/dist/index.js',
-      36 => '@ckeditor/ckeditor5-mention/dist/index.js',
-      37 => '@ckeditor/ckeditor5-minimap/dist/index.js',
-      38 => '@ckeditor/ckeditor5-page-break/dist/index.js',
-      39 => '@ckeditor/ckeditor5-paragraph/dist/index.js',
-      40 => '@ckeditor/ckeditor5-paste-from-office/dist/index.js',
-      41 => '@ckeditor/ckeditor5-remove-format/dist/index.js',
-      42 => '@ckeditor/ckeditor5-restricted-editing/dist/index.js',
-      43 => '@ckeditor/ckeditor5-select-all/dist/index.js',
-      44 => '@ckeditor/ckeditor5-show-blocks/dist/index.js',
-      45 => '@ckeditor/ckeditor5-source-editing/dist/index.js',
-      46 => '@ckeditor/ckeditor5-special-characters/dist/index.js',
-      47 => '@ckeditor/ckeditor5-style/dist/index.js',
-      48 => '@ckeditor/ckeditor5-table/dist/index.js',
-      49 => '@ckeditor/ckeditor5-typing/dist/index.js',
-      50 => '@ckeditor/ckeditor5-ui/dist/index.js',
-      51 => '@ckeditor/ckeditor5-undo/dist/index.js',
-      52 => '@ckeditor/ckeditor5-upload/dist/index.js',
-      53 => '@ckeditor/ckeditor5-utils/dist/index.js',
-      54 => '@ckeditor/ckeditor5-watchdog/dist/index.js',
-      55 => '@ckeditor/ckeditor5-widget/dist/index.js',
-      56 => '@ckeditor/ckeditor5-word-count/dist/index.js',
+      19 => '@ckeditor/ckeditor5-emoji/dist/index.js',
+      20 => '@ckeditor/ckeditor5-engine/dist/index.js',
+      21 => '@ckeditor/ckeditor5-enter/dist/index.js',
+      22 => '@ckeditor/ckeditor5-essentials/dist/index.js',
+      23 => '@ckeditor/ckeditor5-find-and-replace/dist/index.js',
+      24 => '@ckeditor/ckeditor5-font/dist/index.js',
+      25 => '@ckeditor/ckeditor5-heading/dist/index.js',
+      26 => '@ckeditor/ckeditor5-highlight/dist/index.js',
+      27 => '@ckeditor/ckeditor5-horizontal-line/dist/index.js',
+      28 => '@ckeditor/ckeditor5-html-embed/dist/index.js',
+      29 => '@ckeditor/ckeditor5-html-support/dist/index.js',
+      30 => '@ckeditor/ckeditor5-image/dist/index.js',
+      31 => '@ckeditor/ckeditor5-indent/dist/index.js',
+      32 => '@ckeditor/ckeditor5-language/dist/index.js',
+      33 => '@ckeditor/ckeditor5-link/dist/index.js',
+      34 => '@ckeditor/ckeditor5-list/dist/index.js',
+      35 => '@ckeditor/ckeditor5-markdown-gfm/dist/index.js',
+      36 => '@ckeditor/ckeditor5-media-embed/dist/index.js',
+      37 => '@ckeditor/ckeditor5-mention/dist/index.js',
+      38 => '@ckeditor/ckeditor5-minimap/dist/index.js',
+      39 => '@ckeditor/ckeditor5-page-break/dist/index.js',
+      40 => '@ckeditor/ckeditor5-paragraph/dist/index.js',
+      41 => '@ckeditor/ckeditor5-paste-from-office/dist/index.js',
+      42 => '@ckeditor/ckeditor5-remove-format/dist/index.js',
+      43 => '@ckeditor/ckeditor5-restricted-editing/dist/index.js',
+      44 => '@ckeditor/ckeditor5-select-all/dist/index.js',
+      45 => '@ckeditor/ckeditor5-show-blocks/dist/index.js',
+      46 => '@ckeditor/ckeditor5-source-editing/dist/index.js',
+      47 => '@ckeditor/ckeditor5-special-characters/dist/index.js',
+      48 => '@ckeditor/ckeditor5-style/dist/index.js',
+      49 => '@ckeditor/ckeditor5-table/dist/index.js',
+      50 => '@ckeditor/ckeditor5-typing/dist/index.js',
+      51 => '@ckeditor/ckeditor5-ui/dist/index.js',
+      52 => '@ckeditor/ckeditor5-undo/dist/index.js',
+      53 => '@ckeditor/ckeditor5-upload/dist/index.js',
+      54 => '@ckeditor/ckeditor5-utils/dist/index.js',
+      55 => '@ckeditor/ckeditor5-watchdog/dist/index.js',
+      56 => '@ckeditor/ckeditor5-widget/dist/index.js',
+      57 => '@ckeditor/ckeditor5-word-count/dist/index.js',
     ),
     'extraFiles' => 
     array (
@@ -88,7 +89,7 @@
   ),
   'ckeditor5/translations/fr.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
     ),
@@ -98,7 +99,7 @@
   ),
   '@ckeditor/ckeditor5-adapter-ckfinder/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -110,7 +111,7 @@
   ),
   '@ckeditor/ckeditor5-alignment/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -123,7 +124,7 @@
   ),
   '@ckeditor/ckeditor5-autoformat/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -137,7 +138,7 @@
   ),
   '@ckeditor/ckeditor5-autosave/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -150,7 +151,7 @@
   ),
   '@ckeditor/ckeditor5-basic-styles/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -163,7 +164,7 @@
   ),
   '@ckeditor/ckeditor5-block-quote/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -178,7 +179,7 @@
   ),
   '@ckeditor/ckeditor5-ckbox/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -195,7 +196,7 @@
   ),
   '@ckeditor/ckeditor5-ckfinder/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -208,7 +209,7 @@
   ),
   '@ckeditor/ckeditor5-clipboard/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -224,7 +225,7 @@
   ),
   '@ckeditor/ckeditor5-cloud-services/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -236,7 +237,7 @@
   ),
   '@ckeditor/ckeditor5-code-block/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -252,7 +253,7 @@
   ),
   '@ckeditor/ckeditor5-core/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-utils/dist/index.js',
@@ -266,7 +267,7 @@
   ),
   '@ckeditor/ckeditor5-easy-image/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -279,7 +280,7 @@
   ),
   '@ckeditor/ckeditor5-editor-balloon/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -294,7 +295,7 @@
   ),
   '@ckeditor/ckeditor5-editor-classic/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-ui/dist/index.js',
@@ -309,7 +310,7 @@
   ),
   '@ckeditor/ckeditor5-editor-decoupled/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -324,7 +325,7 @@
   ),
   '@ckeditor/ckeditor5-editor-inline/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -339,7 +340,7 @@
   ),
   '@ckeditor/ckeditor5-editor-multi-root/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -354,7 +355,7 @@
   ),
   '@ckeditor/ckeditor5-engine/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-utils/dist/index.js',
@@ -366,7 +367,7 @@
   ),
   '@ckeditor/ckeditor5-enter/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -379,7 +380,7 @@
   ),
   '@ckeditor/ckeditor5-essentials/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -396,7 +397,7 @@
   ),
   '@ckeditor/ckeditor5-find-and-replace/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -410,7 +411,7 @@
   ),
   '@ckeditor/ckeditor5-font/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -424,7 +425,7 @@
   ),
   '@ckeditor/ckeditor5-heading/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -439,7 +440,7 @@
   ),
   '@ckeditor/ckeditor5-highlight/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -451,7 +452,7 @@
   ),
   '@ckeditor/ckeditor5-horizontal-line/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -464,7 +465,7 @@
   ),
   '@ckeditor/ckeditor5-html-embed/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -478,7 +479,7 @@
   ),
   '@ckeditor/ckeditor5-html-support/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -494,7 +495,7 @@
   ),
   '@ckeditor/ckeditor5-image/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -514,7 +515,7 @@
   ),
   '@ckeditor/ckeditor5-indent/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -528,7 +529,7 @@
   ),
   '@ckeditor/ckeditor5-language/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -541,7 +542,7 @@
   ),
   '@ckeditor/ckeditor5-link/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -559,7 +560,7 @@
   ),
   '@ckeditor/ckeditor5-list/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -576,7 +577,7 @@
   ),
   '@ckeditor/ckeditor5-markdown-gfm/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -592,7 +593,7 @@
   ),
   '@ckeditor/ckeditor5-media-embed/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -610,7 +611,7 @@
   ),
   '@ckeditor/ckeditor5-mention/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -625,7 +626,7 @@
   ),
   '@ckeditor/ckeditor5-minimap/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -639,7 +640,7 @@
   ),
   '@ckeditor/ckeditor5-page-break/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -652,7 +653,7 @@
   ),
   '@ckeditor/ckeditor5-paragraph/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -665,7 +666,7 @@
   ),
   '@ckeditor/ckeditor5-paste-from-office/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -678,7 +679,7 @@
   ),
   '@ckeditor/ckeditor5-remove-format/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -691,7 +692,7 @@
   ),
   '@ckeditor/ckeditor5-restricted-editing/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -705,7 +706,7 @@
   ),
   '@ckeditor/ckeditor5-select-all/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -718,7 +719,7 @@
   ),
   '@ckeditor/ckeditor5-show-blocks/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -730,7 +731,7 @@
   ),
   '@ckeditor/ckeditor5-source-editing/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -743,7 +744,7 @@
   ),
   '@ckeditor/ckeditor5-special-characters/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -757,7 +758,7 @@
   ),
   '@ckeditor/ckeditor5-style/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -772,7 +773,7 @@
   ),
   '@ckeditor/ckeditor5-table/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -789,7 +790,7 @@
   ),
   '@ckeditor/ckeditor5-typing/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -803,7 +804,7 @@
   ),
   '@ckeditor/ckeditor5-ui/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-utils/dist/index.js',
@@ -820,7 +821,7 @@
   ),
   '@ckeditor/ckeditor5-undo/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -833,7 +834,7 @@
   ),
   '@ckeditor/ckeditor5-upload/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -845,7 +846,7 @@
   ),
   '@ckeditor/ckeditor5-utils/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => 'lodash-es',
@@ -856,7 +857,7 @@
   ),
   '@ckeditor/ckeditor5-watchdog/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => 'lodash-es',
@@ -867,7 +868,7 @@
   ),
   '@ckeditor/ckeditor5-widget/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -884,7 +885,7 @@
   ),
   '@ckeditor/ckeditor5-word-count/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -918,7 +919,7 @@
   ),
   'marked' => 
   array (
-    'version' => '15.0.6',
+    'version' => '15.0.7',
     'dependencies' => 
     array (
     ),
@@ -959,7 +960,7 @@
   ),
   'color-convert' => 
   array (
-    'version' => '2.0.1',
+    'version' => '3.0.1',
     'dependencies' => 
     array (
       0 => 'color-name',
@@ -990,7 +991,7 @@
   ),
   '@ckeditor/ckeditor5-bookmark/dist/index.js' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
       0 => '@ckeditor/ckeditor5-core/dist/index.js',
@@ -1015,7 +1016,7 @@
   ),
   'ckeditor5/dist/ckeditor5.css' => 
   array (
-    'version' => '44.1.0',
+    'version' => '44.2.0',
     'dependencies' => 
     array (
     ),
@@ -1025,7 +1026,7 @@
   ),
   'intl-messageformat' => 
   array (
-    'version' => '10.7.14',
+    'version' => '10.7.15',
     'dependencies' => 
     array (
       0 => 'tslib',
@@ -1058,7 +1059,7 @@
   ),
   '@formatjs/icu-messageformat-parser' => 
   array (
-    'version' => '2.11.0',
+    'version' => '2.11.1',
     'dependencies' => 
     array (
       0 => 'tslib',
@@ -1070,10 +1071,46 @@
   ),
   '@formatjs/icu-skeleton-parser' => 
   array (
-    'version' => '1.8.12',
+    'version' => '1.8.13',
     'dependencies' => 
     array (
       0 => 'tslib',
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  '@ckeditor/ckeditor5-inspector' => 
+  array (
+    'version' => '4.1.0',
+    'dependencies' => 
+    array (
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  '@ckeditor/ckeditor5-emoji/dist/index.js' => 
+  array (
+    'version' => '44.2.0',
+    'dependencies' => 
+    array (
+      0 => '@ckeditor/ckeditor5-core/dist/index.js',
+      1 => '@ckeditor/ckeditor5-utils/dist/index.js',
+      2 => '@ckeditor/ckeditor5-typing/dist/index.js',
+      3 => 'fuse.js',
+      4 => 'lodash-es',
+      5 => '@ckeditor/ckeditor5-ui/dist/index.js',
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  'fuse.js' => 
+  array (
+    'version' => '7.1.0',
+    'dependencies' => 
+    array (
     ),
     'extraFiles' => 
     array (

@@ -16,13 +16,13 @@ final class CKEditor5Type extends AbstractType
 
     // Options
     public const string USE_FEATURE_RICH_EDITOR_OPTION = 'use_feature_rich_editor';
-    public const string MIN_LENGTH_LIMIT_OPTION = 'min_length_limit';
+    public const string MIN_CHARACTERS_OPTION = 'min_characters';
     public const string UPLOAD_DIR_OPTION = 'upload_dir';
 
     // Data attributes
     private const string DATA_CONTROLLER = 'data-controller';
     public const string DATA_EDITOR_TYPE = 'data-editor-type';
-    private const string DATA_MIN_LENGTH_LIMIT = 'data-min-length-limit';
+    private const string DATA_MIN_CHARACTERS = 'data-min-characters';
     private const string DATA_UPLOAD_DIR = 'data-upload-dir';
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
@@ -33,19 +33,19 @@ final class CKEditor5Type extends AbstractType
         $attr[self::DATA_EDITOR_TYPE] = EditorType::STARTER->value;
 
         if (true === $options[self::USE_FEATURE_RICH_EDITOR_OPTION]) {
-            if (null === $options[self::MIN_LENGTH_LIMIT_OPTION]) {
-                throw InvalidCkeditor5FieldArgumentException::missingOption(self::MIN_LENGTH_LIMIT_OPTION, self::class);
+            if (null === $options[self::MIN_CHARACTERS_OPTION]) {
+                throw InvalidCkeditor5FieldArgumentException::missingOption(self::MIN_CHARACTERS_OPTION, self::class);
             }
             if (null === $options[self::UPLOAD_DIR_OPTION]) {
                 throw InvalidCkeditor5FieldArgumentException::missingOption(self::UPLOAD_DIR_OPTION, self::class);
             }
 
             $attr[self::DATA_EDITOR_TYPE]      = EditorType::FEATURE_RICH->value;
-            $attr[self::DATA_MIN_LENGTH_LIMIT] = $options[self::MIN_LENGTH_LIMIT_OPTION];
+            $attr[self::DATA_MIN_CHARACTERS] = $options[self::MIN_CHARACTERS_OPTION];
             $attr[self::DATA_UPLOAD_DIR]       = $options[self::UPLOAD_DIR_OPTION];
         } else {
-            if (null !== $options[self::MIN_LENGTH_LIMIT_OPTION]) {
-                throw InvalidCkeditor5FieldArgumentException::uselessOption(self::MIN_LENGTH_LIMIT_OPTION, self::class);
+            if (null !== $options[self::MIN_CHARACTERS_OPTION]) {
+                throw InvalidCkeditor5FieldArgumentException::uselessOption(self::MIN_CHARACTERS_OPTION, self::class);
             }
             if (null !== $options[self::UPLOAD_DIR_OPTION]) {
                 throw InvalidCkeditor5FieldArgumentException::uselessOption(self::UPLOAD_DIR_OPTION, self::class);
@@ -59,12 +59,12 @@ final class CKEditor5Type extends AbstractType
     {
         $resolver->setDefaults([
             self::USE_FEATURE_RICH_EDITOR_OPTION => false,
-            self::MIN_LENGTH_LIMIT_OPTION        => null,
+            self::MIN_CHARACTERS_OPTION          => null,
             self::UPLOAD_DIR_OPTION              => null,
         ]);
 
         $resolver->setAllowedTypes(self::USE_FEATURE_RICH_EDITOR_OPTION, ['bool']);
-        $resolver->setAllowedTypes(self::MIN_LENGTH_LIMIT_OPTION, ['int', 'null']);
+        $resolver->setAllowedTypes(self::MIN_CHARACTERS_OPTION, ['int', 'null']);
         $resolver->setAllowedTypes(self::UPLOAD_DIR_OPTION, ['string', 'null']);
     }
 

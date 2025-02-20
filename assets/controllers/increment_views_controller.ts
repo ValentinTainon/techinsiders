@@ -3,7 +3,11 @@ import { Controller } from "@hotwired/stimulus";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-  async connect(): Promise<void> {
+  private isViewIncremented: boolean = false;
+
+  connect(): void {
+    if (this.isViewIncremented) return;
+
     const isDefaultLocale: boolean = document.documentElement.lang === "fr";
     const incrementViewsPath: string = isDefaultLocale
       ? "/incrementer-nombre-de-vues"
@@ -11,13 +15,17 @@ export default class extends Controller {
     const incrementViewsUrl: string =
       window.location.pathname + incrementViewsPath;
 
-    try {
-      await fetch(incrementViewsUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+    fetch(incrementViewsUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        if (response.ok) {
+          this.isViewIncremented = true;
+        }
+      })
+      .catch((error) => {
+        console.error("Error while incrementing view: ", error);
       });
-    } catch (error) {
-      console.error("Error while incrementing view: ", error);
-    }
   }
 }

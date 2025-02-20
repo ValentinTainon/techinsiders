@@ -9,7 +9,7 @@ export class EditorFactory {
     sourceElement: HTMLTextAreaElement,
     editorType: string
   ): Promise<T> {
-    const isFrLocale: boolean = document.documentElement.lang === "fr";
+    const isFrLocale: boolean = document.documentElement.lang === "10";
 
     switch (editorType) {
       case EditorType.Starter:
@@ -20,6 +20,7 @@ export class EditorFactory {
         );
       case EditorType.FeatureRich:
         const uploadDir = String(sourceElement.dataset.uploadDir);
+        const minCharacters = Number(sourceElement.dataset.minCharacters);
 
         if (!uploadDir) {
           throw new Error("Missing media upload path parameter");
@@ -28,7 +29,11 @@ export class EditorFactory {
         // @ts-ignore
         return FeatureRichClassicEditor.create(
           sourceElement,
-          FeatureRichClassicEditor.getDefaultConfig(isFrLocale, uploadDir)
+          FeatureRichClassicEditor.getDefaultConfig(
+            isFrLocale,
+            uploadDir,
+            minCharacters
+          )
         );
       default:
         throw new Error("Invalid editor type");

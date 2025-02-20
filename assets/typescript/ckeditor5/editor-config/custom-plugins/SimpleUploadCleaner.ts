@@ -10,21 +10,23 @@ export class SimpleUploadCleaner extends Plugin {
     return [SimpleUploadAdapter];
   }
 
-  public init() {
+  public init(): void {
     // @ts-ignore
     const editor = this.editor;
     const simpleUploadCleanerConfig = editor.config.get("simpleUploadCleaner");
     const cleanUrl: string = simpleUploadCleanerConfig.cleanUrl;
     const uploadDir: string = simpleUploadCleanerConfig.uploadDir;
 
-    let isFormSubmitted = false;
+    let isFormSubmitted: boolean = false;
     let initialEditorImages: Array<string | null | undefined> = [];
 
     editor.once("ready", () => {
       initialEditorImages = this.getEditorImages(editor.getData());
     });
 
-    document.addEventListener("ea.form.submit", (event: Event) => {
+    document.addEventListener("ea.form.submit", () => {
+      isFormSubmitted = true;
+
       this.cleanUnusedImagesOnSubmit(
         cleanUrl,
         this.createRequestPayload(
@@ -32,11 +34,9 @@ export class SimpleUploadCleaner extends Plugin {
           this.getEditorImages(editor.getData())
         )
       );
-
-      isFormSubmitted = true;
     });
 
-    window.addEventListener("beforeunload", (event: BeforeUnloadEvent) => {
+    window.addEventListener("beforeunload", () => {
       if (isFormSubmitted) return;
 
       this.cleanUnusedImagesBeforeUnload(
@@ -82,12 +82,15 @@ export class SimpleUploadCleaner extends Plugin {
     })
       .then((response) => response.json())
       .then((response) => {
-        response.error
-          ? console.error(response.error)
-          : console.log(response.status);
+        if (response.status) {
+          console.log(response.status);
+        } else if (response.error) {
+          console.error(response.error);
+        }
       })
       .catch((error: Error) => {
         console.error("Clean unused images on submit: ", error);
+        alert(error);
       });
   }
 
@@ -109,6 +112,7 @@ export class SimpleUploadCleaner extends Plugin {
       }
     } catch (error) {
       console.error("Clean unused images before unload: ", error);
+      alert(error);
     }
   }
 }

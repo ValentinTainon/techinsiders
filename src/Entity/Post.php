@@ -47,7 +47,7 @@ class Post
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    #[CustomAssert\LengthWithoutHtml(min: PostContentConfig::MIN_LENGTH_LIMIT)]
+    #[CustomAssert\LengthWithoutHtml(min: PostContentConfig::MIN_CHARACTERS)]
     private ?string $content = null;
 
     #[ORM\Column(length: 255)]

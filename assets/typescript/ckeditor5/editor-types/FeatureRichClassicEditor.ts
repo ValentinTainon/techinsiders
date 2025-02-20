@@ -73,7 +73,7 @@ import {
 
 // Custom Plugins
 import { SimpleUploadCleaner } from "../editor-config/custom-plugins/SimpleUploadCleaner.ts";
-import { EditorWordCounter } from "../utils/EditorWordCounter.ts";
+import { WordCountValidator } from "../editor-config/custom-plugins/WordCountValidator.ts";
 
 // Styles
 import "ckeditor5/dist/ckeditor5.css";
@@ -101,10 +101,9 @@ import { TableProperty } from "../editor-config/properties/table/TableProperty.t
 import { ToolbarProperty } from "../editor-config/properties/toolbar/ToolbarProperty.ts";
 import { TranslationsProperty } from "../editor-config/properties/translations/TranslationsProperty.ts";
 import { WordCountProperty } from "../editor-config/properties/word-count/WordCountProperty.ts";
+import { WordCountValidatorProperty } from "../editor-config/properties/word-count-validator/WordCountValidatorProperty.ts";
 
 export class FeatureRichClassicEditor extends ClassicEditor {
-  public static editorWordCounter: EditorWordCounter;
-
   public static builtinPlugins = [
     AccessibilityHelp,
     Alignment,
@@ -175,6 +174,7 @@ export class FeatureRichClassicEditor extends ClassicEditor {
     TodoList,
     Underline,
     WordCount,
+    WordCountValidator,
   ];
 
   private static toolbarItems: Array<string> = [
@@ -231,7 +231,8 @@ export class FeatureRichClassicEditor extends ClassicEditor {
 
   public static getDefaultConfig(
     isFrLocale: boolean,
-    uploadDir: string
+    uploadDir: string,
+    minCharacters: number
   ): object {
     return {
       ...BalloonToolbarProperty.getConfig(),
@@ -254,9 +255,8 @@ export class FeatureRichClassicEditor extends ClassicEditor {
       ...TableProperty.getConfig(),
       ...ToolbarProperty.getConfig(FeatureRichClassicEditor.toolbarItems),
       ...TranslationsProperty.getConfig(isFrLocale),
-      ...WordCountProperty.getConfig(
-        FeatureRichClassicEditor.editorWordCounter
-      ),
+      ...WordCountProperty.getConfig(minCharacters),
+      ...WordCountValidatorProperty.getConfig(minCharacters),
     };
   }
 }

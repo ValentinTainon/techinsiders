@@ -1,18 +1,11 @@
-.ck-update {
+.ck-word-count-container {
   border: 1px solid var(--ck-color-base-border);
   border-radius: var(--ck-border-radius);
   margin: 1.5em 0;
   padding: 1em;
 }
 
-.ck-update .ck.ck-editor__editable_inline {
-  border: 1px solid hsla(0, 0%, 0%, 0.15);
-  margin-bottom: 1em;
-  min-height: 6em;
-  transition: background 0.5s ease-out;
-}
-
-.ck-update__controls {
+.ck-word-count-wrapper {
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -35,10 +28,6 @@
 .ck-update__words {
   flex-grow: 1;
   opacity: 0.5;
-}
-
-.ck-update__limit-not-reached .ck.ck-editor__editable_inline {
-  background: hsl(0, 100%, 97%);
 }
 
 .ck-update__limit-not-reached .ck-update__chart__circle {
