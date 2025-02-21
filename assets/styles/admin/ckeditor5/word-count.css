@@ -1,6 +1,6 @@
 .ck-word-count-container {
   border: 1px solid var(--ck-color-base-border);
-  border-radius: var(--ck-border-radius);
+  border-radius: var(--bs-border-radius);
   margin: 1.5em 0;
   padding: 1em;
 }
@@ -21,7 +21,7 @@
 }
 
 .ck-update__chart__characters {
-  font-size: 13px;
+  font-size: 0.7rem;
   font-weight: bold;
 }
 
@@ -30,11 +30,11 @@
   opacity: 0.5;
 }
 
-.ck-update__limit-not-reached .ck-update__chart__circle {
+.ck-update__limit-has-error .ck-update__chart__circle {
   stroke: hsl(0, 100%, 52%);
 }
 
-.ck-update__limit-not-reached .ck-update__chart__characters {
+.ck-update__limit-has-error .ck-update__chart__characters {
   fill: hsl(0, 100%, 52%);
 }
 

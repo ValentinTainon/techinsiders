@@ -2,8 +2,8 @@ import { WordCountValidatorConfig } from "./types/WordCountValidatorConfig";
 
 export class WordCountValidatorProperty {
   static getConfig(
-    minCharacters: number | undefined = undefined,
-    maxCharacters: number | undefined = undefined
+    minCharacters: number | undefined,
+    maxCharacters: number | undefined
   ): WordCountValidatorConfig {
     return {
       wordCountValidator: {

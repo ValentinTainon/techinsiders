@@ -9,7 +9,7 @@ export class EditorFactory {
     sourceElement: HTMLTextAreaElement,
     editorType: string
   ): Promise<T> {
-    const isFrLocale: boolean = document.documentElement.lang === "10";
+    const isFrLocale: boolean = document.documentElement.lang === "fr";
 
     switch (editorType) {
       case EditorType.Starter:

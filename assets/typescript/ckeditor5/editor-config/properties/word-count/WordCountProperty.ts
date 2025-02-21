@@ -4,7 +4,10 @@ import { trans, WORDCOUNT_STATS_WORDS } from "../../../../translator.ts";
 type Stats = { characters: number; words: number };
 
 export class WordCountProperty {
-  static getConfig(minCharacters: number): WordCountConfig {
+  static getConfig(
+    minCharacters: number | undefined,
+    maxCharacters: number | undefined
+  ): WordCountConfig {
     return {
       wordCount: {
         onUpdate: (stats: Stats) => {
@@ -21,25 +24,6 @@ export class WordCountProperty {
             wordCountContainer.querySelector<SVGTextElement>(
               ".ck-update__chart__characters"
             );
-          const progressCircle =
-            wordCountContainer.querySelector<SVGCircleElement>(
-              ".ck-update__chart__circle"
-            );
-          const circleRadius: number = Number(
-            progressCircle?.getAttribute("r")
-          );
-          const circleCircumference: number = Math.floor(
-            2 * Math.PI * circleRadius
-          );
-          const charactersProgress: number =
-            (stats.characters / minCharacters) * circleCircumference;
-          const circleDashArray: number = Math.min(
-            charactersProgress,
-            circleCircumference
-          );
-          const isMinLimitReached: boolean = stats.characters >= minCharacters;
-          const isCloseToMinLimit: boolean =
-            !isMinLimitReached && stats.characters > minCharacters * 0.8;
 
           if (wordsBox) {
             wordsBox.textContent = trans(
@@ -49,29 +33,62 @@ export class WordCountProperty {
             );
           }
 
-          if (progressCircle) {
-            progressCircle.setAttribute(
+          // Characters
+          let isCloseToMinLimit: boolean = false;
+          let isCloseToMaxLimit: boolean = false;
+          let isMinLimitReached: boolean = true;
+          let isMaxLimitExceeded: boolean = false;
+
+          if (minCharacters) {
+            const progressCircle =
+              wordCountContainer.querySelector<SVGCircleElement>(
+                ".ck-update__chart__circle"
+              );
+            const circleRadius: number = Number(
+              progressCircle?.getAttribute("r")
+            );
+            const circleCircumference: number = Math.floor(
+              2 * Math.PI * circleRadius
+            );
+            const minCharactersProgress: number =
+              (stats.characters / minCharacters) * circleCircumference;
+            const circleDashArray: number = Math.min(
+              minCharactersProgress,
+              circleCircumference
+            );
+
+            isMinLimitReached = stats.characters >= minCharacters;
+            isCloseToMinLimit =
+              !isMinLimitReached && stats.characters > minCharacters * 0.8;
+
+            progressCircle?.setAttribute(
               "stroke-dasharray",
               `${circleDashArray},${circleCircumference}`
             );
           }
 
-          if (charactersBox) {
-            charactersBox.textContent = !isMinLimitReached
-              ? `${stats.characters - minCharacters}`
-              : `${stats.characters}`;
+          if (maxCharacters) {
+            isMaxLimitExceeded = stats.characters > maxCharacters;
+            isCloseToMaxLimit =
+              !isMaxLimitExceeded && stats.characters > maxCharacters * 0.8;
           }
 
-          if (wordCountContainer) {
-            wordCountContainer.classList.toggle(
-              "ck-update__limit-not-reached",
-              !isMinLimitReached
-            );
-            wordCountContainer.classList.toggle(
-              "ck-update__limit-close",
-              isCloseToMinLimit
-            );
+          if (charactersBox) {
+            if (minCharacters && !isMinLimitReached) {
+              charactersBox.textContent = `${stats.characters - minCharacters}`;
+            } else {
+              charactersBox.textContent = `${stats.characters}`;
+            }
           }
+
+          wordCountContainer.classList.toggle(
+            "ck-update__limit-has-error",
+            !isMinLimitReached || isMaxLimitExceeded
+          );
+          wordCountContainer.classList.toggle(
+            "ck-update__limit-close",
+            isCloseToMinLimit || isCloseToMaxLimit
+          );
         },
       },
     };

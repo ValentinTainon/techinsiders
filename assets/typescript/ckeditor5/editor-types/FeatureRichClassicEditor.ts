@@ -232,7 +232,8 @@ export class FeatureRichClassicEditor extends ClassicEditor {
   public static getDefaultConfig(
     isFrLocale: boolean,
     uploadDir: string,
-    minCharacters: number
+    minCharacters: number | undefined = undefined,
+    maxCharacters: number | undefined = undefined
   ): object {
     return {
       ...BalloonToolbarProperty.getConfig(),
@@ -255,8 +256,8 @@ export class FeatureRichClassicEditor extends ClassicEditor {
       ...TableProperty.getConfig(),
       ...ToolbarProperty.getConfig(FeatureRichClassicEditor.toolbarItems),
       ...TranslationsProperty.getConfig(isFrLocale),
-      ...WordCountProperty.getConfig(minCharacters),
-      ...WordCountValidatorProperty.getConfig(minCharacters),
+      ...WordCountProperty.getConfig(minCharacters, maxCharacters),
+      ...WordCountValidatorProperty.getConfig(minCharacters, maxCharacters),
     };
   }
 }
