@@ -77,7 +77,7 @@ import { WordCountValidator } from "../editor-config/custom-plugins/WordCountVal
 
 // Styles
 import "ckeditor5/dist/ckeditor5.css";
-import "../../../styles/admin/ckeditor5/custom.css";
+import "../../../styles/ckeditor5/custom.css";
 
 // Properties
 import { BalloonToolbarProperty } from "../editor-config/properties/balloon-toolbar/BalloonToolbarProperty.ts";

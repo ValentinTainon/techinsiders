@@ -10,6 +10,7 @@ use App\Enum\UserRole;
 use App\Entity\Comment;
 use App\Entity\Category;
 use App\Enum\PostStatus;
+use App\Repository\UserRepository;
 use Ottaviano\Faker\Gravatar;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -21,7 +22,8 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         private readonly SluggerInterface $slugger,
-        private readonly UserPasswordHasherInterface $passwordHasher
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly UserRepository $userRepository
     ) {}
 
     public function load(ObjectManager $manager): void
@@ -47,62 +49,35 @@ class AppFixtures extends Fixture
 
         $manager->persist($superAdmin);
 
-        // Generate 15 Guests
-        $guestsName = [];
-        $uniqueGuestsName = [];
+        // Generate 15 users
+        $usersName = [];
+        $uniqueUsersName = [];
         for ($i = 0; $i < 15; $i++) {
-            $guestsName[] = $faker->unique()->userName();
+            $usersName[] = $faker->unique()->userName();
         }
 
-        foreach ($guestsName as $index => $guestName) {
-            $guestName = "$guestName-$index";
-            $uniqueGuestsName[] = $guestName;
+        foreach ($usersName as $index => $userName) {
+            $userName = "$userName-$index";
+            $uniqueUsersName[] = $userName;
 
-            $guest = new User();
-            $guest->setUsername($guestName)
+            $user = new User();
+            $user->setUsername($userName)
                 ->setEmail($faker->email())
                 ->setPassword(
                     $this->passwordHasher->hashPassword(
-                        $guest,
+                        $user,
                         "password"
                     )
                 )
-                ->setRole(UserRole::GUEST)
+                ->setRole($faker->randomElement(
+                    [UserRole::GUEST, UserRole::USER, UserRole::EDITOR, UserRole::ADMIN]
+                ))
                 ->setAvatar($faker->gravatarUrl())
                 ->setAbout($faker->text())
                 ->setVerified(true);
 
-            $manager->persist($guest);
-            $this->addReference($guestName, $guest);
-        }
-
-        // Generate 10 Editors
-        $editorsName = [];
-        $uniqueEditorsName = [];
-        for ($i = 0; $i < 10; $i++) {
-            $editorsName[] = $faker->unique()->userName();
-        }
-
-        foreach ($editorsName as $index => $editorName) {
-            $editorName = "$editorName-$index";
-            $uniqueEditorsName[] = $editorName;
-
-            $editor = new User();
-            $editor->setUsername($editorName)
-                ->setEmail($faker->email())
-                ->setPassword(
-                    $this->passwordHasher->hashPassword(
-                        $editor,
-                        "password"
-                    )
-                )
-                ->setRole(UserRole::EDITOR)
-                ->setAvatar($faker->gravatarUrl())
-                ->setAbout($faker->text())
-                ->setVerified(true);
-
-            $manager->persist($editor);
-            $this->addReference($editorName, $editor);
+            $manager->persist($user);
+            $this->addReference($userName, $user);
         }
 
         // Generate 10 Categories
@@ -146,7 +121,7 @@ class AppFixtures extends Fixture
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setStatus(PostStatus::PUBLISHED)
-                ->setUser($this->getReference($faker->randomElement($uniqueEditorsName), User::class))
+                ->setUser($this->getReference($faker->randomElement($uniqueUsersName), User::class))
                 ->setCategory($this->getReference($faker->randomElement($uniqueCategoryNames), Category::class))
                 ->addTag($this->getReference($faker->randomElement($uniqueTagNames), Tag::class));
 
@@ -154,22 +129,16 @@ class AppFixtures extends Fixture
             $this->addReference($postTitle, $post);
         }
 
-        // Generate 30 Comments
-        $commentTexts = [];
-        for ($i = 0; $i < 30; $i++) {
-            $commentTexts[] = $faker->paragraph();
-        }
-
-        foreach ($commentTexts as $commentText) {
+        // Generate Comments
+        foreach ($uniqueUsersName as $user) {
             $comment = new Comment();
-            $comment->setContent($commentText)
+            $comment->setContent($faker->paragraph())
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                ->setUser($this->getReference($faker->randomElement($uniqueGuestsName), User::class))
+                ->setUser($this->getReference($user, User::class))
                 ->setPost($this->getReference($faker->randomElement($postsTitle), Post::class));
 
             $manager->persist($comment);
-            $this->addReference($commentText, $comment);
         }
 
         $manager->flush();

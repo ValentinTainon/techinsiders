@@ -14,7 +14,7 @@ import {
 
 // Styles
 import "ckeditor5/dist/ckeditor5.css";
-import "../../../styles/admin/ckeditor5/custom.css";
+import "../../../styles/ckeditor5/custom.css";
 
 // Properties
 import { CodeBlockProperty } from "../editor-config/properties/code-block/CodeBlockProperty.ts";

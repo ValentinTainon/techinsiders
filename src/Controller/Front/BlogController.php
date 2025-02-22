@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route(path: '/{_locale}', requirements: ['_locale' => 'fr|en'])]
+#[Route(path: '/{_locale}', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'])]
 final class BlogController extends AbstractController
 {
     private const string SLUG_REGEX = '[a-z0-9A-Z\-]+';

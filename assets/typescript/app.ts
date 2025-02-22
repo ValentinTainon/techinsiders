@@ -1,2 +1,2 @@
-import "../styles/front/app.css";
+import "../styles/app.css";
 import "./bootstrap.ts";
