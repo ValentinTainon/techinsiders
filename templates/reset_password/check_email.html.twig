@@ -3,7 +3,7 @@
 
 {% set page_title = 'reset.password.email.send.title'|trans %}
 {% set expire_message = resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') %}
-{% set try_again_link = '<a href="' ~ path('app_forgot_password_request') ~ '">' ~ 'try.again.label'|trans ~ '</a>' %}
+{% set try_again_link = '<a href="' ~ path('forgot_password_request') ~ '">' ~ 'try.again.label'|trans ~ '</a>' %}
 
 {% block page_title %}
 	{{ page_title|trans }}

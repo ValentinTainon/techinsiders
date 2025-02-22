@@ -16,7 +16,10 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'register')]
+    #[Route(path: [
+        'fr' => '/inscription',
+        'en' => '/register',
+    ], name: 'register')]
     public function register(
         Request $request,
         EntityManagerInterface $entityManager,

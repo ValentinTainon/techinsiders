@@ -29,7 +29,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 #[AdminDashboard(
     routePath: '/admin/{_locale}',
     routeName: 'admin',
-    routeOptions: ['requirements' => ['_locale' => 'fr|en']]
+    routeOptions: ['requirements' => ['_locale' => 'fr|en'], 'defaults' => ['_locale' => 'fr']],
 )]
 class DashboardController extends AbstractDashboardController
 {

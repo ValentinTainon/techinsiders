@@ -53,7 +53,7 @@
 
 						{% if forgot_password_enabled|default(false) %}
 							<div class="form-text forgot-password">
-								<a href="{{ path('app_forgot_password_request') }}">{{ 'forgot.password.label'|trans }}</a>
+								<a href="{{ path('forgot_password_request') }}">{{ 'forgot.password.label'|trans }}</a>
 							</div>
 						{% endif %}
 					</div>

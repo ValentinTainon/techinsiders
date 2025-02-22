@@ -23,7 +23,7 @@ final class BlogController extends AbstractController
         private readonly PostRepository $postRepository
     ) {}
 
-    #[Route(path: '', name: 'homepage')]
+    #[Route(path: '/', name: 'homepage')]
     public function homepage(): Response
     {
         $posts = $this->postRepository->findAllPublished();

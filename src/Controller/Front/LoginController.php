@@ -9,7 +9,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    #[Route(path: '/login', name: 'login')]
+    #[Route(path: [
+        'fr' => '/connexion',
+        'en' => '/login',
+    ], name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $lastUsername = $authenticationUtils->getLastUsername();
