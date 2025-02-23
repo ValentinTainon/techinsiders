@@ -9,9 +9,10 @@ use Doctrine\ORM\QueryBuilder;
 use App\Config\PostContentConfig;
 use App\Form\Field\CKEditor5Type;
 use App\Security\Voter\PostVoter;
-use App\Form\PostCommentsFormType;
 use App\Config\PostThumbnailConfig;
+use App\Form\Field\Admin\CKEditor5CollectionField;
 use App\Form\Field\Admin\CKEditor5Field;
+use App\Form\Field\CKEditor5CollectionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use function Symfony\Component\Translation\t;
@@ -188,11 +189,7 @@ class PostCrudController extends AbstractCrudController
         yield FormField::addTab(t('comments.label', [], 'forms'))
             ->addCssClass('custom-max-width')
             ->onlyWhenUpdating();
-        yield CollectionField::new('comments', false)
-            ->setFormTypeOption('row_attr', ['data-controller' => 'post-comments-collection-field'])
-            ->setEntryType(PostCommentsFormType::class)
-            ->onlyWhenUpdating()
-            ->setColumns(10);
+        yield CKEditor5CollectionField::new('comments', false);
         yield AssociationField::new('comments', t('comments.label', [], 'forms'))
             ->onlyOnIndex()
             ->setTextAlign('center');

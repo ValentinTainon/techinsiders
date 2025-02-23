@@ -8,9 +8,21 @@
 
 .ck-editor__editable_inline:not(.ck-comment__input *) {
   color: #0a0a0a;
-  min-height: 300px;
   border-bottom-left-radius: var(--bs-border-radius) !important;
   border-bottom-right-radius: var(--bs-border-radius) !important;
+}
+
+.starter-editor .ck-editor__editable_inline:not(.ck-comment__input *) {
+  min-height: 150px;
+}
+
+.feature-rich-editor .ck-editor__editable_inline:not(.ck-comment__input *) {
+  min-height: 300px;
+}
+
+.ck-read-only {
+  border-top-left-radius: var(--bs-border-radius) !important;
+  border-top-right-radius: var(--bs-border-radius) !important;
 }
 /* Fix default editor style - end patches */
 

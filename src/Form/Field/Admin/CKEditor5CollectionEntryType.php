@@ -1,32 +1,31 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Field\Admin;
 
 use App\Enum\UserRole;
 use App\Entity\Comment;
+use App\Form\Field\CKEditor5Type;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class PostCommentsFormType extends AbstractType
+class CKEditor5CollectionEntryType extends AbstractType
 {
     public function __construct(private Security $security) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('content', TextareaType::class, [
-            'label' => false,
-            'attr' => [
-                'required' => true,
-            ]
-        ])->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            [$this, 'onPreSetData']
-        );
+        $builder
+            ->add('content', CKEditor5Type::class, [
+                'label' => false,
+            ])
+            ->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                [$this, 'onPreSetData']
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -41,23 +40,15 @@ class PostCommentsFormType extends AbstractType
         $form = $event->getForm();
         $comment = $event->getData();
 
-        if ($comment === null) {
-            return;
-        }
+        if (!$comment) return;
 
         if ($form->has('content')) {
             $form->remove('content');
         }
 
-        $form->add('content', TextareaType::class, [
+        $form->add('content', CKEditor5Type::class, [
             'label' => false,
-            'row_attr' => [
-                'data-allow-delete-item' => $this->isAllowedToHandleItem($comment) ? 'true' : 'false',
-            ],
-            'attr' => [
-                'readonly' => !$this->isAllowedToHandleItem($comment),
-                'required' => true,
-            ],
+            CKEditor5Type::READ_ONLY_OPTION => !$this->isAllowedToHandleItem($comment),
         ]);
     }
 

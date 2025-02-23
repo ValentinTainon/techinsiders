@@ -7,6 +7,7 @@ use App\Enum\UserRole;
 use App\Entity\Comment;
 use Doctrine\ORM\QueryBuilder;
 use App\Security\Voter\CommentVoter;
+use App\Form\Field\Admin\CKEditor5Field;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -16,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -93,7 +93,7 @@ class CommentCrudController extends AbstractCrudController
             ->setHtmlAttribute('required', true)
             ->setColumns(10);
 
-        yield TextareaField::new('content', t('content.label', [], 'forms'))
+        yield CKEditor5Field::new('content', t('content.label', [], 'forms'))
             ->setColumns(10);
     }
 
@@ -105,7 +105,7 @@ class CommentCrudController extends AbstractCrudController
             return false;
         }
 
-        return is_null($entityInstance->getUpdatedAt());
+        return null === $entityInstance->getUpdatedAt();
     }
 
     public function configureFilters(Filters $filters): Filters

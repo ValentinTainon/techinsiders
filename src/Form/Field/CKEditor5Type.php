@@ -18,19 +18,24 @@ final class CKEditor5Type extends AbstractType
     public const string USE_FEATURE_RICH_EDITOR_OPTION = 'use_feature_rich_editor';
     public const string MIN_CHARACTERS_OPTION = 'min_characters';
     public const string UPLOAD_DIR_OPTION = 'upload_dir';
+    public const string READ_ONLY_OPTION = 'read_only';
 
     // Data attributes
     private const string DATA_CONTROLLER = 'data-controller';
     public const string DATA_EDITOR_TYPE = 'data-editor-type';
     private const string DATA_MIN_CHARACTERS = 'data-min-characters';
     private const string DATA_UPLOAD_DIR = 'data-upload-dir';
+    private const string DATA_READ_ONLY = 'data-read-only';
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $attr = $view->vars['attr'] ?? [];
+        $rowAttr = $view->vars['row_attr'];
+        $rowAttr['class'] = ($rowAttr['class'] ?? '') . ' field-ckeditor5';
 
-        $attr[self::DATA_CONTROLLER] = self::EDITOR_NAME;
+        $attr = $view->vars['attr'];
+        $attr[self::DATA_CONTROLLER]  = self::EDITOR_NAME;
         $attr[self::DATA_EDITOR_TYPE] = EditorType::STARTER->value;
+        $attr[self::DATA_READ_ONLY]   = true === $options[self::READ_ONLY_OPTION] ? 'true' : 'false';
 
         if (true === $options[self::USE_FEATURE_RICH_EDITOR_OPTION]) {
             if (null === $options[self::MIN_CHARACTERS_OPTION]) {
@@ -40,9 +45,9 @@ final class CKEditor5Type extends AbstractType
                 throw InvalidCkeditor5FieldArgumentException::missingOption(self::UPLOAD_DIR_OPTION, self::class);
             }
 
-            $attr[self::DATA_EDITOR_TYPE]      = EditorType::FEATURE_RICH->value;
+            $attr[self::DATA_EDITOR_TYPE]    = EditorType::FEATURE_RICH->value;
             $attr[self::DATA_MIN_CHARACTERS] = $options[self::MIN_CHARACTERS_OPTION];
-            $attr[self::DATA_UPLOAD_DIR]       = $options[self::UPLOAD_DIR_OPTION];
+            $attr[self::DATA_UPLOAD_DIR]     = $options[self::UPLOAD_DIR_OPTION];
         } else {
             if (null !== $options[self::MIN_CHARACTERS_OPTION]) {
                 throw InvalidCkeditor5FieldArgumentException::uselessOption(self::MIN_CHARACTERS_OPTION, self::class);
@@ -52,7 +57,8 @@ final class CKEditor5Type extends AbstractType
             }
         }
 
-        $view->vars['attr'] = $attr;
+        $view->vars['row_attr']['class'] = "{$rowAttr['class']} {$attr[self::DATA_EDITOR_TYPE]}-editor";
+        $view->vars['attr']              = $attr;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -61,11 +67,13 @@ final class CKEditor5Type extends AbstractType
             self::USE_FEATURE_RICH_EDITOR_OPTION => false,
             self::MIN_CHARACTERS_OPTION          => null,
             self::UPLOAD_DIR_OPTION              => null,
+            self::READ_ONLY_OPTION               => false,
         ]);
 
         $resolver->setAllowedTypes(self::USE_FEATURE_RICH_EDITOR_OPTION, ['bool']);
         $resolver->setAllowedTypes(self::MIN_CHARACTERS_OPTION, ['int', 'null']);
         $resolver->setAllowedTypes(self::UPLOAD_DIR_OPTION, ['string', 'null']);
+        $resolver->setAllowedTypes(self::READ_ONLY_OPTION, ['bool']);
     }
 
     public function getParent(): string

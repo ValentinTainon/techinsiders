@@ -27,7 +27,7 @@ final class PasswordField implements FieldInterface
                 'options' => [
                     'row_attr' => [
                         'class' => 'field-password',
-                        'data-controller' => 'password-field-layout',
+                        'data-controller' => 'ea-repeated-password-field',
                     ],
                     'attr' => [
                         'autocomplete' => 'new-password',

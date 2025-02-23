@@ -21,7 +21,6 @@ final class CKEditor5Field implements FieldInterface
             ->setLabel($label)
             ->setFormType(CKEditor5Type::class)
             ->addFormTheme('ckeditor5/ckeditor5_theme.html.twig')
-            ->addCssClass('field-ckeditor5')
             ->setDefaultColumns(12)
             ->onlyOnForms()
         ;
