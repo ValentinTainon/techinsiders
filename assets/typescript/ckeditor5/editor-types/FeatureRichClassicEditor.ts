@@ -72,6 +72,7 @@ import {
 } from "ckeditor5";
 
 // Custom Plugins
+import { ReadOnlyMode } from "../editor-config/custom-plugins/ReadOnlyMode.ts";
 import { SimpleUploadCleaner } from "../editor-config/custom-plugins/SimpleUploadCleaner.ts";
 import { WordCountValidator } from "../editor-config/custom-plugins/WordCountValidator.ts";
 
@@ -93,6 +94,7 @@ import { ListProperty } from "../editor-config/properties/list/ListProperty.ts";
 import { MentionProperty } from "../editor-config/properties/mention/MentionProperty.ts";
 import { MenuBarProperty } from "../editor-config/properties/menu-bar/MenuBarProperty.ts";
 import { PlaceholderProperty } from "../editor-config/properties/placeholder/PlaceholderProperty.ts";
+import { ReadOnlyModeProperty } from "./../editor-config/properties/read-only-mode/ReadOnlyModeProperty.ts";
 import { RemovePluginsProperty } from "../editor-config/properties/remove-plugins/RemovePluginsProperty.ts";
 import { SimpleUploadProperty } from "../editor-config/properties/simple-upload/SimpleUploadProperty.ts";
 import { SimpleUploadCleanerProperty } from "./../editor-config/properties/simple-upload-cleaner/SimpleUploadCleanerProperty.ts";
@@ -148,6 +150,7 @@ export class FeatureRichClassicEditor extends ClassicEditor {
     Mention,
     Paragraph,
     PasteFromOffice,
+    ReadOnlyMode,
     RemoveFormat,
     SelectAll,
     ShowBlocks,
@@ -231,6 +234,7 @@ export class FeatureRichClassicEditor extends ClassicEditor {
 
   public static getDefaultConfig(
     isFrLocale: boolean,
+    isReadOnly: boolean,
     uploadDir: string,
     minCharacters: number | undefined = undefined,
     maxCharacters: number | undefined = undefined
@@ -249,6 +253,7 @@ export class FeatureRichClassicEditor extends ClassicEditor {
       ...MentionProperty.getConfig(),
       ...MenuBarProperty.getConfig(),
       ...PlaceholderProperty.getConfig(),
+      ...ReadOnlyModeProperty.getConfig(isReadOnly),
       ...RemovePluginsProperty.getConfig(),
       ...SimpleUploadProperty.getConfig(uploadDir),
       ...SimpleUploadCleanerProperty.getConfig(uploadDir),

@@ -12,6 +12,9 @@ import {
   // @ts-ignore
 } from "ckeditor5";
 
+// Custom Plugins
+import { ReadOnlyMode } from "../editor-config/custom-plugins/ReadOnlyMode.ts";
+
 // Styles
 import "ckeditor5/dist/ckeditor5.css";
 import "../../../styles/ckeditor5/custom.css";
@@ -23,6 +26,7 @@ import { LicenseKeyProperty } from "../editor-config/properties/license-key/Lice
 import { LinkProperty } from "../editor-config/properties/link/LinkProperty.ts";
 import { MentionProperty } from "../editor-config/properties/mention/MentionProperty.ts";
 import { PlaceholderProperty } from "../editor-config/properties/placeholder/PlaceholderProperty.ts";
+import { ReadOnlyModeProperty } from "./../editor-config/properties/read-only-mode/ReadOnlyModeProperty.ts";
 import { RemovePluginsProperty } from "../editor-config/properties/remove-plugins/RemovePluginsProperty.ts";
 import { ToolbarProperty } from "../editor-config/properties/toolbar/ToolbarProperty.ts";
 import { TranslationsProperty } from "../editor-config/properties/translations/TranslationsProperty.ts";
@@ -38,6 +42,7 @@ export class StarterClassicEditor extends ClassicEditor {
     Link,
     Mention,
     Paragraph,
+    ReadOnlyMode,
   ];
 
   private static toolbarItems: Array<string> = [
@@ -54,7 +59,7 @@ export class StarterClassicEditor extends ClassicEditor {
     "accessibilityHelp",
   ];
 
-  public static getDefaultConfig(isFrLocale: boolean) {
+  public static getDefaultConfig(isFrLocale: boolean, isReadOnly: boolean) {
     return {
       ...CodeBlockProperty.getConfig(),
       ...LanguageProperty.getConfig(isFrLocale),
@@ -62,6 +67,7 @@ export class StarterClassicEditor extends ClassicEditor {
       ...LinkProperty.getConfig(),
       ...MentionProperty.getConfig(),
       ...PlaceholderProperty.getConfig(),
+      ...ReadOnlyModeProperty.getConfig(isReadOnly),
       ...RemovePluginsProperty.getConfig(),
       ...ToolbarProperty.getConfig(StarterClassicEditor.toolbarItems),
       ...TranslationsProperty.getConfig(isFrLocale),

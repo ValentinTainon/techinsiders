@@ -75,7 +75,7 @@ class DashboardController extends AbstractDashboardController
             ]);
 
         if ($user->getAvatar()) {
-            $userMenu->setAvatarUrl(UserAvatarConfig::getConfig()->imgPath($user->getAvatar()));
+            $userMenu->setAvatarUrl(str_starts_with($user->getAvatar(), 'https://') ? $user->getAvatar() : UserAvatarConfig::getConfig()->imgPath($user->getAvatar()));
         }
 
         return $userMenu;

@@ -11,12 +11,10 @@ export default class extends Controller<HTMLTextAreaElement> {
 
   connect(): void {
     const editorType: string = String(this.element.dataset.editorType);
-    const isReadOnly: boolean = this.element.dataset.readOnly === "true";
 
     EditorFactory.createEditor(this.element, editorType)
       .then((editor) => {
         this.editor = editor;
-        if (isReadOnly) this.setReadOnlyMode(editor);
       })
       .catch((error: Error) => {
         this.disconnect();
@@ -32,11 +30,5 @@ export default class extends Controller<HTMLTextAreaElement> {
     this.editor.destroy().catch((error: Error) => {
       console.error(error);
     });
-  }
-
-  private setReadOnlyMode(editor: ClassicEditor): void {
-    editor.enableReadOnlyMode("editor-locked");
-    const toolbarElement = editor.ui.view.toolbar.element;
-    if (toolbarElement) toolbarElement.style.display = "none";
   }
 }

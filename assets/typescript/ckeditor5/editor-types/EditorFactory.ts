@@ -10,13 +10,16 @@ export class EditorFactory {
     editorType: string
   ): Promise<T> {
     const isFrLocale: boolean = document.documentElement.lang === "fr";
+    const isReadOnly: boolean = Boolean(
+      sourceElement.dataset.readOnly === "true"
+    );
 
     switch (editorType) {
       case EditorType.Starter:
         // @ts-ignore
         return StarterClassicEditor.create(
           sourceElement,
-          StarterClassicEditor.getDefaultConfig(isFrLocale)
+          StarterClassicEditor.getDefaultConfig(isFrLocale, isReadOnly)
         );
       case EditorType.FeatureRich:
         const uploadDir = String(sourceElement.dataset.uploadDir);
@@ -31,6 +34,7 @@ export class EditorFactory {
           sourceElement,
           FeatureRichClassicEditor.getDefaultConfig(
             isFrLocale,
+            isReadOnly,
             uploadDir,
             minCharacters
           )
